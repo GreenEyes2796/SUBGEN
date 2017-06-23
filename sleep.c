@@ -1,3 +1,5 @@
+int8 wakeup_char_is_D = 0;
+
 serial_wakeup_reason_t serial_wakeup()
 {
    int8 count = 0;
@@ -17,6 +19,7 @@ serial_wakeup_reason_t serial_wakeup()
             wakeUpReason = WAKE_UP_GOOD;
             break;
          }else if (serChar == 'D'){
+            wakeup_char_is_D = 1;
             wakeUpReason = WAKE_UP_GOOD;
             break;
          }else
@@ -89,6 +92,11 @@ int1 wakeup()
          nv_cmd_mode = TRUE;  // Vince's fix for non-terminating logging
          write8(ADDR_CMD_MODE, nv_cmd_mode);
          // fputs("Just set nv_cmd_mode =TRUE/r/n", COM_A);
+         if (wakeup_char_is_D){
+            file_list(file_ptr_rel_new);
+            f_unlink(file_ptr_rel_new);
+            wakeup_char_is_D = 0;
+         }
          if(sd_status>0)
          {
             msg_card_fail();
