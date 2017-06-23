@@ -261,8 +261,6 @@ void upload_macro(int8 macro)
    line = 0;
    valid_macro = TRUE;
    macro_cmd = 1;
-   //macro_cmd2 holds value so macro_cmd doesn't get overwritten
-   macro_cmd2 = macro_cmd;
    
    init_ext_eeprom();
    
@@ -270,20 +268,20 @@ void upload_macro(int8 macro)
    
    // not a critical hang
    
-   while(macro_cmd2 != 59 && macro_cmd2 != 0) {// changed -Fraser 6/23/17
+   while(macro_cmd != 59 && macro_cmd != 0) {
    
-      macro_cmd2 = get_macro_line(macro, line,count);
+      macro_cmd = get_macro_line(macro, line,count);
       /*count keeps track of the location of the strings just like line does.
       Since strings are stored in a seperate piece of memory we use two seperate
       variables.*/
       
-      if(macro_cmd2 == 'p'){
+      if(macro_cmd == 'p'){
          count++;
       }
-      if (macro_cmd2 != 35) ++line;
-      if (macro_cmd2 != 59) printf("\r\n:");
+      if (macro_cmd != 35) ++line;
+      if (macro_cmd != 59) printf("\r\n:");
    }      
-   if (macro_cmd2 == 0){
+   if (macro_cmd == 0){
       fprintf(COM_A, "\r\nWARNING: INVALID COMMAND IN MACRO!\r\n");
       fprintf(COM_A, "Bad command at line: %Ld \r\n",line);
       fprintf(COM_A, "Please re-upload macro");

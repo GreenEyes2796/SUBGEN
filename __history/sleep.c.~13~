@@ -94,9 +94,9 @@ int1 wakeup()
          // fputs("Just set nv_cmd_mode =TRUE/r/n", COM_A);
          //Dump new data on being woken up with a D
          if (wakeup_char_is_D){
-            file_list(file_ptr_rel_new);
-            f_unlink(file_ptr_rel_new);
-            
+            //file_list(file_ptr_rel_new);
+            //f_unlink(file_ptr_rel_new);
+            fprintf(COM_A, "this is a test\r\n");
             wakeup_char_is_D = 0;
          }
          if(sd_status>0)

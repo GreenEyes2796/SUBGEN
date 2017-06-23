@@ -95,7 +95,7 @@ int1 wakeup()
          //Dump new data on being woken up with a D
          if (wakeup_char_is_D){
             file_list(file_ptr_rel_new);
-            f_unlink(file_ptr_rel_new);
+            //f_unlink(file_ptr_rel_new);
             
             wakeup_char_is_D = 0;
          }
