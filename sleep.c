@@ -16,8 +16,10 @@ serial_wakeup_reason_t serial_wakeup()
          {
             wakeUpReason = WAKE_UP_GOOD;
             break;
-         }
-         else
+         }else if (serChar == 'D'){
+            wakeUpReason = WAKE_UP_GOOD;
+            break;
+         }else
          {
             wakeUpReason = WAKE_UP_FALSE;
          }
