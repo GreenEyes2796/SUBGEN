@@ -1,0 +1,89 @@
+int8 serial_wakeup()
+{
+   int8 c, n;
+   int8 good_wakeup;
+   
+   good_wakeup = FALSE;
+   n=0;
+   
+   // after serial wakeup gets next three chars or times-out
+   // ... after three loops (~9 seconds). If chars are crap
+   // ... wake-up is not good
+   while (good_wakeup == FALSE) {
+      ++n;
+      c = timed_getc_A();
+      if (c == '$') good_wakeup = TRUE;
+      if (n > 2) break;
+   }
+   
+   return(good_wakeup);
+}
+
+// Set-up USART interrupt
+/* The various register bits accessed here are detailed in the
+   PIC18F8722 datasheet.
+*/
+void set_usart_int()
+{
+  clear_interrupt(INT_RDA);        // Serial
+     
+  bit_clear(RCON,IPEN);    // Disable priority on interrupts
+  bit_clear(PIR1,RC1IF);   // Clear USART Receive Interrupt Flag bit
+  //      var,bit = addr,bit
+  bit_set(PIE1,RC1IE);     // Set USART Receive Interrupt Enable bit
+  bit_set(BAUDCON1,WUE);   // USART1 wake-up enable
+  bit_set(INTCON,PEIE);    // Set Peripheral Interrupt Enable bit
+  //bit_set(INTCON,GIE);     // Set Global Interrupt Enable bit
+}
+
+void go_to_sleep()
+{
+   clear_interrupt(INT_EXT);        // RTC
+   resetUserInput();
+   set_usart_int();
+   
+   kill_wd();
+   
+   sleep();
+   delay_cycles(1); // pre-fetched NOP
+}
+
+void wakeup()
+{
+   blip();
+   
+   // serial interrupt detected a char
+   if (wakeup_mode == WAKEON_COM_A) {
+      // while an RTC wakeup has not occured
+      while (wakeup_mode != WAKEON_RTC){
+         // flash LED
+         blip();
+         // if serial wake-up is good
+         if (serial_wakeup()){
+            sleep_mode = FALSE;
+            start_heartbeat();
+            init_hardware();
+            init_rtc();                      // This is the FAT RTC
+            sd_status = init_sdcard();
+            bit_set(INTCON,PEIE);            // Set Peripheral Interrupt Enable bit
+            sprintf(event_str, ",serial wake-up,SD initialized\r\n");
+            record_event();
+            nv_cmd_mode = TRUE;  // Vince's fix for non-terminating logging
+            write8(ADDR_CMD_MODE, nv_cmd_mode);
+            // fputs("Just set nv_cmd_mode =TRUE/r/n", COM_A);
+            if(sd_status>0) msg_card_fail();
+            return;
+         }
+         else {
+            // if serial_wakeup() == FALSE, then false alarm
+            wakeup_mode = WAKEON_BAD;
+            blip();
+            blip();
+            shutdown();
+            go_to_sleep();
+         }
+      }
+   }
+}
+
+

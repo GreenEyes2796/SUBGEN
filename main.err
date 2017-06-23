@@ -1,0 +1,11 @@
+>>> Warning 216 "main.c" Line 277(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PSTRINGCN_19200_31766_31767)
+>>> Warning 216 "main.c" Line 277(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PSTRINGC_19200_31766_31767)
+>>> Warning 216 "main.c" Line 277(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PRINTF_LU_19200_31766_31767)
+>>> Warning 216 "main.c" Line 277(1,2): Interrupts disabled during call to prevent re-entrancy:  (@DIV3232)
+>>> Warning 216 "main.c" Line 277(1,2): Interrupts disabled during call to prevent re-entrancy:  (@DIV88)
+>>> Warning 216 "main.c" Line 277(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PRINTF_U_19200_31766_31767)
+>>> Warning 216 "main.c" Line 277(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PRINTF_L32U_19200_31766_31767)
+>>> Warning 216 "main.c" Line 277(1,2): Interrupts disabled during call to prevent re-entrancy:  (RTC_read_flags)
+      Memory usage:   ROM=86%      RAM=55% - 68%
+      0 Errors,  8 Warnings.
+Build Successful.

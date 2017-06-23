@@ -1,0 +1,75 @@
+void init_nv_vars()
+{
+   nv_product = read16(ADDR_PRODUCT);
+   
+   nv_report_mode = read16(ADDR_REPORT_MODE);
+   nv_sample = read16(ADDR_SAMPLE);
+   nv_interval = read16(ADDR_INTERVAL);
+   nv_serial = read16(ADDR_SERIALNO);
+   nv_max_samples = read16(ADDR_MAX_SAMPLES);
+   
+   nv_cmd_mode = read8(ADDR_CMD_MODE);
+   nv_elapsed = read16(ADDR_ELAPSED);
+   
+   nv_macro_step = read16(ADDR_MACRO_STEP);
+   nv_com_err = read16(ADDR_COM_ERR);
+   
+   nv_sd_status = read16(ADDR_SD_STATUS);
+   
+   nv_d1_temp = read16(ADDR_D1_TEMP);
+   nv_d2_temp = read16(ADDR_D2_TEMP);
+   
+   RTC_Al_Yr_Reg = read8(ADDR_ALARM_YR); 
+   
+   NO3_slope = read_float(ADDR_CAL_M1);
+   NO3_inter = read_float(ADDR_CAL_C1);
+   PO4_slope = read_float(ADDR_CAL_M2);
+   PO4_inter = read_float(ADDR_CAL_C2);
+   NH4_slope = read_float(ADDR_CAL_M3);
+   NH4_inter = read_float(ADDR_CAL_C3);
+   SiO_slope = read_float(ADDR_CAL_M4);
+   SiO_inter = read_float(ADDR_CAL_C4);  
+   
+   nv_macro_mode = read16(ADDR_MACRO_MODE);
+   nv_volume = read16(ADDR_VOLUME);
+   nv_port = read16(ADDR_PORT);
+   
+   //nv_det_type = read16(ADDR_DET_TYPE);//removed by Fraser 7/13/15
+}
+
+void reset_nv_vars()
+{
+   write16(ADDR_REPORT_MODE,0);
+   write16(ADDR_SAMPLE,0);
+   write16(ADDR_INTERVAL,60);
+   write16(ADDR_SERIALNO,9999);
+   write16(ADDR_MAX_SAMPLES,3360);
+   
+   write8(ADDR_CMD_MODE,TRUE);
+   write16(ADDR_MACRO_STEP, 0);
+   write16(ADDR_COM_ERR,3);
+   
+   write8(ADDR_ALARM_YR,10); 
+   
+   write_float(ADDR_CAL_M1,1);
+   write_float(ADDR_CAL_C1,0);
+   write_float(ADDR_CAL_M2,1);
+   write_float(ADDR_CAL_C2,0);
+   write_float(ADDR_CAL_M3,1);
+   write_float(ADDR_CAL_C3,0);
+   write_float(ADDR_CAL_M4,1);
+   write_float(ADDR_CAL_C4,0); 
+   
+   write16(ADDR_D1_TEMP,20000);
+   write16(ADDR_D2_TEMP,20000);
+   
+   write16(ADDR_MACRO_MODE,0);
+   write16(ADDR_VOLUME,22500); 
+   if(nv_product!=AWS) write16(ADDR_PORT,2);
+   else write16(ADDR_PORT,1);
+   
+   write16(ADDR_DET_TYPE,1);
+   
+   init_nv_vars();
+}
+

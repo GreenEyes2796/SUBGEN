@@ -1,0 +1,130 @@
+serial_wakeup_reason_t serial_wakeup()
+{
+   int8 count = 0;
+   int8 serChar = 0;
+   serial_wakeup_reason_t wakeUpReason = WAKE_UP_NONE;
+
+   // after serial wakeup gets next three chars or times-out
+   // ... after three loops (~9 seconds). If chars are crap
+   // ... wake-up is not good
+   while (TRUE)
+   {
+      serChar = timed_getc_A();
+      if (serChar)
+      {
+         if (DOLLAR_SIGN == serChar)
+         {
+            wakeUpReason = WAKE_UP_GOOD;
+            break;
+         }
+         else
+         {
+            wakeUpReason = WAKE_UP_FALSE;
+         }
+      }
+
+      if (++count > 2)
+      {
+         break;
+      }
+   }
+
+   return (wakeUpReason);
+}
+
+// Set-up USART interrupt
+/* The various register bits accessed here are detailed in the
+   PIC18F8722 datasheet.
+*/
+void set_usart_int()
+{
+   clear_interrupt(INT_RDA);     // Serial
+   sleep_mode = TRUE;            // Code var for USART int fired/not fired
+   bit_clear(RCON,IPEN);         // Disable priority on interrupts
+   bit_clear(PIR1,RC1IF);        // Clear USART Receive Interrupt Flag bit
+   //      var,bit = addr,bit
+   bit_set(PIE1,RC1IE);          // Set USART Receive Interrupt Enable bit
+   bit_set(BAUDCON1,WUE);        // USART1 wake-up enable
+   bit_set(INTCON,PEIE);         // Set Peripheral Interrupt Enable bit
+   //bit_set(INTCON,GIE);        // Set Global Interrupt Enable bit
+}
+
+void initilizeSleepState()
+{
+   disable_interrupts (INT_EXT);
+   clear_interrupt(INT_EXT);        // RTC
+   rtc_alarm = FALSE;
+   set_usart_int();
+   kill_wd();
+   enable_interrupts(INT_EXT);   // enable RTC alarms
+   sleep(); 
+   delay_cycles(1);
+}
+
+
+int1 wakeup()
+{
+   serial_wakeup_reason_t serWakeupReason = WAKE_UP_NONE;
+   blip();
+
+   if (TRUE != rtc_alarm)
+   {
+      // serial interrupt detected a char
+      // flash LED
+      blip();
+      // if serial wake-up is good
+      serWakeupReason = serial_wakeup();
+      if (WAKE_UP_GOOD == serWakeupReason)
+      {
+         sleep_mode = FALSE;
+         start_heartbeat();
+         init_hardware();
+         init_rtc();                      // This is the FAT RTC
+         sd_status = init_sdcard();
+         bit_set(INTCON,PEIE);            // Set Peripheral Interrupt Enable bit
+         sprintf(event_str, ",serial wake-up,SD initialized\r\n");
+         record_event();
+         nv_cmd_mode = TRUE;  // Vince's fix for non-terminating logging
+         write8(ADDR_CMD_MODE, nv_cmd_mode);
+         // fputs("Just set nv_cmd_mode =TRUE/r/n", COM_A);
+         if(sd_status>0)
+         {
+            msg_card_fail();
+         }
+
+         fprintf(COM_A, "@RST\r\n");
+         reset_cpu();
+      }
+      else
+      {
+         if (WAKE_UP_FALSE == serWakeupReason)
+         {
+            initilizeSleepState();
+         }
+      }
+   }
+   
+   return (rtc_alarm);
+}
+
+
+void go_to_sleep()
+{
+   shutdown();
+   initilizeSleepState();
+
+   while (TRUE)
+   {
+      if (TRUE == wakeup())
+      {
+         rtc_alarm = FALSE;
+         break;
+      }
+
+      blip();
+      blip();
+   }
+}
+
+
+

@@ -1,0 +1,540 @@
+/* Note: BCD conversion
+
+   Decimal:    0     1     2     3     4     5     6     7     8     9
+   BCD:     0000  0001  0010  0011  0100  0101  0110  0111  1000  1001
+   
+   SPI read  = addr + data1 + data2
+   addr = 0XXXXXXX (for read)
+        = 0x0X hex
+   SPI write = addr + data
+   addr = 1XXXXXXX (for write)
+        = 0x8X hex
+*/
+
+int8 RTC_Sec_Reg, RTC_Min_Reg, RTC_Hr_Reg;
+int8 RTC_DOW_Reg, RTC_DOM_Reg, RTC_Mon_Reg, RTC_Yr_Reg;
+int8 RTC_Tenths_Sec_Reg;
+int8 RTC_Al_Yr_Reg, RTC_Al_Mon_Reg, RTC_Al_DOM_Reg;
+int8 RTC_Al_Hr_Reg, RTC_Al_Min_Reg, RTC_Al_Sec_Reg;
+int8 RTC_Flags_Reg;
+
+int8 RTC_Sec_Data, RTC_Min_Data, RTC_Hr_Data;
+int8 RTC_DOM_Data, RTC_Mon_Data, RTC_Yr_Data;
+
+int8 rtc_last_month;
+int8 rtc_last_day;
+int8 rtc_last_year;
+int8 rtc_last_hour;
+int8 rtc_last_min;
+int8 rtc_last_sec;
+
+short alarm_passed;
+
+int Dec2Bcd(int8 data)
+{
+   int nibh;
+   int nibl;
+
+   nibh=data/10;
+   nibl=data-(nibh*10);
+
+   return((nibh<<4)|nibl);
+}
+
+int Bcd2Dec(int8 data)
+{
+   int i;
+
+   i=data;
+   data=(i>>4)*10;
+   data=data+(i<<4>>4);
+
+   return data;
+}
+
+// When power failure occurs HT (halt update) is set to 1
+// ... preventing the clock from updating registers
+// HT must be set to 0 to resume register updates
+void RTC_reset_HT()
+{
+   int8 RTC_buffer;
+   
+   RTC_buffer = 0;
+   
+   setup_spi(SPI_MASTER|SPI_MODE_0_0|SPI_CLK_DIV_16);
+   
+   output_bit(RTC_CS, ENABLE);
+   RTC_buffer = spi_read(0x0C);
+   RTC_Al_Hr_Reg = spi_read(RTC_buffer);
+   output_bit(RTC_CS, DISABLE);
+   
+   RTC_Al_Hr_Reg = RTC_Al_Hr_Reg & 0b10111111;
+   
+   output_bit(RTC_CS, ENABLE);
+   RTC_buffer = spi_read(0x8C);                 // address - Hour
+   RTC_buffer = spi_read(RTC_Al_Hr_Reg);        // data
+   output_bit(RTC_CS, DISABLE);
+}
+
+void RTC_display()
+{  
+   RTCfmt = read16(ADDR_RTCfmt);
+   if (RTCfmt == 0) // default format MM/DD/YY HH:mm:SS
+   {
+   fprintf (COM_A, "@RTC:%02u/", RTC_Mon_Reg);
+   fprintf (COM_A, "%02u/", RTC_DOM_Reg);
+   }
+   
+   if (RTCfmt == 1) // Euro/Asia format DD/MM/YY HH:mm:SS
+   {
+    fprintf (COM_A, "@RTC:%02u/", RTC_DOM_Reg);
+    fprintf (COM_A, "%02u/", RTC_Mon_Reg);
+   }
+   
+   fprintf (COM_A, "%02u ", RTC_Yr_Reg);
+   fprintf (COM_A, "%02u:", RTC_Hr_Reg);
+   fprintf (COM_A, "%02u:", RTC_Min_Reg);
+   fprintf (COM_A, "%02u\n\r", RTC_Sec_Reg);
+    
+}
+
+void RTC_read()
+{
+   int8 RTC_buffer;
+   
+   RTC_buffer = 0;
+   
+   setup_spi(SPI_MASTER|SPI_MODE_0_0|SPI_CLK_DIV_16);
+   
+   output_bit(RTC_CS, ENABLE);
+   RTC_buffer = spi_read(0x00);
+   RTC_Tenths_Sec_Reg = spi_read(RTC_buffer);
+   RTC_Sec_Reg = spi_read(RTC_buffer);
+   RTC_Min_Reg = spi_read(RTC_buffer);
+   RTC_Hr_Reg =  spi_read(RTC_buffer);
+   RTC_DOW_Reg = spi_read(RTC_buffer);
+   RTC_DOM_Reg = spi_read(RTC_buffer);
+   RTC_Mon_Reg = spi_read(RTC_buffer);
+   RTC_Yr_Reg =  spi_read(RTC_buffer);
+   output_bit(RTC_CS, DISABLE);
+      
+   RTC_Sec_Reg = Bcd2Dec(RTC_Sec_Reg);
+   RTC_Min_Reg = Bcd2Dec(RTC_Min_Reg);
+   RTC_Hr_Reg = Bcd2Dec(RTC_Hr_Reg);
+   RTC_DOM_Reg = Bcd2Dec(RTC_DOM_Reg);
+   RTC_Mon_Reg = Bcd2Dec(RTC_Mon_Reg);
+   RTC_Yr_Reg = Bcd2Dec(RTC_Yr_Reg);
+}
+
+// RTC IRQ output is cleared & reset by reading the flags
+// ... register
+void RTC_read_flags()
+{
+   int8 RTC_buffer;
+   RTC_buffer = 0;
+
+   setup_spi(SPI_MASTER|SPI_MODE_0_0|SPI_CLK_DIV_16);
+   output_bit(RTC_CS, ENABLE);
+   RTC_buffer = spi_read(0x0F);
+   RTC_Flags_Reg = spi_read(RTC_buffer);
+   output_bit(RTC_CS, DISABLE);
+
+   RTC_read_flags_running = FALSE;
+}
+
+void RTC_display_alarm()
+{
+   fprintf (COM_A, "@ALM:%02u/", RTC_Al_Mon_Reg );
+   fprintf (COM_A, "%02u/", RTC_Al_DOM_Reg);
+   fprintf (COM_A, "%02u ", RTC_Al_Yr_Reg);
+   fprintf (COM_A, "%02u:", RTC_Al_Hr_Reg);
+   fprintf (COM_A, "%02u:", RTC_Al_Min_Reg);
+   fprintf (COM_A, "%02u\n\r", RTC_Al_Sec_Reg);
+}
+
+void RTC_read_alarm(){
+
+   int8 RTC_buffer;
+   
+   RTC_buffer = 0;
+   
+   setup_spi(SPI_MASTER|SPI_MODE_0_0|SPI_CLK_DIV_16);
+   
+   output_bit(RTC_CS, ENABLE);
+   RTC_buffer = spi_read(0x0A);
+   RTC_Al_Mon_Reg = spi_read(RTC_buffer);
+   RTC_Al_DOM_Reg = spi_read(RTC_buffer);
+   RTC_Al_Hr_Reg = spi_read(RTC_buffer);
+   RTC_Al_Min_Reg = spi_read(RTC_buffer);
+   RTC_Al_Sec_Reg = spi_read(RTC_buffer);
+   RTC_Flags_Reg = spi_read(RTC_buffer);
+   output_bit(RTC_CS, DISABLE);
+   
+   RTC_Al_Mon_Reg = RTC_Al_Mon_Reg & 0b00011111;
+   RTC_Al_Mon_Reg = Bcd2Dec(RTC_Al_Mon_Reg);
+   RTC_Al_DOM_Reg = RTC_Al_DOM_Reg & 0b00111111;
+   RTC_Al_DOM_Reg = Bcd2Dec(RTC_Al_DOM_Reg);
+   RTC_Al_Hr_Reg = RTC_Al_Hr_Reg & 0b00111111;
+   RTC_Al_Hr_Reg = Bcd2Dec(RTC_Al_Hr_Reg);
+   RTC_Al_Min_Reg = RTC_Al_Min_Reg & 0b01111111;
+   RTC_Al_Min_Reg = Bcd2Dec(RTC_Al_Min_Reg);
+   RTC_Al_Sec_Reg = RTC_Al_Sec_Reg & 0b01111111;
+   RTC_Al_Sec_Reg = Bcd2Dec(RTC_Al_Sec_Reg);
+}
+
+int8 get_time()
+{
+   int8 c, n;
+   int8 t_entry[12];
+   int8 time_error;
+
+   memset (&t_entry[0], 0x00, 12);  //blank it
+
+   time_error = 0;
+   
+   fputc('[', COM_A);
+   
+   for (n=0; n<12; ++n){
+      c = fgetc(COM_A);
+      if (com_echo == TRUE)
+      {
+         fputc(c, COM_A);
+      }
+      if (c > 47 && c < 58) t_entry[n] = c;
+      else
+      {
+         // it's not a number - kick it out
+         time_error = 1;
+         break;
+      }
+   }
+   
+   if (time_error == 0){
+   
+      fputc(']', COM_A);
+      
+      for (n=0; n<12; ++n){
+         t_entry[n] = (t_entry[n] - 48);
+      }
+      
+      RTC_Mon_Data = (10 * t_entry[0]) + t_entry[1];
+      if (RTC_Mon_Data < 1 || RTC_Mon_Data > 12) time_error = 2; 
+      
+      RTC_DOM_Data = (10 * t_entry[2]) + t_entry[3];
+      if (RTC_DOM_Data < 1 || RTC_DOM_Data > 31) time_error = 2; 
+      
+      RTC_Yr_Data = (10 * t_entry[4]) + t_entry[5];
+      if (RTC_Yr_Data > 99) time_error = 2; 
+      
+      RTC_Hr_Data =  (10 * t_entry[6]) + t_entry[7];
+      if (RTC_Hr_Data > 24) time_error = 2; 
+      
+      RTC_Min_Data = (10 * t_entry[8]) + t_entry[9];
+      if (RTC_Min_Data > 60) time_error = 2; 
+      
+      RTC_Sec_Data = (10 * t_entry[10]) + t_entry[11];
+      if (RTC_Sec_Data > 60) time_error = 2; 
+      
+      fprintf(COM_A, "\n\r%02u/%02u/%02u %02u:%02u:%02u\n\r", RTC_Mon_Data,
+            RTC_DOM_Data,RTC_Yr_Data,RTC_Hr_Data,RTC_Min_Data,RTC_Sec_Data);
+            
+      if (time_error == 2) cmd_inv();             
+
+   }
+   else cmd_arg();
+   
+   return time_error;
+}
+
+void RTC_Set(){
+
+   int8 time_error;
+   int8 RTC_buffer;
+   
+   time_error = get_time();
+   
+   if (time_error ==0 ){
+   
+   setup_spi(SPI_MASTER|SPI_MODE_0_0|SPI_CLK_DIV_16);
+   
+      output_bit(RTC_CS, ENABLE);
+      RTC_buffer = spi_read(0x86);        // address - Month
+      RTC_buffer = spi_read(Dec2Bcd(RTC_Mon_Data));  // data
+      output_bit(RTC_CS, DISABLE);
+      output_bit(RTC_CS, ENABLE);
+      RTC_buffer = spi_read(0x85);        // address - DOM
+      RTC_buffer = spi_read(Dec2Bcd(RTC_DOM_Data));  // data
+      output_bit(RTC_CS, DISABLE);
+      output_bit(RTC_CS, ENABLE);
+      RTC_buffer = spi_read(0x87);        // address - Year
+      RTC_buffer = spi_read(Dec2Bcd(RTC_Yr_Data));  // data
+      output_bit(RTC_CS, DISABLE);
+      output_bit(RTC_CS, ENABLE);
+      RTC_buffer = spi_read(0x83);        // address - Hour
+      RTC_buffer = spi_read(Dec2Bcd(RTC_Hr_Data));  // data
+      output_bit(RTC_CS, DISABLE);
+      output_bit(RTC_CS, ENABLE);
+      RTC_buffer = spi_read(0x82);        // address - Min
+      RTC_buffer = spi_read(Dec2Bcd(RTC_Min_Data));  // data
+      output_bit(RTC_CS, DISABLE);
+      output_bit(RTC_CS, ENABLE);
+      RTC_buffer = spi_read(0x81);        // address - Sec
+      RTC_buffer = spi_read(Dec2Bcd(RTC_Sec_Data));  // data
+      output_bit(RTC_CS, DISABLE);
+      output_bit(RTC_CS, ENABLE);
+      RTC_buffer = spi_read(0x80);        // address - ms
+      RTC_buffer = spi_read(Dec2Bcd(0));  // data
+      output_bit(RTC_CS, DISABLE);
+   }
+}
+
+// set alarm to wake up at real-time
+void RTC_alarm(){
+
+   int8 time_error;
+   int8 RTC_buffer;
+   
+   RTC_read_alarm();
+   
+   time_error = get_time();
+   
+   if (time_error == 0 ){
+   
+      // RTC does not have a year register - store in EEPROM
+      RTC_Al_Yr_Reg = RTC_Yr_Data;
+      write8(ADDR_ALARM_YR, RTC_Al_Yr_Reg);
+   
+      // Masking AFE bit to ensure alarm output is enabled
+      RTC_Mon_Data = Dec2Bcd(RTC_Mon_Data);
+      RTC_Mon_Data = RTC_Mon_Data | 0b10000000;
+      
+      // Freq DC to 2 MHz ((10/4)/16) = 625 kHz
+      setup_spi(SPI_MASTER|SPI_MODE_0_0|SPI_CLK_DIV_16);
+      delay_us(10);
+      
+      // Do not write alarm seconds last
+      // ... it disables the interrupt/flag
+   
+      output_bit(RTC_CS, ENABLE);
+      RTC_buffer = spi_read(0x8E);        // address - Sec
+      RTC_buffer = spi_read(Dec2Bcd(RTC_Sec_Data));  // data
+      output_bit(RTC_CS, DISABLE);
+      delay_us(1);            // Delays added 1.020A
+      
+      output_bit(RTC_CS, ENABLE);
+      RTC_buffer = spi_read(0x8D);        // address - Min
+      RTC_buffer = spi_read(Dec2Bcd(RTC_Min_Data));  // data
+      output_bit(RTC_CS, DISABLE);
+      delay_us(1);
+      
+      output_bit(RTC_CS, ENABLE);
+      RTC_buffer = spi_read(0x8C);        // address - Hour
+      RTC_buffer = spi_read(Dec2Bcd(RTC_Hr_Data));  // data
+      output_bit(RTC_CS, DISABLE);
+      delay_us(1);   
+      
+      output_bit(RTC_CS, ENABLE);
+      RTC_buffer = spi_read(0x8B);        // address - DOM
+      RTC_buffer = spi_read(Dec2Bcd(RTC_DOM_Data));  // data
+      output_bit(RTC_CS, DISABLE); 
+      delay_us(1);
+      
+      output_bit(RTC_CS, ENABLE);
+      RTC_buffer = spi_read(0x8A);        // address - Month
+      RTC_buffer = spi_read(RTC_Mon_Data);  // data
+      output_bit(RTC_CS, DISABLE);
+      delay_us(1);
+   
+   RTC_read_alarm();
+   }
+}
+
+// set default / valid alarm
+void RTC_alarm_reset(){
+
+   int8 RTC_buffer;
+   
+   RTC_read_alarm();
+   
+   // RTC does not have a year register - store in EEPROM
+   RTC_Al_Yr_Reg = RTC_Yr_Data;
+   write8(ADDR_ALARM_YR, 10);    // 2010
+
+   // Masking AFE bit to ensure alarm output is enabled
+   RTC_Mon_Data = Dec2Bcd(1);    // = Jan
+   RTC_Mon_Data = RTC_Mon_Data | 0b10000000;
+   
+   // Freq DC to 2 MHz ((10/4)/16) = 625 kHz
+   setup_spi(SPI_MASTER|SPI_MODE_0_0|SPI_CLK_DIV_16);
+   delay_us(10);
+   
+   // Do not write alarm seconds last
+   // ... it disables the interrupt/flag
+
+   output_bit(RTC_CS, ENABLE);
+   RTC_buffer = spi_read(0x8E);        // address - Sec
+   RTC_buffer = spi_read(Dec2Bcd(0));  // data = 0
+   output_bit(RTC_CS, DISABLE);
+   delay_us(1);            // Delays added 1.020A
+   
+   output_bit(RTC_CS, ENABLE);
+   RTC_buffer = spi_read(0x8D);        // address - Min
+   RTC_buffer = spi_read(Dec2Bcd(0));  // data = 0
+   output_bit(RTC_CS, DISABLE);
+   delay_us(1);
+   
+   output_bit(RTC_CS, ENABLE);
+   RTC_buffer = spi_read(0x8C);        // address - Hour
+   RTC_buffer = spi_read(Dec2Bcd(13));  // data = 13:00
+   output_bit(RTC_CS, DISABLE);
+   delay_us(1);   
+   
+   output_bit(RTC_CS, ENABLE);
+   RTC_buffer = spi_read(0x8B);        // address - DOM
+   RTC_buffer = spi_read(Dec2Bcd(1));  // data = 1st
+   output_bit(RTC_CS, DISABLE); 
+   delay_us(1);
+   
+   output_bit(RTC_CS, ENABLE);
+   RTC_buffer = spi_read(0x8A);        // address - Month
+   RTC_buffer = spi_read(RTC_Mon_Data);  // data = Jan
+   output_bit(RTC_CS, DISABLE);
+   delay_us(1);
+   
+   RTC_read_alarm();
+}
+
+// set alarm to go off every minute
+void RTC_minute()
+{
+   int8 RTC_buffer;
+   
+   setup_spi(SPI_MASTER|SPI_MODE_0_0|SPI_CLK_DIV_16);
+   
+   // Do not write alarm seconds last. It will disable the interrupt/flag
+   output_bit(RTC_CS, ENABLE);
+   RTC_buffer = spi_read(0x8E);        // address - Sec
+   RTC_buffer = spi_read(0b00000000);  // data
+   output_bit(RTC_CS, DISABLE);
+   output_bit(RTC_CS, ENABLE);
+   RTC_buffer = spi_read(0x8D);        // address - Min
+   RTC_buffer = spi_read(0b10000000);  // data
+   output_bit(RTC_CS, DISABLE);
+   output_bit(RTC_CS, ENABLE);
+   RTC_buffer = spi_read(0x8C);        // address - Hour
+   RTC_buffer = spi_read(0b10000000);  // data
+   output_bit(RTC_CS, DISABLE);
+   output_bit(RTC_CS, ENABLE);
+   RTC_buffer = spi_read(0x8B);        // address - DOM
+   RTC_buffer = spi_read(0b11000000);  // data
+   output_bit(RTC_CS, DISABLE);   
+   output_bit(RTC_CS, ENABLE);
+   RTC_buffer = spi_read(0x8A);        // address - Month
+   RTC_buffer = spi_read(0b10000000);  // data
+   output_bit(RTC_CS, DISABLE);
+   
+   RTC_read_alarm();
+}
+
+// Enables IRQ output (hardware)
+void RTC_set_AFE()
+{
+   int8 RTC_buffer;
+   
+   RTC_buffer = 0;
+   
+   setup_spi(SPI_MASTER|SPI_MODE_0_0|SPI_CLK_DIV_16);
+   
+   output_bit(RTC_CS, ENABLE);
+   RTC_buffer = spi_read(0x0A);
+   RTC_Al_Mon_Reg = spi_read(RTC_buffer);
+   output_bit(RTC_CS, DISABLE);
+   
+   RTC_Al_Mon_Reg = RTC_Al_Mon_Reg | 0b10000000;
+   
+   output_bit(RTC_CS, ENABLE);
+   RTC_buffer = spi_read(0x8A);        // address - Month
+   RTC_buffer = spi_read(RTC_Al_Mon_Reg);  // data
+   output_bit(RTC_CS, DISABLE);
+}
+
+// *** RTC checks & status *** //
+
+void RTC_last_power()
+{
+   rtc_last_sec   = RTC_Sec_Reg;
+   rtc_last_min   = RTC_Min_Reg;
+   rtc_last_hour  = RTC_Hr_Reg;
+   rtc_last_day   = RTC_DOM_Reg;
+   rtc_last_month = RTC_Mon_Reg;
+   rtc_last_year  = RTC_Yr_Reg;
+   
+   write8(ADDR_LAST_MONTH, rtc_last_month);
+   write8(ADDR_LAST_DAY, rtc_last_day);
+   write8(ADDR_LAST_YEAR, rtc_last_year);
+   write8(ADDR_LAST_HOUR, rtc_last_hour);
+   write8(ADDR_LAST_MIN, rtc_last_min);
+   write8(ADDR_LAST_SEC, rtc_last_sec);
+}
+
+void RTC_late()
+{
+   float time_now = 0;
+   float time_alarm = 0;
+   float fraction_of_day = 0;
+   float hour, minute, second;
+   
+   //                        J F  M  A  M   J   J   A   S   O   N   D
+   int16 end_of_month[12] = {0,31,59,90,120,151,181,212,243,273,304,334};
+   //                        0  1  2  3   4   5   6   7   8   9  10  11
+   
+   alarm_passed = FALSE;
+   
+   RTC_read();
+   RTC_read_alarm();
+   RTC_Al_Yr_Reg = read8(ADDR_ALARM_YR);
+   // if current year > alarm year .. alarm is in the past
+   if (RTC_Yr_Reg > RTC_Al_Yr_Reg) alarm_passed = TRUE;
+   else {
+      // if current year = alarm year .. test rest of fields
+      if (RTC_Yr_Reg == RTC_Al_Yr_Reg) {
+      
+         // calculate fractional current time
+         time_now = end_of_month[RTC_Mon_Reg-1];
+         time_now = time_now + RTC_DOM_Reg;
+         
+         hour = RTC_Hr_Reg;
+         minute = RTC_Min_Reg;
+         second = RTC_Sec_Reg;
+         
+         fraction_of_day = (hour / 24);
+         fraction_of_day = fraction_of_day + (minute / (24*60));
+         fraction_of_day = fraction_of_day + (second / (24*60*60));
+         
+         time_now = time_now + fraction_of_day;
+         
+         // calculate fractional alarm time
+         hour = RTC_Al_Hr_Reg;
+         minute = RTC_Al_Min_Reg;
+         second = RTC_Al_Sec_Reg;
+         
+         time_alarm = end_of_month[RTC_Al_Mon_Reg-1];
+         time_alarm = time_alarm + RTC_Al_DOM_Reg;
+         
+         fraction_of_day = (hour / 24);
+         fraction_of_day = fraction_of_day + (minute / (24*60));
+         fraction_of_day = fraction_of_day + (second / (24*60*60));
+         
+         time_alarm = time_alarm + fraction_of_day;
+         
+         // compare real and alarm time
+         if (time_now > time_alarm) alarm_passed = TRUE;
+      }
+   }
+}
+
+void RTC_alarm_status()
+{
+   if (alarm_passed == TRUE) fprintf(COM_A, "@ALM\r\n");
+}
+

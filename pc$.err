@@ -1,0 +1,122 @@
+*** Error 18 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\includes.h" Line 9(10,20): File can not be opened
+    Not in "<default>\string.h"
+    Not in "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\<default>\string.h"
+    Not in "E:\Program Files (x86)\PICWHD\Devices\string.h"
+    Not in "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\string.h"
+    Not in project "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\string.h"
+*** Error 18 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\includes.h" Line 10(10,20): File can not be opened
+    Not in "<default>\stdlib.h"
+    Not in "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\<default>\stdlib.h"
+    Not in "E:\Program Files (x86)\PICWHD\Devices\stdlib.h"
+    Not in "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\stdlib.h"
+    Not in project "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\stdlib.h"
+*** Error 18 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\includes.h" Line 11(10,18): File can not be opened
+    Not in "<default>\math.h"
+    Not in "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\<default>\math.h"
+    Not in "E:\Program Files (x86)\PICWHD\Devices\math.h"
+    Not in "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\math.h"
+    Not in project "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\math.h"
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\eeprom.c" Line 87(9,10): Undefined identifier  -- srand
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\eeprom.c" Line 91(41,42): Undefined identifier  -- rand
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\eeprom.c" Line 103(9,10): Undefined identifier  -- srand
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\eeprom.c" Line 108(26,27): Undefined identifier  -- rand
+*** Error 18 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\ff_min.h" Line 13(10,20): File can not be opened
+    Not in "<default>\string.h"
+    Not in "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\<default>\string.h"
+    Not in "E:\Program Files (x86)\PICWHD\Devices\string.h"
+    Not in "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\string.h"
+    Not in project "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\string.h"
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\ff_min.h" Line 480(21,22): Undefined identifier  -- memcmp
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\ff_min.h" Line 482(21,22): Undefined identifier  -- memcmp
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\ff_min.h" Line 484(21,22): Undefined identifier  -- memcmp
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\ff_min.h" Line 703(11,15): Undefined identifier   NULL
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\ff_min.h" Line 726(18,22): Undefined identifier   NULL
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\ff_min.h" Line 748(23,24): Undefined identifier  -- memcmp
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\ff_min.h" Line 798(18,22): Undefined identifier   NULL
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\ff_min.h" Line 808(16,20): Undefined identifier   NULL
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\ff_min.h" Line 812(15,19): Undefined identifier   NULL
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\ff_min.h" Line 828(18,22): Undefined identifier   NULL
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\ff_min.h" Line 1241(28,32): Undefined identifier   NULL
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\ff_min.h" Line 1252(29,33): Undefined identifier   NULL
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\ff_min.h" Line 1292(23,27): Undefined identifier   NULL
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\ff_min.h" Line 1791(19,23): Undefined identifier   NULL
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\ff_min.h" Line 1901(19,23): Undefined identifier   NULL
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\ff_min.h" Line 2015(22,26): Undefined identifier   NULL
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\serial.c" Line 239(11,12): Undefined identifier  -- atof
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\util.c" Line 68(30,31): Attempt to create a pointer to a constant
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\util.c" Line 70(13,14): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\util.c" Line 71(13,14): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\stepper.c" Line 930(4,9): Undefined identifier   div_t
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 59(30,31): Undefined identifier  -- atol
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 60(30,31): Undefined identifier  -- atol
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 79(22,23): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 93(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 96(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 99(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 102(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 105(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 108(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 111(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 114(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 117(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 122(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 124(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 126(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 128(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 130(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 132(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 134(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 136(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 138(36,37): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 142(37,38): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 145(37,38): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 148(37,38): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 151(37,38): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 154(37,38): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 157(37,38): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 160(37,38): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 163(37,38): Attempt to create a pointer to a constant
+*** Error 90 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 166(37,38): Attempt to create a pointer to a constant
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 171(10,11): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 172(10,11): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 173(10,11): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 174(10,11): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 175(10,11): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 294(10,11): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 295(10,11): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 297(17,18): Undefined identifier  -- fmod
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 305(10,11): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 306(10,11): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 316(18,19): Undefined identifier  -- strlen
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 323(22,23): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 326(22,23): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 331(22,23): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 334(22,23): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 337(22,23): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 341(10,11): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 342(10,11): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 347(13,14): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 481(10,11): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 482(10,11): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 484(10,11): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 485(10,11): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 493(10,11): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\detector.c" Line 494(10,11): Undefined identifier  -- strcat
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\data.c" Line 33(31,32): Undefined identifier  -- log10
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\data.c" Line 40(31,32): Undefined identifier  -- log10
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\data.c" Line 47(31,32): Undefined identifier  -- log10
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\data.c" Line 54(31,32): Undefined identifier  -- log10
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\data.c" Line 80(31,32): Undefined identifier  -- log10
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\data.c" Line 87(31,32): Undefined identifier  -- log10
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\data.c" Line 94(31,32): Undefined identifier  -- log10
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\data.c" Line 101(31,32): Undefined identifier  -- log10
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\data.c" Line 125(31,32): Undefined identifier  -- log10
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\data.c" Line 131(31,32): Undefined identifier  -- log10
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\data.c" Line 137(31,32): Undefined identifier  -- log10
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\data.c" Line 143(31,32): Undefined identifier  -- log10
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\data.c" Line 171(31,32): Undefined identifier  -- log10
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\data.c" Line 177(31,32): Undefined identifier  -- log10
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\data.c" Line 183(31,32): Undefined identifier  -- log10
+*** Error 12 "E:\Users\Mo\Projects\Green Eyes\EcoLab\SUB V2.120\data.c" Line 189(31,32): Undefined identifier  -- log10
+      100 Errors,  0 Warnings.
+Build Failed.

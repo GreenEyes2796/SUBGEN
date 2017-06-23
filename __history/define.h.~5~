@@ -1,0 +1,284 @@
+#define  SOH                1
+#define  STX                2
+#define  ETX                3
+#define  EOT                4
+#define  ENQ                5
+#define  ACK                6
+#define  BEL                7
+#define  BS                 8
+#define  TAB                9
+#define  LINE_FEED          10
+#define  VT                 11
+#define  FF                 12
+#define  CARRIAGE_RET       13
+#define  SO                 14
+#define  SI                 15
+#define  DLE                16
+#define  DEVICE_CNTRL_1     17
+#define  DEVICE_CNTRL_2     18
+#define  DEVICE_CNTRL_3     19
+#define  DEVICE_CNTRL_4     20
+#define  NAK                21
+#define  SYN                22
+#define  ETB                23
+#define  CAN                24
+#define  EM                 25
+#define  SUB                26
+#define  ESCAPE             27
+#define  FS                 28
+#define  GS                 29
+#define  RS                 30
+#define  US                 31
+#define  SPACE              32
+#define  EXCLAMATION        33
+#define  DOUBLE_QUOT        34
+#define  HASH_SIGN          35
+#define  DOLLAR_SIGN        36
+#define  PERCENT_SIGN       37
+#define  AMPERSAND          38
+#define  SINGLE_QUOT        39
+#define  LFT_PARANT         40
+#define  RGT_PARAN          41
+#define  ASTERIX            42
+#define  PLUS_SIGN          43
+#define  COMA               44
+#define  DASH               45
+#define  PRIOD              46
+#define  SLASH              47
+#define  ZERO               48
+#define  NINE               57
+#define  COLON              58
+#define  QUESTION_MRK       63
+#define  AT_SIGN            64
+#define  TILDA              126
+#define  ERR_MSG_LENGTH     20
+#define  MAX_CMD_SIZE       80
+
+
+enum rcvd_data_type_e
+{
+    NO_DATA,
+    SOME_DATA,
+    DATA_COMPLETE,
+    RCV_TIMEOUT,
+    SHORT_DATA,
+    LONG_DATA
+};
+typedef enum rcvd_data_type_e rcvd_data_type_t;
+
+enum serial_wakeup_reason_e
+{
+   WAKE_UP_NONE,
+   WAKE_UP_FALSE,
+   WAKE_UP_GOOD
+};
+typedef enum serial_wakeup_reason_e serial_wakeup_reason_t;
+
+#define ECO  0
+#define WMS4 1
+#define AWS  2
+#define WMS2 3
+
+#define TIMER0_PRESET   3036
+// *** timer4 *** //
+#define T4_MID_VAL 249
+/* 
+                         Freq
+        ------------------------------------------ = 1ms
+         (timer4 prescaler) * 4 * (T4_MID_VAL + 1)
+ 
+ 
+   So for 64MHz clock
+   (1 / 64000000) * 4 * 4 * 250 * 16 = 1ms
+ 
+*/
+
+#define STEP_INTERVAL 63936
+
+// ********** MEMORY ********** //
+// Stored in internal EEPROM
+// UNIVERSAL VARIABLES
+#define ADDR_SERIALNO          0
+#define ADDR_CMD_MODE          2
+#define ADDR_ALARM_YR          4
+#define ADDR_LAST_MONTH        6
+#define ADDR_LAST_DAY          8 
+
+#define ADDR_LAST_YEAR        10
+#define ADDR_LAST_HOUR        12
+#define ADDR_LAST_MIN         14
+#define ADDR_LAST_SEC         16
+#define ADDR_ELAPSED          18
+
+#define ADDR_INTERVAL         20
+#define ADDR_SAMPLE           22
+#define ADDR_MAX_SAMPLES      24
+#define ADDR_REPORT_MODE      28
+
+#define ADDR_PRODUCT          30
+#define ADDR_MACRO_MODE       32
+#define ADDR_VOLUME           34
+#define ADDR_PORT             36
+
+#define ADDR_DET_TYPE         38
+
+#define ADDR_MaxSamples       40
+
+#define ADDR_MACRO_STEP       58
+#define ADDR_COM_ERR          60
+#define ADDR_SD_STATUS        62
+
+#define ADDR_D1_TEMP          64
+#define ADDR_D2_TEMP          66
+
+#define ADDR_CAL_M1           68
+#define ADDR_CAL_C1           72
+#define ADDR_CAL_M2           76
+#define ADDR_CAL_C2           82
+#define ADDR_CAL_M3           86
+#define ADDR_CAL_C3           90
+#define ADDR_CAL_M4           94
+#define ADDR_CAL_C4           98
+
+
+// motor variables start at 110
+
+// ********** DATA ********** //
+
+#define SLAVE_REPLY_CHARS     81
+#define SLAVE_CMD_CHARS       21
+
+// ********** SERIAL ********* //
+
+#define GETC_TIMEOUT 300000
+#define BUFFER_SIZE 64
+/*
+TXSTAx: TRANSMIT STATUS AND CONTROL REGISTER
+bit 1 = TRMT: Transmit Shift Register Status bit
+1 = TSRx empty
+0 = TSRx full
+TXSTA2 addr = 0xF21
+*/
+#byte TXSTA2 = 0xF21
+#bit  TRMT2  = TXSTA2.1 
+
+// ********** SPI BUS ********** //
+/*
+SPI Mode | MOTOROLA | MICROCHIP | CCS
+---------------------------------------------------------------- 
+         | CPOL CPHA|  CKP CKE  | 
+   0     |  0    0  |   0   1   | SPI_L_TO_H | SPI_XMIT_L_TO_H 
+   1     |  0    1  |   0   0   | SPI_L_TO_H 
+   2     |  1    0  |   1   1   | SPI_H_TO_L 
+   3     |  1    1  |   1   0   | SPI_H_TO_L | SPI_XMIT_L_TO_H 
+*/
+
+#define SPI_MODE_0_0 (SPI_L_TO_H | SPI_XMIT_L_TO_H) 
+#define SPI_MODE_0_1 (SPI_L_TO_H) 
+#define SPI_MODE_1_0 (SPI_H_TO_L) 
+#define SPI_MODE_1_1 (SPI_H_TO_L | SPI_XMIT_L_TO_H)
+
+// *** SD PLATFORM *** //
+#define BUFFER_LEN           160
+#define   SD_CS        LATJ, 1    // SD/MMC Chip Select Active low
+//#byte     PORTJ      = 0x0F88
+#byte     LATJ         = 0x0F91
+//#byte     LATB       = 0x0F8A
+//#byte     INTCON     = 0x0FF2
+//#byte     TMR0L      = 0x0FD6
+//#define   TMR0IF     2
+#byte     SSP1STAT     = 0xFC7   // SSP1 reg - slew-rate control = bit 7
+#define   SMP          7         // Slew Rate Control 100kHz (1), 400kHz (0) 
+
+// ********** PINS ********** //
+
+// LED
+#define BOARD_LED    PIN_A4
+#define PANEL_LED    PIN_H6
+// SERIAL
+#define TX1          PIN_C6
+#define RX1          PIN_C7
+#define TX2          PIN_G1
+#define RX2          PIN_G2
+// RS232
+#define MD1_SHDN     PIN_J4
+#define MD1_TXEN     PIN_J5
+#define MD1_REN      PIN_J6
+#define MD2_SHDN     PIN_G0
+#define MD2_TXEN     PIN_G3
+#define MD2_REN      PIN_G4
+// SPI DEVICES
+//#define SPI_SCK1     PIN_C3
+//#define SPI_SDI1     PIN_C4
+//#define SPI_SDO1     PIN_C5
+#define SD1_CS       PIN_J1
+#define EEP_CS       PIN_J2
+#define EEP_WP       PIN_J3
+#define RTC_CS       PIN_J0
+// Power Switches
+#define VMOT         PIN_F1
+#define VDET         PIN_H7
+#define VENC1        PIN_F6
+#define VENC2        PIN_F7
+#define VHBRDG       PIN_F2
+// H-Bridge
+#define HB_EN        PIN_F3
+#define HB_IN1       PIN_F4
+#define HB_IN2       PIN_F5
+// Colorimeter
+#define HSW1         PIN_D0      
+#define HSW2         PIN_D1      
+#define DAC_CL       PIN_D2
+#define DAC_CS       PIN_D3
+
+// *** DEFINE PIN STATUS *** //
+
+// e.g. use = output_bit(RS485_FLAG, READY);
+#define ON           1
+#define OFF          0
+#define READY        1
+#define BUSY         0
+#define SELECT       0
+#define DESELECT     1
+//#define WRITE        1
+//#define PROTECT      0
+#define ENABLE       0
+#define DISABLE      1
+#define CLEAR        0
+
+// *** INTERRUPT / WAKE-UP MODES *** //
+#define WAKEON_RTC             0
+#define WAKEON_COM_A           1
+#define WAKEON_COM_B           2
+#define WAKEON_BAD             9
+
+// *** DATA FILE CONSTANTS *** //
+#define ROOT_DIR " "
+#define DATA_RAW_ALL " draw_all.csv"
+#define DATA_RAW_NEW " draw_new.csv"
+#define DATA_REL_ALL " drel_all.csv"
+#define DATA_REL_NEW " drel_new.csv"
+#define EVENT_FILE   " events.txt"
+
+// *** SERIAL INTERRUPT (FROM SLEEP) *** //
+#BYTE    INTCON = 0x0FF2
+#DEFINE  PEIE    6
+#DEFINE  GIE     7
+#BYTE    RCON  = 0x0FD0
+#DEFINE  IPEN    7
+#BYTE    PIR1  = 0x0F9E
+#DEFINE  RC1IF   5
+#BYTE    PIE1  = 0x0F9D
+#DEFINE  RC1IE   5
+#BYTE    BAUDCON1 = 0x0F65
+#DEFINE  WUE     1
+
+
+
+
+ 
+   
+
+   
+
+

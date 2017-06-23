@@ -1,0 +1,99 @@
+#int_ext
+void rtc_wakeup_isr()
+{
+   delay_cycles(10); 
+   wakeup_mode = WAKEON_RTC;
+   sleep_mode = FALSE;
+   RTC_read_flags();
+   ++nv_elapsed;
+}
+
+#int_RDA
+void RDA_isr()
+{
+   int8 c;
+
+   busy_statusclear_interrupt(INT_RDA);
+   if (kbhit(COM_A)) 
+   {
+      RX_Command_Ready = TRUE;
+         c = getc(COM_A);
+   }
+
+   if (sleep_mode == FALSE){
+         switch (c){
+            case '?': msg_busy();
+               break;
+            case 17 : user_quit = TRUE;
+               break;         
+            case 27 : nv_cmd_mode = TRUE;
+               break;                
+         }
+      }
+   }
+   // if asleep and char received
+   else if (sleep_mode == TRUE){
+      delay_cycles(10);
+      // signal that wake-up was serial (not positive wake-up yet)
+      wakeup_mode = WAKEON_COM_A;
+      bit_clear(INTCON,PEIE);    // Disable Peripheral Interrupt Enable bit
+      bit_clear(PIR1,RC1IF);     // Clear USART Receive Interrupt Flag bit
+   }
+}
+
+void busy_clear()
+{
+   disable_interrupts(INT_RDA);
+   clear_interrupt(INT_RDA);
+   enable_interrupts(INT_RDA);
+   busy_status = FALSE;
+}
+
+void busy_set()
+{
+   busy_status = TRUE;
+   clear_interrupt(INT_RDA);
+   enable_interrupts(INT_RDA);
+}
+
+#int_rda2
+void serial2_isr() {
+   int t;
+busy_status
+   buffer[next_in]=fgetc(COM_B);
+   t=next_in;
+   next_in=(next_in+1) % BUFFER_SIZE;
+   if(next_in==next_out)
+   next_in=t;           // Buffer full !!
+}
+
+/*
+   This interrupt should fire before the WDT barks
+   .. it will reset the timer and the WDT
+*/
+#int_timer0
+void timer0_isr()
+{
+   heartbeat(TRUE);
+}
+
+#int_timer1
+void timer1_isr()
+{
+   // disables timer1 ints, LED OFF (to end "blink")
+   // this ISR is triggered ~105 ms after LED ON by timer0_isr()
+   disable_interrupts(INT_TIMER1);
+   output_low(BOARD_LED);
+   if(nv_product==AWS)output_low(PANEL_LED);  
+}
+
+//!#int_timer4
+//!void tick_interrupt(void) { 
+//!   if (tick) --tick; 
+//!   else {
+//!      timeout=TRUE;
+//!      exit=TRUE;
+//!   }      
+//!}
+
+

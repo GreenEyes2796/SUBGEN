@@ -1,0 +1,79 @@
+/*
+
+EEPROM   = 25LC512
+CAPACITY = 512k bits / 8 = 64k bytes
+           64K = 65535 = 0xFFFF
+
+MEMORY MAP
+
+0x0000 - 0x00FF: RESERVED
+0x0000 - 0x02FF: RESERVED
+0x0300 - 0xCEFF: MACROS
+0xCF00 - 0xFFFF: DATA BUFFER
+
+STORAGE SPACE:
+
+MACROS
+CMD  = int8
+ARG  = int16
+LINE = CMD + ARG(MSB) + ARG(LSB) = 3 bytes
+1,024 command lines per macro
+3,072 bytes per macro (3072 = 0xC00)
+
+DATA
+Aprox 512kb or 0x7D000 total memory on current eeprom -Fraser
+6,272 16-bit words / numbers
+
+*/
+
+// == 0x0300 - 0xCEFF
+#define MACROM  0x0300     
+// Channel 1
+#define MACRO1  0x0F00
+#define MACRO2  0x1B00
+#define MACRO3  0x2700
+#define MACRO4  0x3300
+// Channel 2
+#define MACRO5  0x3F00
+#define MACRO6  0x4B00
+#define MACRO7  0x5700
+#define MACRO8  0x6300   
+// Channel 3
+#define MACRO9  0x6F00
+#define MACRO10  0x7B00   
+#define MACRO11  0x8700
+#define MACRO12  0x9300     
+// Channel 4
+#define MACRO13  0x9F00
+#define MACRO14  0xAB00   
+#define MACRO15  0xB700   
+#define MACRO16  0xC300 
+#define MACRO17  0x3B148 //0x324A8 Changed by fraser 6/23/17
+#define MACRO18  0x3D470 //0x330A8        --//--
+#define MACRO19  0x3F798 //0x33CA8        --//--
+#define MACRO20  0x41AC0 //0x348A8        --//--
+// End at CEFF
+
+// == 0xCF00 - 0xFFFF
+//#define DATMEM  0xCF00
+#define STRM 0xCF00
+#define STR1 0xF228
+#define STR2 0x11550
+#define STR3 0x13878 
+#define STR4 0x15BA0
+#define STR5 0x17EC8
+#define STR6 0x1A1F0
+#define STR7 0x1C518
+#define STR8 0x1E840
+#define STR9 0x20B68
+#define STR10 0x22E90
+#define STR11 0x251B8
+#define STR12 0x274E0
+#define STR13 0x29808
+#define STR14 0x2BB30
+#define STR15 0x2DE58
+#define STR16 0x30180
+#define STR17 0x324A8
+#define STR18 0x347D0
+#define STR19 0x36AF8
+#define STR20 0x38E20

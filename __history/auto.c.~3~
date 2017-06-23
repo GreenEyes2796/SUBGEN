@@ -1,0 +1,262 @@
+int8 auto_sample_eco()
+{
+   int8 macro_cmd;
+      
+   while(TRUE){
+      if (nv_elapsed >= nv_interval) {
+         nv_elapsed = 0;
+                           
+         init_hardware();
+         sd_status = init_sdcard();
+         if(sd_status>0) msg_card_fail();
+
+         fprintf(COM_A, "@S%04Lu\r\n", (nv_sample+1));
+         
+         sprintf(event_str, ",auto-sample,sample[%Lu],start\r\n", nv_sample);
+         record_event();         
+            
+         macro_cmd = master_macro_eco();
+         write16(ADDR_SAMPLE, nv_sample); // records last sample number
+         write16(ADDR_MACRO_STEP, nv_macro_step);
+         // both nv_sample & nv_macro_step are updated by master_macro();
+                                        
+         if (user_quit == TRUE) {
+            disable_interrupts (INT_EXT);
+            nv_cmd_mode = TRUE;
+            write8(ADDR_CMD_MODE, nv_cmd_mode);
+            busy_clear();
+            return (user_quit);
+         }
+         
+         motor_sleep_rdy();
+         
+         sprintf(event_str, ",auto-sample,sample[%Lu],complete\r\n", nv_sample);
+         record_event(); 
+         
+         if (macro_cmd == 'e') {
+            disable_interrupts (INT_EXT);
+            sprintf(event_str, ",auto-sample,sample[%Lu],error\r\n", nv_sample);
+            record_event(); 
+            cmd_err();
+         } 
+         if (nv_sample >= nv_max_samples) {
+            disable_interrupts (INT_EXT);
+            sprintf(event_str, ",auto-sample,sample[%Lu],max samples\r\n", nv_sample);
+            record_event();  
+            msg_max();
+            nv_cmd_mode = TRUE;  // force return to cmd mode on power cycle VK 10/5/2015
+            write8(ADDR_CMD_MODE, nv_cmd_mode);
+         }
+
+         shutdown();
+      }
+      go_to_sleep();
+      wakeup();
+      // if a serial wakeup then reset
+      if (wakeup_mode == WAKEON_COM_A) {
+         //init_hardware();
+         fprintf(COM_A, "@RST\r\n");
+         reset_cpu();
+      }
+   }
+   
+   busy_clear();
+   return (user_quit);
+}
+
+int8 auto_sample_wms()
+{
+   int8 macro_end;
+   
+   while(TRUE){
+      if (nv_elapsed >= nv_interval) {
+         nv_elapsed = 0;
+         
+         init_hardware();
+         sd_status = init_sdcard();
+         if(sd_status>0) msg_card_fail();
+         
+         ++nv_sample;
+
+         fprintf(COM_A, "@S%04Lu\r\n", (nv_sample));
+         
+         sprintf(event_str, ",auto-sample,sample[%Lu],start\r\n", nv_sample);
+         record_event();  
+
+         write16(ADDR_SAMPLE, nv_sample); // records last sample
+
+         if (nv_macro_mode==TRUE) macro_end = master_macro_wms(nv_sample);
+         else {
+            time_stamp();
+            play_wms_hard_macro(nv_port);
+            ++nv_port;
+            if((nv_port>1 && nv_port<49 && nv_product==WMS4) ||
+               (nv_port>1 && nv_port<51 && nv_product==WMS2))
+            {
+               write16(ADDR_PORT, nv_port);            
+            }
+            else disable_interrupts (INT_EXT);
+         }
+         
+         if (user_quit == TRUE) {
+            disable_interrupts (INT_EXT);
+            nv_cmd_mode = TRUE;
+            write8(ADDR_CMD_MODE, nv_cmd_mode);
+            busy_clear();
+            return (user_quit);
+         }
+         
+         motor_sleep_rdy();
+         
+         sprintf(event_str, ",auto-sample,sample[%Lu],complete\r\n", nv_sample);
+         record_event(); 
+         
+         if (macro_end == ';') {
+            disable_interrupts (INT_EXT);
+         } 
+         
+         shutdown();
+      }
+      go_to_sleep();
+      wakeup();
+      // if a serial wakeup then reset
+      if (wakeup_mode == WAKEON_COM_A) {
+         fprintf(COM_A, "@RST\r\n");
+         reset_cpu();
+      }
+   }
+   busy_clear();
+   return (user_quit);
+}
+
+int8 auto_sample_aws()
+{
+   int8 macro_end;
+   
+   while(TRUE){
+      if (nv_elapsed >= nv_interval) {
+         nv_elapsed = 0;
+         
+         init_hardware();
+         sd_status = init_sdcard();
+         if(sd_status>0) msg_card_fail();
+         
+         ++nv_sample;
+
+         fprintf(COM_A, "@S%04Lu\r\n", (nv_sample));
+         
+         sprintf(event_str, ",auto-sample,sample[%Lu],start\r\n", nv_sample);
+         record_event();  
+
+         write16(ADDR_SAMPLE, nv_sample); // records last sample
+
+         macro_end = master_macro_aws(nv_sample);
+         
+         if (user_quit == TRUE) {
+            disable_interrupts (INT_EXT);
+            nv_cmd_mode = TRUE;
+            write8(ADDR_CMD_MODE, nv_cmd_mode);
+            busy_clear();
+            return (user_quit);
+         }
+         
+         motor_sleep_rdy();
+         
+         sprintf(event_str, ",auto-sample,sample[%Lu],complete\r\n", nv_sample);
+         record_event(); 
+         
+         if (macro_end == ';') {
+            disable_interrupts (INT_EXT);
+         } 
+         if (nv_sample >= nv_max_samples) {
+            disable_interrupts (INT_EXT);
+            sprintf(event_str, ",auto-sample,sample[%Lu],max samples\r\n", nv_sample);
+            record_event();  
+            msg_max();
+         }
+         
+         shutdown();
+      }
+      go_to_sleep();
+      wakeup();
+      // if a serial wakeup then reset
+      if (wakeup_mode == WAKEON_COM_A) {
+         fprintf(COM_A, "@RST\r\n");
+         reset_cpu();
+      }
+   }
+   busy_clear();
+   return (user_quit);
+}
+
+
+int8 auto_sample_ready()
+{  
+   busy_set();
+   
+   sprintf(event_str, ",auto-sample,initialize\r\n");
+   record_event();
+   sprintf(event_str, ",header,id#[%Lu],int[%Lu],max[%Lu]\r\n",
+                        nv_serial,nv_interval,nv_max_samples);
+   record_event();
+   
+   user_quit = FALSE;
+   
+   nv_cmd_mode = FALSE;
+   write8(ADDR_CMD_MODE, nv_cmd_mode);
+
+   RTC_set_AFE();
+   // check if start is earlier than now
+   RTC_late();
+   // show clock
+   RTC_display();
+   // show alarm
+   RTC_display_alarm();
+   // show if alarm is late
+   RTC_alarm_status();
+   
+   if (alarm_passed == FALSE){
+      //nv_sample = 0;
+      //write16(ADDR_SAMPLE, nv_sample);
+      //nv_macro_step = 0;
+      //write16(ADDR_MACRO_STEP, nv_macro_step);
+   }
+   
+   sprintf(event_str, ",auto-sample,sample[%Lu],alarm[%u]\r\n", 
+                                    nv_sample,alarm_passed);
+   record_event(); 
+   
+   RTC_read_flags();
+   
+   enable_interrupts(INT_EXT);   // enable RTC alarms
+
+   motor_sleep_rdy();
+   shutdown();
+   
+   // if wake-up is in the future, go to sleep & wait
+   if (alarm_passed == FALSE) {
+      sprintf(event_str, ",auto-sample,sleep\r\n");
+      record_event();
+      go_to_sleep();
+      wakeup();
+      if (wakeup_mode == WAKEON_COM_A) {
+         fprintf(COM_A, "@RST\r\n");
+         reset_cpu();
+      }
+   }
+   
+   RTC_minute();                 // set 1 minute alarms
+   nv_elapsed = nv_interval;
+   
+   switch(nv_product){
+      case ECO: user_quit = auto_sample_eco();
+         break;
+      case WMS4 : 
+      case WMS2 : user_quit = auto_sample_wms();
+         break;
+      case AWS: user_quit = auto_sample_aws();
+         break;         
+   }
+   return(user_quit);
+}
+

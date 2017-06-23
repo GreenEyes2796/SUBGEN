@@ -1,0 +1,1417 @@
+
+// ********** COMMANDS ********** //
+//  C command to calculate data removed 
+#define USERCMDLIST  "%*/&+-ABDEFGHIJKLMNOPQRSTUVWXYZ^"
+#define FULLCMDLIST  "#%*/&+-ABDEFGHIJKLMNOPQRSTUVWXYZ^abcdefghijklmnopqrstuwxyz"
+#include "command.h"
+
+void command_addr()
+{
+   if(arg > 0 && arg < 3) {
+      detector = arg;
+   }
+   else cmd_arg();
+}
+
+void commandAe()
+{
+   if(arg>0 && arg<65536){
+      switch (detector){
+         case 1 : nv_d1_temp = arg;
+                  write16(ADDR_D1_TEMP,nv_d1_temp);
+            break;
+         case 2 : nv_d2_temp = arg;
+                  write16(ADDR_D2_TEMP,nv_d2_temp);
+            break;
+         default : cmd_err();
+            break;
+      }
+   }
+   else if (arg==0) fprintf(COM_A, "t1:%Lu t2:%Lu\r\n", nv_d1_temp, nv_d2_temp);
+   else cmd_arg();
+}
+
+void commandAw()
+{
+   if(arg < 2){
+      nv_macro_mode = arg;
+      write16(ADDR_MACRO_MODE, nv_macro_mode);
+   }
+   else cmd_arg();
+}
+
+void commandA()
+{
+   switch(nv_product){
+      case ECO : commandAe();
+         break;
+      case WMS4 : 
+      case WMS2 : commandAw();
+         break;
+   }
+}
+
+void commandBe()
+{
+   if(arg > 0 && arg < 4) {
+      nv_det_type = arg;
+      write16(ADDR_DET_TYPE, nv_det_type);
+   }
+   else if(arg==0) {
+      fprintf(COM_A, "@DET,%Lu\r\n",nv_det_type); 
+   }
+   else cmd_arg();
+}
+
+void commandBw()
+{
+   int8 hb_cmd;
+
+   if(arg < 4) {
+      hb_cmd=arg;
+      h_bridge(hb_cmd);
+   }
+   else cmd_arg();
+}
+
+void commandB()
+{
+   switch(nv_product){
+      case ECO : commandBe();
+         break;
+      case WMS4 :
+      case WMS2 : commandBw();
+         break;
+   }
+}
+
+void commandCe()
+{
+   switch(arg){
+      case 0 : fprintf(COM_A, "NO3,%1.5g,%1.5g\r\n", NO3_slope, NO3_inter);
+               fprintf(COM_A, "PO4,%1.5g,%1.5g\r\n", PO4_slope, PO4_inter);
+               fprintf(COM_A, "NH4,%1.5g,%1.5g\r\n", NH4_slope, NH4_inter);
+               fprintf(COM_A, "SiO4,%1.5g,%1.5g\r\n", SiO_slope, SiO_inter);
+                  break;
+      case 1 : fprintf(COM_A,"NO3(m):");
+               NO3_slope = get_float();
+               fprintf(COM_A,"\r\n");  
+               write_float(ADDR_CAL_M1,NO3_slope);
+         break;
+      case 2 : fprintf(COM_A,"NO3(c):");
+               NO3_inter = get_float();
+               fprintf(COM_A,"\r\n"); 
+               write_float(ADDR_CAL_C1,NO3_inter);
+         break;
+      case 3 : fprintf(COM_A,"PO4(m):");
+               PO4_slope = get_float();
+               fprintf(COM_A,"\r\n");
+               write_float(ADDR_CAL_M2,PO4_slope);
+         break;
+      case 4 : fprintf(COM_A,"PO4(c):");
+               PO4_inter = get_float();
+               fprintf(COM_A,"\r\n"); 
+               write_float(ADDR_CAL_C2,NO3_inter);
+         break;
+      case 5 : fprintf(COM_A,"NH4(m):");
+               NH4_slope = get_float();
+               fprintf(COM_A,"\r\n");  
+               write_float(ADDR_CAL_M3,NH4_slope);
+         break;
+      case 6 : fprintf(COM_A,"NH4(c):");
+               NH4_inter = get_float();
+               fprintf(COM_A,"\r\n"); 
+               write_float(ADDR_CAL_C3,NH4_inter);
+         break;
+      case 7 : fprintf(COM_A,"SiO4(m):");
+               SiO_slope = get_float();
+               fprintf(COM_A,"\r\n");  
+               write_float(ADDR_CAL_M4,SiO_slope);
+         break;
+      case 8 : fprintf(COM_A,"SiO4(c):");
+               SiO_inter = get_float();
+               fprintf(COM_A,"\r\n"); 
+               write_float(ADDR_CAL_C4,SiO_inter);
+         break;        
+      default: cmd_arg();
+         break;
+   }
+}
+
+void commandCw()
+{
+   int16 port;
+   
+   if(arg>1){
+      if ((arg<49 && nv_product == WMS4)||(arg<51 && nv_product == WMS2)){
+         port=arg;
+         play_wms_hard_macro(port);   
+      }
+      else cmd_arg();
+   }
+   else cmd_arg();
+}
+
+void commandCa()
+{
+   int8 chip;
+   
+   if(arg>0 && arg<5){
+      chip=arg;
+      sol_chip_cmd(chip);
+   }
+   else cmd_arg();   
+}
+
+void commandC()
+{
+   switch(nv_product){
+      case ECO : commandCe();
+         break;
+      case WMS4 : 
+      case WMS2 : commandCw();
+         break;
+      case AWS : commandCa();
+         break;         
+   }
+}
+
+void commandD()
+{
+   switch (arg){
+      case 0 : file_list(file_ptr_raw_all);
+         break;
+      case 1 : file_list(file_ptr_raw_new);
+               f_unlink(file_ptr_raw_new);
+         break;
+      case 2 : file_list(file_ptr_rel_all);
+         break;
+      case 3 : file_list(file_ptr_rel_new);
+               f_unlink(file_ptr_rel_new);
+         break; 
+      default : cmd_arg();
+         break;
+   }
+}
+
+void commandE()
+{
+   switch (arg){
+      case 0 : 
+      printf("Are you sure you want to erase the raw data file? Y or N!\r\n");
+      char result;
+      result = fgetc(COM_A);
+      if(result == 'Y'){
+      f_unlink(file_ptr_raw_all);
+      printf("File deleted!\n\r");
+      }else{
+         printf("Operation canceled!\r\n");
+      }
+         break;
+      case 2 : 
+         printf("Are you sure you want to erase the calculated data file? Y or N!\r\n");
+         result = fgetc(COM_A);
+         if(result == 'Y'){
+            f_unlink(file_ptr_rel_all);
+            printf("File deleted!\n\r");
+         }else{
+            printf("Operation canceled!\r\n");
+         }
+         break;
+      default : cmd_arg();
+         break;         
+   }
+}
+
+void commandF()
+{
+   if(arg == 5525){
+      reset_nv_vars();
+   }
+   else cmd_arg();
+}
+
+void commandG()
+{
+   if(nv_product==ECO || nv_product==WMS4 || nv_product==WMS2)
+   {
+      busy_set();
+
+      switch(arg)
+      {
+         case 1:
+         {
+            motor=0;
+            align(0);
+            break;
+         }
+         case 2:
+         {
+            if (arg==2 && nv_report_mode==4)
+            {
+               motor=0;
+               cal_disk(0);
+            }
+            break;
+         }
+         case 3:
+         {
+            recovery();
+            break;
+         }
+         default:
+         {
+            cmd_arg();
+            break;
+         }
+      }
+
+      busy_clear();
+   }
+}
+
+void commandHe()
+{
+   int16 v_supply;
+   
+   if (arg == 1) {
+      v_supply = read_supply();
+      
+      RTC_reset_HT();
+      RTC_read();
+   
+      fprintf(COM_A, "@ID#%Lu I%Lu N%Lu/%Lu X%Lu U%u %4.2wV\r\n", //
+           nv_serial,nv_interval,nv_sample,nv_max_samples,nv_report_mode,motor,v_supply);
+      fprintf(COM_A, "@MOT:VAL=%Lu SYR=%Ld\r\n", e_port[0],m_lin_pos[1]);
+      RTC_display();
+      fprintf(COM_A, "@PWR:%02u/%02u/%02u %02u:%02u:%02u\r\n", 
+           rtc_last_month,rtc_last_day,rtc_last_year,rtc_last_hour,rtc_last_min,rtc_last_sec);
+      RTC_read_alarm();
+      RTC_display_alarm();
+   }
+}
+
+void commandHw()
+{
+
+   int16 v_supply;
+   
+   if (arg == 1) {
+      v_supply = read_supply();
+      
+      RTC_reset_HT();
+      RTC_read();
+ 
+      fprintf(COM_A, "A%Lu I%Lu L%Lu Q%Lu S%Lu %4.2wV\r\n", 
+         nv_macro_mode, nv_interval, nv_volume, nv_port, nv_sample,v_supply);
+      fprintf(COM_A, "@MOT:VAL=%Lu SYR=%Ld\r\n", e_port[0],m_lin_pos[1]);
+      RTC_display();
+      fprintf(COM_A, "@PWR:%02u/%02u/%02u %02u:%02u:%02u\r\n", rtc_last_month,
+         rtc_last_day,rtc_last_year,rtc_last_hour,rtc_last_min,rtc_last_sec);
+      
+      RTC_read_alarm();
+      RTC_display_alarm();
+   }
+}
+
+void commandHa()
+{
+
+   int16 v_supply;
+   
+   if (arg == 1) {
+      v_supply = read_supply();
+      
+      RTC_reset_HT();
+      RTC_read();
+ 
+      fprintf(COM_A, "I%Lu N%Lu/%Lu P%Lu %4.2wV\r\n", 
+         nv_interval,nv_sample,nv_max_samples,nv_port,v_supply);
+      fprintf(COM_A, "@MOT:SYR=%Ld\r\n", m_lin_pos[1]);
+      display_valve_status();
+      RTC_display();
+      fprintf(COM_A, "@PWR:%02u/%02u/%02u %02u:%02u:%02u\r\n", rtc_last_month,
+         rtc_last_day,rtc_last_year,rtc_last_hour,rtc_last_min,rtc_last_sec);
+      
+      RTC_read_alarm();
+      RTC_display_alarm();
+   }
+}
+
+void commandH()
+{
+   switch(nv_product){
+      case ECO : commandHe();
+         break;
+      case WMS4 : 
+      case WMS2 : commandHw();
+         break;
+      case AWS : commandHa();
+         break;         
+   }
+}
+
+void commandI()
+{
+   if(arg > 0 && arg < 64801) {
+      nv_interval = arg;
+      write16(ADDR_INTERVAL, nv_interval);
+   }
+   else cmd_arg();
+}
+
+void commandJ()
+{
+   if(arg < 10000) {
+      nv_serial = arg;
+      write16(ADDR_SERIALNO, nv_serial);
+   }
+   else cmd_arg();
+}
+
+void commandK()
+{
+   if(nv_product==ECO){
+      
+      if (arg > 0 && arg < 3){
+         det_cmd();
+      }
+      else cmd_arg();
+      
+   }
+}
+
+void commandLe()
+{
+   if(arg<4096){
+      switch (nv_det_type){
+         case 1 : det_cmd();
+            break;
+         case 2 : DAC_set(1,arg);
+            break;
+         case 3 : set_LED(arg);
+            break;
+      }
+   }
+   else if(arg>20000 && arg<20003)DAC_set_test(arg);
+   else if(arg==30001)set_LED_test();
+   else cmd_arg();
+}
+
+void commandLw()
+{
+   if(arg >= 0 && arg < 22501){
+      nv_volume = arg;
+      write16(ADDR_VOLUME, nv_volume);
+   }
+   else cmd_arg();
+}
+
+void commandL()
+{
+   switch(nv_product){
+      case ECO : commandLe();
+         break;
+      case WMS4 : 
+      case WMS2 : commandLw();
+         break;
+   }
+}
+
+void commandM(int1 LoggingReentry)
+{
+   int8 macro;
+   
+   busy_set();
+   
+   user_quit = FALSE;
+   
+   if(arg > 0 && arg < 21)
+   {
+      macro = arg;
+      switch(nv_product){
+         case ECO :
+         case WMS4 : 
+         case WMS2 : play_macro(macro,(e_port[0]+1));
+            break;
+         case AWS : play_macro(macro,nv_port);
+            break;
+      }
+   }   
+   else if (arg == 0)
+   {
+      MaxSamples=FALSE;
+      write8(ADDR_MaxSamples, MaxSamples); 
+      if (LoggingReentry != TRUE)
+      {
+         nv_sample = 0;
+         write16(ADDR_SAMPLE, nv_sample);    
+      }
+
+      LoggingReentry = 0;
+      nv_macro_step = 0;
+      write16(ADDR_MACRO_STEP, nv_macro_step);      
+      user_quit = auto_sample_ready();
+   }
+   else cmd_arg();
+   
+   busy_clear();
+}
+
+void commandN()
+{
+   if(arg > 0 && arg < 3501) {
+      nv_max_samples = arg;
+      write16(ADDR_MAX_SAMPLES, nv_max_samples);
+   }
+   else if(arg == 0) {
+      nv_sample = 0;
+      write16(ADDR_SAMPLE, nv_sample);
+      nv_macro_step = 0;
+      write16(ADDR_MACRO_STEP, nv_macro_step);
+   }
+   else cmd_arg();
+}
+
+void commandO()
+{
+   if(arg == 1)
+   {
+      bus_on();
+      open_pipe();
+      bus_off();
+   }
+   else cmd_arg();
+}
+
+void commandPe()
+{
+   if(m_fixed==1) motor=0;                          // if fixed operation set rotary
+   
+   if (arg>0 && arg<=e_ppr[motor]){             
+      if(e_mode[motor]==2){     // if port mode then move
+         switch (nv_product){
+            // command_move (int8 dir_mode, int8 dir, int8 int_mode
+            case ECO:  command_move(1,0,1);
+               break;            
+            case WMS4: command_move(0,0,1);
+               break;
+            case WMS2: command_move(0,0,1); // 1 DIR, cw, edge = quad end
+               break;
+         }
+      }
+      else cmd_err();                           // else error
+   }
+   else cmd_arg();
+}
+
+void commandPa()
+{
+   if (arg<49){
+      nv_port = arg;
+      write16(ADDR_PORT, nv_port);
+   }
+   else cmd_arg();
+}
+
+void commandP()
+{
+   switch(nv_product){
+      case ECO : commandPe();
+         break;
+      case WMS4 : 
+      case WMS2 : commandPe();
+         break;
+      case AWS : commandPa();
+         break;         
+   }
+}
+
+void commandQa()
+{
+   int8 valve;
+   
+   if(bus_pwr_status==1){
+   
+      if(arg<33){
+         valve=arg;   
+         sol_switch(valve);
+      } 
+      else cmd_arg();
+   }
+   else cmd_err();
+}
+
+void commandQw()
+{
+   if (arg > 0 && arg < 51){
+      nv_port = arg;
+      write16(ADDR_SAMPLE, nv_port);
+   }
+   else cmd_arg();
+}
+
+void commandQ()
+{
+   switch(nv_product){
+      case WMS4 : 
+      case WMS2 : commandQw();
+         break;
+      case AWS : commandQa();
+         break;         
+   }
+}
+
+void commandRe()
+{
+   int8 macro_cmd;
+   int16 samples, count;
+   
+   busy_set();
+   
+   nv_macro_step = 0;
+   write16(ADDR_MACRO_STEP, nv_macro_step);
+   
+   user_quit = FALSE;
+   
+   if (arg > 0 && arg < 3501){
+      samples = arg;
+      user_quit = FALSE;
+      // start from beginning of each macro
+      // reset_bookmarks();
+      for (count=0; count<samples; ++count){
+         fprintf(COM_A, "@SMP %04Lu\r\n", (count+1));
+         macro_cmd = master_macro_eco();
+         if (macro_cmd == ';') break;
+      }
+   }
+   
+   busy_clear();
+}
+
+void commandRw()
+{
+   int16 port;
+   int8 i,n;
+   
+   if(arg > 0 && arg < 48){
+      n=arg;
+      port=2;
+      for(i=0;i<n;++i){
+         play_wms_hard_macro(port);
+         ++port;
+      }
+   }
+   else cmd_arg();
+}
+
+void commandRa()
+{
+   int8 macro_cmd;
+   int16 samples, count;
+   
+   busy_set();
+   
+   nv_macro_step = 0;
+   write16(ADDR_MACRO_STEP, nv_macro_step);
+   
+   user_quit = FALSE;
+   
+   if (arg > 0 && arg < 241){
+      samples = arg;
+      user_quit = FALSE;
+      // start from beginning of each macro
+      // reset_bookmarks();
+      for (count=0; count<samples; ++count){
+         fprintf(COM_A, "@SMP %04Lu\r\n", (count+1));
+         macro_cmd = master_macro_aws(count+1);
+         ++nv_sample;                     // increment sample number
+         write16(ADDR_SAMPLE, nv_sample); // records last sample
+         if(nv_sample==nv_max_samples ||macro_cmd == ';') break;
+      }
+   }
+   
+   busy_clear();
+}
+
+void commandR()
+{
+   switch(nv_product){
+      case ECO : commandRe();
+         break;
+      case WMS4 : 
+      case WMS2 : commandRw();
+         break;
+      case AWS : commandRa();
+         break;         
+   }
+}
+
+void commandSe()
+{
+   busy_set();
+   
+   switch(arg){
+   case 1:
+   {
+      if(nv_det_type==1)
+      {
+         get_det_read(FALSE,TRUE);    // don't store, do display
+      }
+      else if(nv_det_type==2 || nv_det_type==3)
+      {
+         read_colorimeter(200,FALSE,TRUE,FALSE);
+      }
+      break;                                                        //200 scans,don't store,display
+   }
+   case 2: probe_read(FALSE,TRUE);
+      break;
+   default: cmd_arg();
+      break;
+   }
+   
+   busy_clear();
+}
+
+void commandSw()
+{
+   if (arg < 1025){
+      nv_sample = arg;
+      write16(ADDR_SAMPLE, nv_sample);
+   }
+   else cmd_arg();
+}
+
+void commandSa()
+{
+   int16 setting;
+   
+   if (arg < 259){
+      setting = arg;
+      sol_switch_cmd(setting);
+   }
+   else cmd_arg();
+}
+
+void commandS()
+{
+   switch(nv_product){
+      case ECO : commandSe();
+         break;
+      case WMS4 : 
+      case WMS2 : commandSw();
+         break;
+      case AWS : commandSa();
+         break;         
+   }
+}
+
+void commandT()
+{
+   /*fprintf(COM_A, "Enter date format 0=MM/DD/YY  1=DD/MM/YY\r\n");
+   fputc('>',COM_A);
+   RTCfmt=fgetc(COM_A);
+   if (com_echo == TRUE)
+      {
+      fputc(RTCfmt,COM_A);
+      }
+   RTCfmt = RTCfmt - 48; // CONVERT ASCII TO INT   
+   if( (RTCfmt >= 0) && (RTCfmt < 2) )
+      {
+       fputs("@OK!\r\n ", COM_A);
+       write16(ADDR_RTCfmt, RTCfmt);
+      } 
+   else cmd_arg(); */
+   
+   if(arg == 1)
+   {
+      RTC_Set();
+   }
+   else cmd_arg();
+}
+
+void commandU()
+{
+   int8 macro;
+   
+   if(arg < 21) {
+      macro = arg;
+      upload_macro(macro);   
+   }   
+   else if (arg == 5525){
+      write_blank_macros();
+   }
+   else cmd_arg();
+}
+
+void commandV()
+{
+   int8 macro;
+   
+   if(arg < 21) {
+      macro = arg; 
+      read_macro(macro);
+   }   
+   else cmd_arg();
+}
+
+void commandW()
+{
+   if (arg == 1){
+      RTC_alarm();
+      RTC_late();
+      RTC_alarm_status();
+   }
+   else cmd_arg();
+}
+
+void commandX()
+{
+   switch(arg){
+      case 0:
+      case 2:
+      case 3:
+      case 4:  
+      case 5: 
+      case 6:
+              nv_report_mode = arg;
+              write16(ADDR_REPORT_MODE, nv_report_mode); 
+         break;
+      default: cmd_arg();
+         break;
+   }
+}
+
+void display_status(int8 status)
+{
+   switch(status){
+      case 0: fprintf(COM_A, "@ERR\r\n");
+         break;
+      case 1: fprintf(COM_A, "@RUN\r\n");
+         break;
+   }
+}
+
+void commandY()
+{
+   busy_set();
+   
+   switch(arg){
+      case  0: // for backwards compatibility
+      case 10: output_bit(VDET,OFF);
+               bus_pwr_status=0;
+         break;
+      case  1: // for backwards compatibility
+      case 11: output_bit(VDET,ON);
+               bus_pwr_status=1;
+         break;
+      case 20: output_bit(VMOT,OFF);
+         break;
+      case 21: output_bit(VMOT,ON);
+         break;
+      case 30: output_bit(VENC1,OFF);
+         break;
+      case 31: output_bit(VENC1,ON);
+         break;
+      case 40: output_bit(VENC2,OFF);
+         break;
+      case 41: output_bit(VENC2,ON);
+         break;
+      case 50: output_bit(VHBRDG,OFF);
+         break;
+      case 51: output_bit(VHBRDG,ON);
+         break;         
+      case 60: set_heaters(0);
+         break;
+      case 61: set_heaters(3);
+         break;
+      default : cmd_arg();
+         break;         
+   }
+   
+   busy_clear();
+}
+
+void commandZ()
+{
+   if(arg == 0){
+      motor_sleep_rdy();
+      shutdown();
+      go_to_sleep();
+   }
+   else cmd_arg();
+}
+
+void command_a()
+{
+   if (arg==1) poll_enc();
+   else cmd_arg();
+}
+
+void command_b() // back-lash
+{
+   if(arg < 10001) {
+      m_bklsh[motor] = arg;
+      switch(motor){
+         case 0 : write16(ADDR_M1_BKLSH, m_bklsh[motor]);
+            break;
+         case 1 : write16(ADDR_M2_BKLSH, m_bklsh[motor]);
+            break;            
+      }
+   }
+   else cmd_arg();   
+}
+
+void command_d() // positive direction
+{
+   if(arg < 2) {
+      m_pos_dir[motor] = arg;
+      switch(motor){
+         case 0 : write16(ADDR_M1_POS_DIR, m_pos_dir[motor]);
+            break;
+         case 1 : write16(ADDR_M2_POS_DIR, m_pos_dir[motor]);
+            break;            
+      }
+   }
+   else cmd_arg();   
+}
+
+void command_e() // encoder cpr
+{
+   if(arg < 10001) {
+      e_cpr[motor] = arg;
+      switch(motor){
+         case 0 : write16(ADDR_E1_CPR, e_cpr[motor]);
+            break;
+         case 1 : write16(ADDR_E2_CPR, e_cpr[motor]);
+            break;            
+      }
+   }
+   else cmd_arg();   
+}
+
+void command_f()
+{
+   if(arg < 2) m_fixed=arg;
+   else cmd_arg();   
+}
+
+void command_g() // gearbox error
+{
+   if(arg < 60001) {
+      m_gb_err[motor] = arg;
+      switch(motor){
+         case 0 : write16(ADDR_M1_GB_ERR, m_gb_err[motor]);
+            break;
+         case 1 : write16(ADDR_M2_GB_ERR, m_gb_err[motor]);
+            break;            
+      }
+   }
+   else cmd_arg();   
+}
+
+void command_h() // hold current
+{
+   int16 hold_pc;
+   if(arg < 101) {
+      hold_pc=arg;
+      m_pwm_hld[motor] = (hold_pc*(((T2_MID_VAL+1)*4)-1))/100;
+      switch(motor){
+         case 0 : write16(ADDR_M1_PWM_HLD, m_pwm_hld[motor]);
+            break;
+         case 1 : write16(ADDR_M2_PWM_HLD, m_pwm_hld[motor]);
+            break;            
+      }
+   }
+   else cmd_arg();   
+}
+
+void command_i() // step interval
+{
+   if(arg < 60001) {
+      m_stp_int[motor] = (arg/100);
+      switch(motor){
+         case 0 : write16(ADDR_M1_STP_INT, m_stp_int[motor]);
+            break;
+         case 1 : write16(ADDR_M2_STP_INT, m_stp_int[motor]);
+            break;            
+      }
+   }
+   else cmd_arg();   
+}
+
+void command_j() // step interval
+{
+   if(arg < 10001) {
+      m_run[motor] = arg;
+      switch(motor){
+         case 0 : write16(ADDR_M1_RUN, m_run[motor]);
+            break;
+         case 1 : write16(ADDR_M2_RUN, m_run[motor]);
+            break;            
+      }
+   }
+   else cmd_arg();   
+}
+
+void command_k() // encoder mode 
+{
+   if(arg < 4) {
+      e_mode[motor] = arg;
+      switch(motor){
+         case 0 : write16(ADDR_E1_MODE, e_mode[motor]);
+            break;
+         case 1 : write16(ADDR_E2_MODE, e_mode[motor]);
+            break;            
+      }
+   }
+   else cmd_arg();   
+}
+
+// "l" is used for "list"
+
+void command_m() // step mode (full/half)
+{
+   if(arg < 2) {
+      m_mode[motor] = arg;
+      switch(motor){
+         case 0 : write16(ADDR_M1_MODE, m_mode[motor]);
+            break;
+         case 1 : write16(ADDR_M2_MODE, m_mode[motor]);
+            break;            
+      }
+   }
+   else cmd_arg();   
+}
+
+void command_n() // index polarity
+{
+   if(arg < 2) {
+      e_index[motor] = arg;
+      switch(motor){
+         case 0 : write16(ADDR_E1_INDEX, e_index[motor]);
+            break;
+         case 1 : write16(ADDR_E2_INDEX, e_index[motor]);
+            break;            
+      }
+   }
+   else cmd_arg();   
+}
+
+void command_o() // adjustment extra steps 
+{
+   if(arg < 267){  // max = 1 port of steps 
+       evn_so[motor] = arg;
+       switch(motor){
+         case 0 : write16(ADDR_M1_EVN_SO, evn_so[motor]);
+            break;
+         case 1 : write16(ADDR_M2_EVN_SO, evn_so[motor]);
+            break;            
+      }
+   }
+   else cmd_arg();   
+}
+
+void command_p() // encoder ports per rev (PPR)
+{
+   if(arg < 1001){
+      e_ppr[motor] = arg;
+      switch(motor){
+         case 0 : write16(ADDR_E1_PPR, e_ppr[motor]);
+            break;
+         case 1 : write16(ADDR_E2_PPR, e_ppr[motor]);
+            break;            
+      }
+   }
+   else cmd_arg();   
+}
+
+void command_q() // shut down motor power
+{
+   if(arg == 0) output_bit(VMOT,OFF);
+   else cmd_arg();   
+}
+
+void command_r() // reset stepper vars
+{
+   if (arg == 0){
+      switch (nv_product) {
+         case ECO : rst_step_vars_eco();
+            break;
+         case WMS4 : rst_step_vars_wms4();
+            break;
+         case AWS : rst_step_vars_aws();
+            break;            
+         case WMS2 : rst_step_vars_wms2();
+            break;
+      }
+   } 
+   else cmd_arg();
+}
+
+void command_s() // steps per rev
+{
+   if(arg < 65536) {
+      m_spr[motor] = arg;
+      m_ppp[motor] = (m_spr[motor]/e_ppr[motor])*2;
+      switch(motor){
+         case 0 : write16(ADDR_M1_SPR, m_spr[motor]);
+            break;
+         case 1 : write16(ADDR_M2_SPR, m_spr[motor]);
+            break;            
+      }
+   }
+   else cmd_arg();   
+}
+
+void command_t() // encoder type (0=none, 1=quad, 2=disk)
+{
+   if(arg < 3) {
+      e_type[motor] = arg;
+      switch(motor){
+         case 0 : write16(ADDR_E1_TYPE, e_type[motor]);
+            break;
+         case 1 : write16(ADDR_E2_TYPE, e_type[motor]);
+            break;            
+      }
+   }
+   else cmd_arg();   
+}
+
+// "u" is used to change unit/motor
+
+void command_w() // drive current
+{
+   int16 drive_pc;
+   if(arg < 101) {
+      drive_pc=arg;
+      m_pwm_drv[motor] = (drive_pc*(((T2_MID_VAL+1)*4)-1))/100;
+      switch(motor){
+         case 0 : write16(ADDR_M1_PWM_DRV, m_pwm_drv[motor]);
+            break;
+         case 1 : write16(ADDR_M2_PWM_DRV, m_pwm_drv[motor]);
+            break;            
+      }
+   }
+   else cmd_arg();   
+}
+
+void command_x() // alignment adjustment extra motor steps 
+{
+   if(arg < 10000){  // should be < 2000 motor steps
+       align_os[motor] = arg;
+       switch(motor){
+         case 0 : write16(ADDR_M1_ALIGN_OS, align_os[motor]);
+            break;
+         case 1 : write16(ADDR_M2_ALIGN_OS, align_os[motor]);
+            break;            
+      }
+   }
+   else cmd_arg();   
+}
+
+void command_y() // stepp mode (full/half)
+{
+   if(arg < 2) {
+      m_ctrl[motor] = arg;
+      switch(motor){
+         case 0 : write16(ADDR_M1_CTRL, m_ctrl[motor]);
+            break;
+         case 1 : write16(ADDR_M2_CTRL, m_ctrl[motor]);
+            break;            
+      }
+   }
+   else cmd_arg();   
+}
+
+void command_u()
+{
+   switch (arg){
+      case 1: motor = 0;
+         break;
+      case 2: motor = 1;
+         break;
+      default : cmd_arg();
+         break;
+   }
+}
+
+void command_z() // zero enc position
+{
+   if(arg > 0 && arg < 3) {
+      switch(arg){
+         case 1 : e_pos[0] = 0;
+                  write16(ADDR_E1_POS, 0);
+            break;
+         case 2 : e_pos[1] = 0;
+                  write16(ADDR_E2_POS, 0);
+            break;            
+      }
+   }
+   else cmd_arg(); 
+}
+
+void step_var_list()
+{
+   int16 hold_pc, drive_pc, step_us;
+   
+   if (arg==1){
+      hold_pc  = ((m_pwm_hld[0]*100) / (((T2_MID_VAL+1)*4)-1));
+      drive_pc = ((m_pwm_drv[0]*100) / (((T2_MID_VAL+1)*4)-1));
+      step_us  =   m_stp_int[0]*100;
+      
+      fprintf(COM_A, "[motor:1]\r\n");
+      fprintf(COM_A, "b:%Lu\r\n",m_bklsh[0]);      
+      fprintf(COM_A, "c:%Lu/%Lu/%Lu\r\n",m_step_cnt[0],e_cha_cnt[0],e_pos[0]);
+      fprintf(COM_A, "d:%Lu\r\n",m_pos_dir[0]);
+      fprintf(COM_A, "e:%Lu\r\n",e_cpr[0]);
+      fprintf(COM_A, "f:%u\r\n",m_fixed);
+      fprintf(COM_A, "g:%Lu\r\n",m_gb_err[0]);
+      fprintf(COM_A, "h:%Lu\r\n",hold_pc);
+      fprintf(COM_A, "i:%Lu\r\n",step_us);
+      fprintf(COM_A, "j:%Lu\r\n",m_run[0]);
+      fprintf(COM_A, "k:%Lu\r\n",e_mode[0]);
+      fprintf(COM_A, "m:%Lu\r\n",m_mode[0]);
+      fprintf(COM_A, "n:%Lu\r\n",e_index[0]);
+      fprintf(COM_A, "o:%Lu\r\n",evn_so[0]);
+      fprintf(COM_A, "p:%Lu/%Lu\r\n",e_port[0],e_ppr[0]);
+      fprintf(COM_A, "q:%Lu\r\n",m_error[0]);
+      fprintf(COM_A, "s:%Lu\r\n",m_spr[0]);      
+      fprintf(COM_A, "t:%Lu\r\n",e_type[0]);
+      fprintf(COM_A, "u:%u\r\n",(motor+1));
+      fprintf(COM_A, "w:%Lu\r\n",drive_pc);
+      fprintf(COM_A, "x:%Lu\r\n",align_os[0]);
+      fprintf(COM_A, "y:%Lu\r\n",m_ctrl[0]);   
+      
+      hold_pc  = ((m_pwm_hld[1]*100) / (((T2_MID_VAL+1)*4)-1));
+      drive_pc = ((m_pwm_drv[1]*100) / (((T2_MID_VAL+1)*4)-1));
+      step_us  =   m_stp_int[1]*100;
+      
+      fprintf(COM_A, "[motor:2]\r\n");
+      fprintf(COM_A, "b:%Lu\r\n",m_bklsh[1]);
+      fprintf(COM_A, "c:%Lu/%Lu/%Lu\r\n",m_step_cnt[1],e_cha_cnt[1],e_pos[1]);
+      fprintf(COM_A, "d:%Lu\r\n",m_pos_dir[1]);
+      fprintf(COM_A, "e:%Lu\r\n",e_cpr[1]);
+      fprintf(COM_A, "f:%u\r\n",m_fixed);
+      fprintf(COM_A, "g:%Lu\r\n",m_gb_err[1]);
+      fprintf(COM_A, "h:%Lu\r\n",hold_pc);
+      fprintf(COM_A, "i:%Lu\r\n",step_us);
+      fprintf(COM_A, "j:%Lu\r\n",m_run[1]);      
+      fprintf(COM_A, "k:%Lu\r\n",e_mode[1]);
+      fprintf(COM_A, "m:%Lu\r\n",m_mode[1]);
+      fprintf(COM_A, "n:%Lu\r\n",e_index[1]);
+      fprintf(COM_A, "o:%Lu\r\n",evn_so[1]);
+      fprintf(COM_A, "p:%Lu/%Lu\r\n",e_port[1],e_ppr[1]);
+      fprintf(COM_A, "q:%Lu\r\n",m_error[1]);
+      fprintf(COM_A, "s:%Lu\r\n",m_spr[1]);            
+      fprintf(COM_A, "t:%Lu\r\n",e_type[1]);      
+      fprintf(COM_A, "u:%u\r\n",(motor+1));
+      fprintf(COM_A, "w:%Lu\r\n",drive_pc);
+      fprintf(COM_A, "x:%Lu\r\n",align_os[1]);
+      fprintf(COM_A, "y:%Lu\r\n",m_ctrl[1]); 
+   }
+   else cmd_arg();
+}
+
+void command_star()
+{
+   if(arg == 1805) file_list(file_ptr_events);
+   else if (arg == 1944) f_unlink(file_ptr_events);
+}
+
+void command_prod()
+{
+   switch (arg){
+      case 5525 : nv_product = ECO;
+                  write16(ADDR_PRODUCT, ECO);
+                  sprintf(event_str, ",ECO mode set\r\n");
+                  record_event();
+         break;
+      case 5526 : nv_product = WMS4;
+                  write16(ADDR_PRODUCT, WMS4);
+                  sprintf(event_str, ",WMS-4-SD mode set\r\n");
+                  record_event();                  
+         break;   
+      case 5527 : nv_product = AWS;
+                  write16(ADDR_PRODUCT, AWS);
+                  sprintf(event_str, ",AWS mode set\r\n");
+                  record_event();                  
+         break;  
+      case 5528 : nv_product = WMS2;
+                  write16(ADDR_PRODUCT, WMS2);
+                  sprintf(event_str, ",WMS-4-QE mode set\r\n");
+                  record_event();                  
+         break;           
+   }
+}
+
+void command_hash()
+{
+   switch(arg){
+      case 0 : kill_wd();
+         break;
+      case 1 : start_heartbeat();
+         break;
+      case 2 : suspend_heartbeat();
+         break;
+      default : cmd_arg();
+         break;
+   }
+}
+
+void commandFW()
+{
+   switch(arg){
+      case 0:     signon();
+                  fprintf(COM_A, __DATE__);
+                  fprintf(COM_A, "\r\n");
+                  fprintf(COM_A, __TIME__);
+                  fprintf(COM_A, "\r\n");
+         break;
+      case 5525 : kill_wd();
+                  fprintf(COM_A, "SEND HEX FILE (19200,N81,XON-XOFF)\r\n");
+                  load_program();
+         break;
+   }
+}
+
+void command_set()
+{
+   switch (arg){
+      case 0 : cmd_set=0;  // user
+         break;
+      case 1 : cmd_set=1;  // full
+         break;
+   }
+}
+
+void select_cmd()
+{
+   busy_clear();
+   
+   switch (cmd)
+   {
+      case '&': commandFW();
+         break;
+      case '#': command_hash();
+         break;         
+      case '%': command_prod();
+         break;
+      case '*': command_star();
+         break;      
+      // standard commands
+      case '/': command_addr();
+         break;
+      case 'A': commandA();
+         break;
+      case 'B': commandB();
+         break;
+      case 'C': commandC();
+         break;
+      case 'D': commandD();
+         break;
+      case 'E': commandE();
+         break;         
+      case 'F': commandF();
+         break;         
+      case 'G': commandG();
+         break;
+      case 'H': commandH();
+         break;
+      case 'I': commandI();
+         break;   
+      case 'J': commandJ();
+         break;     
+      case 'K': commandK();
+         break;   
+      case 'L': commandL();
+         break;            
+      case 'M': commandM(FALSE);
+         break;  
+      case 'N': commandN();
+         break;         
+      case 'O': commandO();
+         break;   
+      case 'P': commandP();
+         break; 
+      case 'Q': commandQ();
+         break;             
+      case 'R': commandR();
+         break;   
+      case 'S': commandS();
+         break; 
+      case 'T': commandT();
+         break;           
+      case 'U': commandU();
+         break;          
+      case 'V': commandV();
+         break;
+      case 'W': commandW();
+         break;
+      case 'X': commandX();
+         break;
+      case 'Y': commandY();
+         break; 
+      case 'Z': commandZ();
+         break;   
+      // stepper
+      case '^': command_set();
+         break;      
+      case '+': if(m_fixed==1) motor=1;
+                command_move(0,0,1);
+         break;
+      case '-': if(m_fixed==1) motor=1;
+                command_move(0,1,1);
+         break;
+//!      case 'c': command_c();
+//!         break;
+      case 'a': command_a();
+         break;    
+      case 'b': command_b();
+         break;          
+      case 'd': command_d();
+         break;         
+      case 'e': command_e();
+         break;      
+      case 'f': command_f();
+         break;
+      case 'g': command_g();
+         break;         
+      case 'h': command_h();
+         break;
+      case 'i': command_i();
+         break;  
+      case 'j': command_j();
+         break;          
+      case 'k': command_k();
+         break;         
+      case 'l': step_var_list();
+         break;         
+      case 'm': command_m();
+         break;   
+      case 'n': command_n();
+         break;
+      case 'o': command_o();
+         break;   
+      case 'p': command_p();
+         break;  
+      case 'q': command_q();
+         break;
+      case 'r': command_r();
+         break;   
+      case 's': command_s();
+         break;          
+      case 't': command_t();
+         break;         
+      case 'u': command_u();
+         break;          
+      case 'w': command_w();
+         break;
+      case 'x': command_x();
+         break;   
+      case 'y': command_y();
+         break; 
+      case 'z': command_z();
+         break;          
+   }
+}

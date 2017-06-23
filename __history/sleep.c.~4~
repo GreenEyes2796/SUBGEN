@@ -1,0 +1,135 @@
+
+// Set-up USART interrupt
+/* The various register bits accessed here are detailed in the
+   PIC18F8722 datasheet.
+*/
+void set_usart_int()
+{
+  clear_interrupt(INT_RDA);        // Serial
+     
+  bit_clear(RCON,IPEN);    // Disable priority on interrupts
+  bit_clear(PIR1,RC1IF);   // Clear USART Receive Interrupt Flag bit
+  //      var,bit = addr,bit
+  bit_set(PIE1,RC1IE);     // Set USART Receive Interrupt Enable bit
+  bit_set(BAUDCON1,WUE);   // USART1 wake-up enable
+  bit_set(INTCON,PEIE);    // Set Peripheral Interrupt Enable bit
+  //bit_set(INTCON,GIE);     // Set Global Interrupt Enable bit
+}
+
+
+/* 
+/*****************************************************************************/
+/*                                                                           */ 
+/*                                                                           */ 
+/*                                                                           */ 
+/*                                                                           */ 
+/*                                                                           */ 
+/*****************************************************************************/
+void goToSleep(void)
+{
+   while (TRUE)
+   {
+      resetUserInput();
+      kill_wd();
+      sleep();
+      delay_cycles(1);                                // pre-fetched NOP
+      if (RTC_ALRAM_AWAKE == wakeup())
+      {
+         break;
+      }
+
+      blip();
+      blip();
+      shutdown();
+   }
+}
+
+
+/* 
+/*****************************************************************************/
+/*                                                                           */ 
+/*                                                                           */ 
+/*                                                                           */ 
+/*                                                                           */ 
+/*                                                                           */ 
+/*****************************************************************************/
+wakeup_reason_t wakeup(void)
+{
+   rcvd_serial_data_t userCmndResponse = NO_DATA;
+   wakeup_reason_t wakeupReason = RTC_ALRAM_WAKE;
+   int8 bufferSize;
+   int8 buffer_index;
+   int8 dollarSignCount = 0;
+   char *inputBufPtr = &inputBuf[bufferReadIndex];
+
+   blip();
+
+   if (TRUE == uart_data_rcvd)
+   {
+      uart_data_rcvd = FALSE;
+      SET_UART_RCV_TIMER(SIX_SEC_DELAY_TIMEOUT);
+
+      while (TRUE)
+      {
+         blip();
+         if (TRUE == rtc_alarm)
+         {
+            break;
+         }
+
+         userCmndResponse = getUserInputStatus();
+         if ( (PARTIAL_DATA == userCmndResponse) || (COMPLETE_DATA == userCmndResponse) )
+         {
+            bufferSize = bufferTailIndex - bufferReadIndex;
+            if (bufferSize)
+            {
+               for (buffer_index = 0; buffer_index <= bufferSize; buffer_index++)
+               {
+                  if (DOLLAR_SIGN == inputBufPtr++)
+                  {
+                     dollarSignCount++;
+                  }
+
+                  bufferReadIndex += 1;
+               }
+            }
+         }
+         else
+         {
+            if (RCV_TIMEOUT == userCmndResponse)
+            {
+               wakeupReason = FALSE_WAKE;
+               break;
+            }
+         }
+
+         if (2 <= dollarSignCount)
+         {
+            wakeupReason = RCVD_CMND_AWAKE;
+            start_heartbeat();
+            init_hardware();
+            init_rtc();                      // This is the FAT RTC
+            sd_status = init_sdcard();
+            bit_set(INTCON,PEIE);            // Set Peripheral Interrupt Enable bit
+            sprintf(event_str, ",serial wake-up,SD initialized\r\n");
+            record_event();
+            nv_cmd_mode = TRUE;  // Vince's fix for non-terminating logging
+            write8(ADDR_CMD_MODE, nv_cmd_mode);
+            if(sd_status > 0)
+            {
+               printMsg("@SD_\r\n");
+            }
+
+            printMsg("@RST\r\n");
+            reset_cpu();
+            break;
+         }
+
+         delay_us(1);
+      }
+   }
+
+   return (wakeupReason);
+}
+
+

@@ -1,0 +1,249 @@
+// *** Timed getc() for each port *** //
+
+int8 timed_getc_A() {
+   
+   int8 c;
+   int32 timeout_A;
+   
+   timeout_A=0;
+   
+   while(!kbhit(COM_A)&&(++timeout_A < GETC_TIMEOUT))
+      delay_us(10);
+   if(kbhit(COM_A)){
+      c = fgetc(COM_A);
+      fputc(COM_A);
+      return(c);
+   }
+   else {
+      return(0);
+   }
+}
+
+int8 TestForEsc ()
+{ int8 EscChar=88;
+  int32 timeout_A=0;
+  //EscChar=timed_getc_A();
+     
+  while(!kbhit(COM_A) && (timeout_A < 50000))
+  { 
+    if(kbhit(COM_A))
+     {fprintf(COM_A, "kbhit=true\r\n");
+      EscChar=fgetc(COM_A);
+      fprintf(COM_A, "EscChar is:%u\r\n",EscChar);
+      return(EscChar);
+     }
+    timeout_A++;
+    delay_us(1);
+  }
+  return(EscChar);
+}  
+
+int8 timed_getc_B(int8 timeout_sec) {
+  
+   int32 timeout_B, timeout_limit;
+   
+   timeout_B=0;
+   timeout_limit = (timeout_sec * 100000);
+
+   while(!kbhit(COM_B)&&(++timeout_B < timeout_limit))
+      delay_us(10);
+   if(kbhit(COM_B))
+     return(fgetc(COM_B));
+   else {
+     return(0);
+   }
+}
+
+// *** get strings (timed) *** //
+
+int8 get_string_COM_A (char *s, int8 max)
+{
+   char c;
+   int8 len;
+   
+   exit = FALSE;
+   --max;
+   len=0;
+   
+   heartbeat(FALSE);
+   
+   do {
+     if (kbhit(COM_A)) { 
+        c=fgetc(COM_A); 
+        if ((c>=' ')&&(c<='~')) 
+           if(len<max) s[len++]=c; 
+        if (c==13) exit=TRUE; 
+        //exit if string is complete 
+      } 
+   } while (!exit); 
+   
+   heartbeat(TRUE);
+   
+   return(len);
+}
+
+void get_string_A(char* s, int8 max) {
+   
+   int8 length;
+   
+   length = 0;
+   
+   //tick=150;
+   //timeout=FALSE;
+
+   //setup_timer_4(T2_DIV_BY_16,124,10);
+   //set_timer4(0);
+ 
+   //clear_interrupt(INT_TIMER4);
+   //enable_interrupts(INT_TIMER4);
+ 
+   length = get_string_COM_A(s, max);
+   
+   //disable_interrupts(INT_TIMER4); 
+   //s[length]=0; 
+} 
+
+int8 get_string_COM_B (char *s, int8 max)
+{
+   char c;
+   int8 i,len,exit;
+   int32 t;
+   
+   c=1;
+   t=0;
+   exit=FALSE;
+   
+   heartbeat(FALSE);
+
+   while (c != 64 && t<10000000 && exit!=TRUE) {
+     if (kbhit(COM_B)) { 
+        c=fgetc(COM_B); 
+        //fprintf(COM_A, "@SE2[%c][%u]\r\n",c,c);
+        if ((c>=' ')&&(c<='~'))
+           if(len<max) s[len++]=c; 
+        if (c==13) exit=TRUE; //exit if string is complete
+      }
+      t++;
+      delay_us(1);
+   } 
+   
+   heartbeat(TRUE);
+   
+   for(i=0;i<len;i++) fprintf(COM_A, "@SE2[%c]-[%u]\r\n",s[i],s[i]);
+   
+   return(len);
+}
+
+void get_string_B(char* s, int8 max) {
+   
+   int8 length;
+   
+   length = 0;
+   
+   length = get_string_COM_B(s, max);
+   
+   s[length]=0; 
+} 
+
+// *** Serial "pipes" to each COM port *** //
+
+void multidrop_on()
+{
+   output_high(MD2_SHDN);     // MAX3323 ON
+   output_low(MD2_REN);       // Rx high impedance (listen)
+   output_high(MD2_TXEN);     // Tx enable 
+   delay_ms(10);
+}
+
+void multidrop_off()
+{
+   /*
+   TXSTAx: TRANSMIT STATUS AND CONTROL REGISTER
+   bit 1 = TRMT: Transmit Shift Register Status bit
+   1 = TSRx empty
+   0 = TSRx full
+   TXSTA2 addr = 0xF21
+   */
+   int16 c=0;
+   while(TRMT2 == 0){
+      ++c;
+   }
+   output_high(MD2_SHDN);     // MAX3323 ON
+   output_low(MD2_REN);       // Rx high impedance (listen)   
+   output_low(MD2_TXEN);      // Tx disable
+}
+
+void multidrop_shdn()
+{
+   output_low(MD2_SHDN);      // MAX3323 OFF
+   output_low(MD2_REN);       // Rx high impedance (listen)   
+   output_low(MD2_TXEN);      // Tx disable
+}
+
+
+void open_pipe()
+{
+  int8 c;
+  c = 0;
+  
+  fprintf(COM_A, "@[O]\r\n");
+  
+  while (c != 4) {
+    if (kbhit(COM_A)) {          // if data is received
+      c = fgetc(COM_A);                // read the received data
+      multidrop_on();
+      fputc(c, COM_B);
+      multidrop_off();
+      }                                 // send data via USART
+    if (kbhit(COM_B)) {          // if data is received
+      c = fgetc(COM_B);                // read the received data
+      fputc(c, COM_A);                  // send data via USART
+    }
+  }
+  
+  multidrop_shdn();
+  
+  fprintf(COM_A, "@[C]\r\n");
+}
+
+void get_string(char* s, unsigned int8 max) {
+   unsigned int8 len;
+   char c;
+
+   --max;
+   len=0;
+   do {
+     c=getc();
+     if(c==8) {  // Backspace
+        if(len>0) {
+          len--;
+          putc(c);
+          putc(' ');
+          putc(c);
+        }
+     } else if ((c>=' ')&&(c<='~'))
+       if(len<=max) {
+         s[len++]=c;
+         putc(c);
+       }
+   } while(c!=13);
+   s[len]=0;
+}
+
+float get_float() 
+{
+  char s[20];
+  float f;
+
+  get_string(s, 20);
+  f = atof(s);
+  return(f);
+}
+
+
+
+
+
+
+
+

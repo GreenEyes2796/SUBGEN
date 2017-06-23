@@ -1,0 +1,33 @@
+void blip()
+{
+   output_bit(BOARD_LED, ON);
+   if(nv_product==AWS)output_bit(PANEL_LED, ON); 
+   delay_ms(32);
+   output_bit(BOARD_LED, OFF);
+   if(nv_product==AWS)output_bit(PANEL_LED, OFF); 
+   delay_ms(32);
+}
+
+void signon()
+{
+   switch(nv_product){
+      case ECO : fprintf(COM_A, "ECO-2 %s\r\n", VERSION);
+         break;
+      case WMS4 : fprintf(COM_A, "WMS-4-SD %s\r\n", VERSION);
+         break; 
+      case AWS : fprintf(COM_A, "AWS-1 %s\r\n", VERSION);
+         break;
+      case WMS2 : fprintf(COM_A, "WMS-4-QE %s\r\n", VERSION);
+         break;          
+      default : fprintf(COM_A, "XXX-0 %s\r\n", VERSION);
+         break;
+   }
+}
+
+void printMsg(const char * msgPtr)
+{
+   fprintf(COM_A, msgPtr);   
+}
+
+
+

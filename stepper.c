@@ -1,0 +1,1362 @@
+// MOTOR 1
+#define M1_RESET     PIN_H0
+#define M1_ENABLE    PIN_H1
+#define M1_CONTROL   PIN_H2
+#define M1_STEPMODE  PIN_H3
+#define M1_CLOCK     PIN_H4
+#define M1_DIR       PIN_H5
+#define M1_PWM       PIN_C2
+// MOTOR 2
+#define M2_RESET     PIN_E0
+#define M2_ENABLE    PIN_E1
+#define M2_CONTROL   PIN_E2
+#define M2_STEPMODE  PIN_E3
+#define M2_CLOCK     PIN_E4
+#define M2_DIR       PIN_E5
+#define M2_PWM       PIN_C1
+// ENCODER 1
+#define ENC1_IND     PIN_B4
+#define ENC1_PHA     PIN_B1
+//#define ENC1_PHB     PIN_H6
+// ENCODER 2
+#define ENC2_IND     PIN_B5
+#define ENC2_PHA     PIN_B2
+//#define ENC2_PHB     PIN_E6
+
+// *** timer2 *** //
+#define T2_MID_VAL 127
+/*
+   T2 is used for PWM duty
+   the duty value cannot be bigger than
+   ((T2_MID_VAL + 1) *4 ) -1
+   pwm value = (duty%/100) *[(T2_MID_VAL+1) *4 ) -1]
+*/
+
+// *** timer3 *** //
+//#define STEP_INTERVAL 63936
+/*
+   64MHz / 4 = 16 Mhz >> 0.0625 us
+   TIMER DIV 1 (no division)
+   1600 * 0.0625 us = 100 us
+   65536 - 1600 = 63936
+*/
+// stepper vars start at 110 //
+#define ADDR_M1_ERROR     110
+#define ADDR_M2_ERROR     112
+#define ADDR_M1_BKLSH     114
+#define ADDR_M2_BKLSH     116
+#define ADDR_M1_RUN       118
+#define ADDR_M2_RUN       120
+#define ADDR_E1_TYPE      122
+#define ADDR_E2_TYPE      124
+#define ADDR_E1_POS       126
+#define ADDR_E2_POS       128
+#define ADDR_E1_MODE      130 
+#define ADDR_E2_MODE      132
+#define ADDR_M1_CTRL      134
+#define ADDR_M2_CTRL      136
+#define ADDR_M1_MODE      138
+#define ADDR_M2_MODE      140
+#define ADDR_M1_STP_INT   142
+#define ADDR_M2_STP_INT   144
+#define ADDR_M1_POS_DIR   146 
+#define ADDR_M2_POS_DIR   148
+#define ADDR_M1_PWM_HLD   150
+#define ADDR_M2_PWM_HLD   152
+#define ADDR_M1_PWM_DRV   154
+#define ADDR_M2_PWM_DRV   156
+#define ADDR_M1_GB_ERR    158
+#define ADDR_M2_GB_ERR    160
+#define ADDR_E1_CPR       162
+#define ADDR_E2_CPR       164
+#define ADDR_E1_PPR       166 
+#define ADDR_E2_PPR       168
+#define ADDR_E1_PORT      170
+#define ADDR_E2_PORT      172
+#define ADDR_M1_SPR       174
+#define ADDR_M2_SPR       176
+#define ADDR_M1_COMP      178
+#define ADDR_M2_COMP      180
+#define ADDR_M1_LIN_POS   182
+#define ADDR_M2_LIN_POS   184
+#define ADDR_E1_INDEX     186
+#define ADDR_E2_INDEX     188
+#define ADDR_M1_EVN_SO    190  // Even # ports - additional motor steps to run past enc tic
+#define ADDR_M2_EVN_SO    192
+#define ADDR_M1_ALIGN_OS  194
+#define ADDR_M2_ALIGN_OS  196
+
+#define RUN          1
+#define RESET        0
+#define SLOW         1
+#define FAST         0
+#define HALF         1
+#define FULL         0
+#define POS          0
+#define NEG          1
+
+// *** motor variables *** //
+
+// user variables
+int8  motor;                  // active motor
+int8  m_fixed;                // allows +/- commands to use "motor" (=0)
+int16 m_ctrl[2];              // L6208 control (decay mode)
+int16 m_mode[2];              // L6208 full/half
+int16 m_stp_int[2];           // step trigger interval
+int16 m_pos_dir[2];           // pos direction (0=natural, 1 = opposite)
+int16 m_pwm_hld[2];           // pwm hold current duty
+int16 m_pwm_drv[2];           // pwm drive current duty
+int16 m_gb_err[2];            // "gearbox error" = trigger after no encoder for x m steps
+int16 e_cpr[2];               // encoder cpr 
+int16 e_ppr[2];               // ports per revolution
+int16 e_mode[2];              // encoder mode (steps, enc ticks, ports, align, etc.)
+int16 e_type[2];              // encoder type (quadrature(1), disk(2), flag(3), etc.)
+int16 m_run[2];               // run-on value (past slot edge) for disk encoders for odd ports
+int16 m_bklsh[2];             // back-lash vlaue
+int16 m_spr[2];               // steps per rev
+int16 e_index[2];             // index polarity (HEDS=1 / Baumer=0)
+int16 evn_so[2];              // adjustment run-on value (past slot edge) for disk encoders even ports
+int16 align_os[2];            // adjustment of motor steps to move after encoder finds index position
+
+// code variables
+int16 m_way[2];               // L6208 direction
+int16 m_way_rst[2];           // last direction
+int16 m_trig_cnt[2];          // step trigger counter
+int16 m_running[2];           // motor running flag
+int16 m_error[2];             // indiactes a movement error
+int16 m_gb_cnt[2];            // "gearbox count" = counts motor steps
+int16 e_mode_rst[2];
+int32 m_step_cnt[2];          // motor step counter
+int8  edge_mode;
+int16 m_ppp[2];               // pulses per port
+int16 m_comp[2];              // move complete
+signed int16 m_lin_pos[2];    // linear position
+int16 e_port_dist[2];         // distance between ports (in ports)
+
+// *** encoder variables *** //
+
+int16 e_cha_cnt[2];           // channel A counter
+int16 e_pos[2];               // encoder current position
+int16 e_port[2];              // current encoder port position
+int16 e_target_port[2];       // commanded encoder port position
+int8  e_ch_n[2];              // polled index level
+
+
+void setup_stepper_pwm()
+{
+   setup_ccp1(CCP_PWM);
+   setup_ccp2(CCP_PWM);
+   
+          //   The cycle time will be (1/clock)*4*t2div*(period+1)
+          //   In this program clock=64000000 and period=127 (below)
+          //   For the three possible selections the cycle time is:
+          //     (1/64000000)*4*1*128 =   8 us or 125.00   khz
+          //     (1/64000000)*4*4*128 =  32 us or  31.25   khz
+          //     (1/64000000)*4*16*128= 128 us or   7.8125 khz   
+   
+   // TIMER 2 is use for PWM. 8-bit timer.
+   setup_timer_2(T2_DIV_BY_4, T2_MID_VAL, 1);
+}
+
+void msg_mer()
+{
+   fprintf(COM_A, "@MER,%Lu,%Lu\r\n",m_error[0],m_error[1]);
+}
+
+void get_step_vars()
+{
+   m_ctrl[0]      = read16(ADDR_M1_CTRL);       // y..
+   m_mode[0]      = read16(ADDR_M1_MODE);       // m..
+   m_stp_int[0]   = read16(ADDR_M1_STP_INT);    // i..
+   m_pos_dir[0]   = read16(ADDR_M1_POS_DIR);    // d..
+   m_pwm_hld[0]   = read16(ADDR_M1_PWM_HLD);    // h..
+   m_pwm_drv[0]   = read16(ADDR_M1_PWM_DRV);    // w..
+   m_gb_err[0]    = read16(ADDR_M1_GB_ERR);     // g..
+   e_cpr[0]       = read16(ADDR_E1_CPR);        // e..
+   e_ppr[0]       = read16(ADDR_E1_PPR);        // p..
+   e_mode[0]      = read16(ADDR_E1_MODE);       // k..
+   e_pos[0]       = read16(ADDR_E1_POS);        // z (to zero) ..
+   e_port[0]      = read16(ADDR_E1_PORT);  
+   e_type[0]      = read16(ADDR_E1_TYPE);       // t
+   m_run[0]       = read16(ADDR_M1_RUN);        // j
+   m_bklsh[0]     = read16(ADDR_M1_BKLSH);      // b
+   m_error[0]     = read16(ADDR_M1_ERROR);  
+   m_spr[0]       = read16(ADDR_M1_SPR);        // s
+   m_comp[0]      = read16(ADDR_M1_COMP);
+   m_lin_pos[0]   = read16(ADDR_M1_LIN_POS);
+   e_index[0]     = read16(ADDR_E1_INDEX);
+   evn_so[0]      = read16(ADDR_M1_EVN_SO);     // 0
+   align_os[0]    = read16(ADDR_M1_ALIGN_OS);   // x
+   
+   m_ctrl[1]      = read16(ADDR_M2_CTRL);
+   m_mode[1]      = read16(ADDR_M2_MODE);
+   m_stp_int[1]   = read16(ADDR_M2_STP_INT);
+   m_pos_dir[1]   = read16(ADDR_M2_POS_DIR);
+   m_pwm_hld[1]   = read16(ADDR_M2_PWM_HLD);
+   m_pwm_drv[1]   = read16(ADDR_M2_PWM_DRV);
+   m_gb_err[1]    = read16(ADDR_M2_GB_ERR);
+   e_cpr[1]       = read16(ADDR_E2_CPR);
+   e_ppr[1]       = read16(ADDR_E2_PPR);
+   e_mode[1]      = read16(ADDR_E2_MODE);    
+   e_pos[1]       = read16(ADDR_E2_POS);   
+   e_port[1]      = read16(ADDR_E2_PORT);    
+   e_type[1]      = read16(ADDR_E2_TYPE);
+   m_run[1]       = read16(ADDR_M2_RUN);        
+   m_bklsh[1]     = read16(ADDR_M2_BKLSH);  
+   m_error[1]     = read16(ADDR_M2_ERROR);     
+   m_spr[1]       = read16(ADDR_M2_SPR);        // s
+   m_comp[1]      = read16(ADDR_M2_COMP);
+   m_lin_pos[1]   = read16(ADDR_M2_LIN_POS);   
+   e_index[1]     = read16(ADDR_E2_INDEX);
+   evn_so[1]      = read16(ADDR_M2_EVN_SO);
+   align_os[1]    = read16(ADDR_M2_ALIGN_OS);   // x
+   
+   motor=0;
+   m_fixed=1;
+   m_step_cnt[0]=0;
+   m_step_cnt[1]=0;
+   e_cha_cnt[0]=0;
+   e_cha_cnt[1]=0; 
+   m_gb_cnt[0]=0;
+   m_gb_cnt[1]=0;
+   e_mode_rst[0]=0;
+   e_mode_rst[1]=0;   
+   e_port_dist[0]=0;
+   e_port_dist[1]=0;
+   
+   m_ppp[0] = (m_spr[0]/e_ppr[0])*2;
+   m_ppp[1] = (m_spr[1]/e_ppr[1])*2;
+}
+
+void rst_step_vars_eco()
+{
+   write16(ADDR_M1_CTRL,SLOW);
+   write16(ADDR_M1_MODE,FULL);
+   write16(ADDR_M1_STP_INT,10);        // multiply by 100 us
+   write16(ADDR_M1_POS_DIR,0);
+   write16(ADDR_M1_PWM_HLD,0);
+   write16(ADDR_M1_PWM_DRV,T2_MID_VAL);
+   write16(ADDR_M1_GB_ERR,6000);       // = 1/16 rev +25%
+   write16(ADDR_E1_CPR,16);
+   write16(ADDR_E1_PPR,16);
+   write16(ADDR_E1_MODE,2);
+   write16(ADDR_E1_POS,0);
+   write16(ADDR_E1_PORT,0);
+   write16(ADDR_E1_TYPE,2);
+   write16(ADDR_M1_RUN,270);
+   write16(ADDR_M1_BKLSH,0);
+   write16(ADDR_M1_ERROR,0);  
+   write16(ADDR_M1_SPR,38400);
+   write16(ADDR_M1_COMP,0);
+   write16(ADDR_M1_LIN_POS,0);
+   write16(ADDR_E1_INDEX,1);
+   write16(ADDR_M1_EVN_SO,0);
+   write16(ADDR_M1_ALIGN_OS,0);
+   
+   write16(ADDR_M2_CTRL,SLOW);
+   write16(ADDR_M2_MODE,HALF);
+   write16(ADDR_M2_STP_INT,5);         // multiply by 100 us
+   write16(ADDR_M2_POS_DIR,0);
+   write16(ADDR_M2_PWM_HLD,0);
+   write16(ADDR_M2_PWM_DRV,T2_MID_VAL);
+   write16(ADDR_M2_GB_ERR,0);
+   write16(ADDR_E2_CPR,0);
+   write16(ADDR_E2_PPR,0);  
+   write16(ADDR_E2_MODE,0);
+   write16(ADDR_E2_POS,0);
+   write16(ADDR_E2_PORT,0);
+   write16(ADDR_E2_TYPE,0);
+   write16(ADDR_M2_RUN,0);
+   write16(ADDR_M2_BKLSH,0);
+   write16(ADDR_M2_ERROR,0);  
+   write16(ADDR_M2_SPR,0);
+   write16(ADDR_M2_COMP,0);
+   write16(ADDR_M2_LIN_POS,0);   
+   write16(ADDR_E2_INDEX,0);
+   write16(ADDR_M2_EVN_SO,0);
+   write16(ADDR_M2_ALIGN_OS,0);
+   
+   get_step_vars();
+}
+
+void rst_step_vars_wms4()
+{
+   write16(ADDR_M1_CTRL,SLOW);
+   write16(ADDR_M1_MODE,FULL);
+   write16(ADDR_M1_STP_INT,20);        // multiply by 100 us
+   write16(ADDR_M1_POS_DIR,1);
+   write16(ADDR_M1_PWM_HLD,51);
+   write16(ADDR_M1_PWM_DRV,511);
+   write16(ADDR_M1_GB_ERR,670);       // = 1/24 rev +25%
+   write16(ADDR_E1_CPR,24);
+   write16(ADDR_E1_PPR,48);
+   write16(ADDR_E1_MODE,2);
+   write16(ADDR_E1_POS,0);
+   write16(ADDR_E1_PORT,0);
+   write16(ADDR_E1_TYPE,2);
+   write16(ADDR_M1_RUN,34);
+   write16(ADDR_M1_BKLSH,0);
+   write16(ADDR_M1_ERROR,0);  
+   write16(ADDR_M1_SPR,6400);
+   write16(ADDR_M1_COMP,0);
+   write16(ADDR_M1_LIN_POS,0);
+   write16(ADDR_E1_INDEX,1);   
+   
+   write16(ADDR_M2_CTRL,SLOW);
+   write16(ADDR_M2_MODE,HALF);
+   write16(ADDR_M2_STP_INT,40);         // multiply by 100 us
+   write16(ADDR_M2_POS_DIR,0);
+   write16(ADDR_M2_PWM_HLD,0);
+   write16(ADDR_M2_PWM_DRV,511);
+   write16(ADDR_M2_GB_ERR,0);
+   write16(ADDR_E2_CPR,0);
+   write16(ADDR_E2_PPR,0);  
+   write16(ADDR_E2_MODE,0);
+   write16(ADDR_E2_POS,0);
+   write16(ADDR_E2_PORT,0);
+   write16(ADDR_E2_TYPE,0);
+   write16(ADDR_M2_RUN,0);
+   write16(ADDR_M2_BKLSH,0);
+   write16(ADDR_M2_ERROR,0);  
+   write16(ADDR_M2_SPR,0);
+   write16(ADDR_M2_COMP,0);
+   write16(ADDR_M2_LIN_POS,0);  
+   write16(ADDR_E2_INDEX,0);   
+   
+   get_step_vars();
+}
+
+void rst_step_vars_aws()
+{
+   write16(ADDR_M1_CTRL,SLOW);
+   write16(ADDR_M1_MODE,FULL);
+   write16(ADDR_M1_STP_INT,10);        // multiply by 100 us
+   write16(ADDR_M1_POS_DIR,0);
+   write16(ADDR_M1_PWM_HLD,0);
+   write16(ADDR_M1_PWM_DRV,T2_MID_VAL);
+   write16(ADDR_M1_GB_ERR,6000);       // = 1/16 rev +25%
+   write16(ADDR_E1_CPR,16);
+   write16(ADDR_E1_PPR,16);
+   write16(ADDR_E1_MODE,2);
+   write16(ADDR_E1_POS,0);
+   write16(ADDR_E1_PORT,0);
+   write16(ADDR_E1_TYPE,2);
+   write16(ADDR_M1_RUN,270);
+   write16(ADDR_M1_BKLSH,0);
+   write16(ADDR_M1_ERROR,0);  
+   write16(ADDR_M1_SPR,38400);
+   write16(ADDR_M1_COMP,0);
+   write16(ADDR_M1_LIN_POS,0);
+   write16(ADDR_E1_INDEX,1);
+   
+   write16(ADDR_M2_CTRL,SLOW);
+   write16(ADDR_M2_MODE,HALF);
+   write16(ADDR_M2_STP_INT,100);         // multiply by 100 us
+   write16(ADDR_M2_POS_DIR,0);
+   write16(ADDR_M2_PWM_HLD,0);
+   write16(ADDR_M2_PWM_DRV,T2_MID_VAL);
+   write16(ADDR_M2_GB_ERR,0);
+   write16(ADDR_E2_CPR,0);
+   write16(ADDR_E2_PPR,0);  
+   write16(ADDR_E2_MODE,0);
+   write16(ADDR_E2_POS,0);
+   write16(ADDR_E2_PORT,0);
+   write16(ADDR_E2_TYPE,0);
+   write16(ADDR_M2_RUN,0);
+   write16(ADDR_M2_BKLSH,0);
+   write16(ADDR_M2_ERROR,0);  
+   write16(ADDR_M2_SPR,0);
+   write16(ADDR_M2_COMP,0);
+   write16(ADDR_M2_LIN_POS,0);   
+   
+   get_step_vars();
+}
+
+void rst_step_vars_wms2()
+{
+   write16(ADDR_M1_CTRL,SLOW);
+   write16(ADDR_M1_MODE,FULL);
+   write16(ADDR_M1_STP_INT,40);        // multiply by 100 us
+   write16(ADDR_M1_POS_DIR,1);
+   write16(ADDR_M1_PWM_HLD,0);
+   write16(ADDR_M1_PWM_DRV,T2_MID_VAL);
+   write16(ADDR_M1_GB_ERR,670);       // = 1/16 rev +25%
+   write16(ADDR_E1_CPR,500);
+   write16(ADDR_E1_PPR,50);
+   write16(ADDR_E1_MODE,2);
+   write16(ADDR_E1_POS,0);
+   write16(ADDR_E1_PORT,0);
+   write16(ADDR_E1_TYPE,1);
+   write16(ADDR_M1_RUN,0);
+   write16(ADDR_M1_BKLSH,1300);
+   write16(ADDR_M1_ERROR,0);  
+   write16(ADDR_M1_SPR,20000);
+   write16(ADDR_M1_COMP,0);
+   write16(ADDR_M1_LIN_POS,0);
+   write16(ADDR_E1_INDEX,0);
+   
+   write16(ADDR_M2_CTRL,SLOW);
+   write16(ADDR_M2_MODE,HALF);
+   write16(ADDR_M2_STP_INT,40);         // multiply by 100 us
+   write16(ADDR_M2_POS_DIR,1);
+   write16(ADDR_M2_PWM_HLD,0);
+   write16(ADDR_M2_PWM_DRV,T2_MID_VAL);
+   write16(ADDR_M2_GB_ERR,0);
+   write16(ADDR_E2_CPR,0);
+   write16(ADDR_E2_PPR,0);  
+   write16(ADDR_E2_MODE,0);
+   write16(ADDR_E2_POS,0);
+   write16(ADDR_E2_PORT,0);
+   write16(ADDR_E2_TYPE,0);
+   write16(ADDR_M2_RUN,0);
+   write16(ADDR_M2_BKLSH,0);
+   write16(ADDR_M2_ERROR,0);  
+   write16(ADDR_M2_SPR,0);
+   write16(ADDR_M2_COMP,0);
+   write16(ADDR_M2_LIN_POS,0);   
+   write16(ADDR_E2_INDEX,0);
+   
+   get_step_vars();
+}
+
+void motor_sleep_rdy()
+{
+   output_bit(M1_RESET,OFF);
+   output_bit(M1_ENABLE,OFF);
+   output_bit(M1_CONTROL, OFF);
+   output_bit(M1_STEPMODE, OFF);
+   output_bit(M1_CLOCK, OFF);
+   output_bit(M1_DIR, OFF);
+   set_pwm1_duty(0);   
+   
+   output_bit(M2_RESET,OFF);
+   output_bit(M2_ENABLE,OFF);
+   output_bit(M2_CONTROL, OFF);
+   output_bit(M2_STEPMODE, OFF);
+   output_bit(M2_CLOCK, OFF);
+   output_bit(M2_DIR, OFF);
+   set_pwm2_duty(0); 
+
+   output_low(VENC1);
+   output_low(VENC2);        
+   output_low(VHBRDG);
+}
+
+/*
+   SB4222-048-008-04
+   
+   Step angle = 7.5 deg >> 360/7.5 = 48 steps / rev
+   
+   Kloen Valve
+   Gearbox = 60:1 >> 48 * 60 = 2880 (full step / m_mode = 0)
+   Gearbox = 60:1 >> 48 * 60 * 4 = 11520 (half step / m_mode = 1)
+   
+   Omnifit Valve
+   Gearbox = 800:1 >> 48 * 800 = 38400 (full step / m_mode = 0)
+   Gearbox = 800:1 >> 48 * 800 * 4 = 153600 (half step / m_mode = 1)
+   
+   HEDS encoder CPR = 500
+*/
+
+void update_e_pos()
+{
+   if (m_pos_dir[motor]==POS){
+      if(m_way[motor]==POS) {
+         if (e_pos[motor]>=e_cpr[motor]) e_pos[motor]=0;
+         e_pos[motor]++;
+         m_gb_cnt[motor]=0;
+      }
+      else if(m_way[motor]==NEG) {
+         if (e_pos[motor]==0) e_pos[motor]=e_cpr[motor];
+         e_pos[motor]--;
+         m_gb_cnt[motor]=0;
+      }
+   }
+   
+   if (m_pos_dir[motor]==NEG){
+      if(m_way[motor]==NEG) {
+         if (e_pos[motor]>=e_cpr[motor]) e_pos[motor]=0;
+         e_pos[motor]++;
+         m_gb_cnt[motor]=0;
+      }
+      else if(m_way[motor]==POS) {
+         if (e_pos[motor]==0) e_pos[motor]=e_cpr[motor];
+         e_pos[motor]--;
+         m_gb_cnt[motor]=0;
+      }
+   }   
+   
+   if(nv_report_mode==4 && e_type[motor]==2) {
+      fprintf(COM_A, "m:%u,%u c:%Lu,%Lu,%Lu\r\n",
+               (motor+1),edge_mode,m_step_cnt[motor],e_cha_cnt[motor],e_pos[motor]);
+   }   
+}
+
+void poll_index()
+{
+   // (e_type) 1 = quad, 2 = slotted disk
+   switch (motor){
+      case 0 : if (e_type[motor]==1) {
+                  e_ch_n[motor]=input(ENC1_IND);
+               }
+               if (e_type[motor]==2) {
+                  e_ch_n[motor]=(input(ENC1_IND) & input(ENC1_PHA));
+               }
+         break;
+      case 1 : if (e_type[motor]==1) {
+                  e_ch_n[motor]=input(ENC2_IND);
+               }
+               if (e_type[motor]==2) {
+                  e_ch_n[motor]=(input(ENC2_IND) & input(ENC2_PHA));
+               }
+         break;
+   }
+}
+
+void poll_index_isr()
+{
+   // (e_type) 1 = quad, 2 = slotted disk
+   switch (motor){
+      case 0 : if (e_type[motor]==1) {
+                  e_ch_n[motor]=input(ENC1_IND);
+               }
+               if (e_type[motor]==2) {
+                  e_ch_n[motor]=(input(ENC1_IND) & input(ENC1_PHA));
+               }
+         break;
+      case 1 : if (e_type[motor]==1) {
+                  e_ch_n[motor]=input(ENC2_IND);
+               }
+               if (e_type[motor]==2) {
+                  e_ch_n[motor]=(input(ENC2_IND) & input(ENC2_PHA));
+               }
+         break;
+   }
+}
+
+// encoder 1 chan B interrupt
+#int_ext1
+void int1_isr()
+{
+   e_cha_cnt[motor]++;
+   
+   switch (edge_mode){
+      case 0 : clear_interrupt(INT_EXT1_H2L);      
+               clear_interrupt(INT_EXT1_L2H);
+         break;
+      case 1 : edge_mode=2;                     // L2H will trigger first
+               disable_interrupts(INT_EXT1_L2H);
+               clear_interrupt(INT_EXT1_H2L);
+               enable_interrupts(INT_EXT1_H2L);
+         break;
+      case 2 : edge_mode=1;
+               e_cha_cnt[motor]--;              // do not add second edge to port count
+               disable_interrupts(INT_EXT1_H2L);
+               clear_interrupt(INT_EXT1_L2H);
+               enable_interrupts(INT_EXT1_L2H);
+         break;
+   }
+   
+   update_e_pos();
+}
+
+// encoder 2 chan B interrupt
+#int_ext2
+void int2_isr()
+{
+   e_cha_cnt[motor]++;
+   
+   switch (edge_mode){
+      case 0 : clear_interrupt(INT_EXT2_H2L);      
+               clear_interrupt(INT_EXT2_L2H);
+         break;
+      case 1 : edge_mode=2;                     // L2H will trigger first
+               disable_interrupts(INT_EXT2_L2H);
+               clear_interrupt(INT_EXT2_H2L);
+               enable_interrupts(INT_EXT2_H2L);
+         break;
+      case 2 : edge_mode=1;
+               e_cha_cnt[motor]--;              // do not add second edge to port count
+               disable_interrupts(INT_EXT2_H2L);
+               clear_interrupt(INT_EXT2_L2H);
+               enable_interrupts(INT_EXT2_L2H);
+         break;
+   }
+   
+   update_e_pos();
+}
+
+// motor step timer interrupt
+#int_timer3
+void timer3_isr()
+{
+   set_timer3(STEP_INTERVAL);
+   m_trig_cnt[motor]++;
+
+   if (m_trig_cnt[motor] >= m_stp_int[motor])
+   {
+      m_step_cnt[motor]++;
+      m_gb_cnt[motor]++;
+      m_trig_cnt[motor] = 0;
+
+      if (motor==0)
+      {
+         output_toggle(M1_CLOCK);
+      }
+      else
+      {
+         output_toggle(M2_CLOCK);
+         if(m_way[motor]==0)m_lin_pos[motor]--;
+         else m_lin_pos[motor]++;         
+      }
+
+//      if(e_mode[motor]==3) poll_index();        // aligning
+      if(e_mode[motor]==3) poll_index_isr();    // aligning
+   }
+   clear_interrupt(INT_TIMER3);
+}
+
+void motor_setup1()
+{
+   if (m_pos_dir[motor]==1)m_way[motor]=!m_way[motor];
+
+   output_bit(M1_RESET,RUN);
+   output_bit(M1_ENABLE,OFF);
+   output_bit(M1_CONTROL, m_ctrl[motor]);
+   output_bit(M1_STEPMODE, m_mode[motor]);
+   output_bit(M1_CLOCK, OFF);
+   output_bit(M1_DIR, m_way[motor]);
+   set_pwm1_duty(m_pwm_drv[motor]);             
+}
+
+void motor_setup2()
+{
+   if (m_pos_dir[motor]==1)m_way[motor]=!m_way[motor];
+   
+   output_bit(M2_RESET,RUN);
+   output_bit(M2_ENABLE,OFF);
+   output_bit(M2_CONTROL, m_ctrl[motor]);
+   output_bit(M2_STEPMODE, m_mode[motor]);
+   output_bit(M2_CLOCK, OFF);
+   output_bit(M2_DIR, m_way[motor]);   
+   set_pwm2_duty(m_pwm_drv[motor]);
+}
+
+// switch power to encoder
+void enc_pwr(int8 pwr)
+{
+   if(pwr){
+      output_bit(VENC1,ON);
+      output_bit(VENC2,ON);
+   }
+   else {      
+      output_bit(VENC1,OFF);
+      output_bit(VENC2,OFF);
+   }
+}
+
+void enable_enc_isr(int16 edge)
+{
+   // edge 0 = H to L transition (disk mainly clear)
+   if(edge==0){
+      edge_mode=0;
+      switch (motor){
+         case 0 : clear_interrupt(INT_EXT1_H2L);
+                  enable_interrupts(INT_EXT1_H2L);
+            break;
+         case 1 : clear_interrupt(INT_EXT2_H2L);
+                  enable_interrupts(INT_EXT2_H2L);
+            break;
+      } 
+   }
+   // edge 1 = L to H transition (disk mainly opaque)
+   if(edge==1){
+      edge_mode=0;
+      switch (motor){
+         case 0 : clear_interrupt(INT_EXT1_L2H);
+                  enable_interrupts(INT_EXT1_L2H);
+            break;
+         case 1 : clear_interrupt(INT_EXT2_L2H);
+                  enable_interrupts(INT_EXT2_L2H);
+            break;
+      } 
+   } 
+   // edge 2 = HL & LH transition (every edge - only slotted disk)
+   if(edge==2 && e_type[motor]==2){
+      edge_mode=1;
+      switch (motor){
+         case 0 : clear_interrupt(INT_EXT1_L2H);
+                  enable_interrupts(INT_EXT1_L2H);
+            break;
+         case 1 : clear_interrupt(INT_EXT2_L2H);
+                  enable_interrupts(INT_EXT2_L2H);
+            break;
+      } 
+   }    
+}
+
+void wrt_m_error()
+{
+   switch(motor){
+      case 0 : write16(ADDR_M1_ERROR,m_error[motor]);
+         break;
+      case 1 : write16(ADDR_M2_ERROR,m_error[motor]);
+         break;         
+   }
+}
+
+// enable encoder interrupts
+void enc_isr(int8 enable)
+{
+   // disable interrupts
+   if(enable==0)
+   {
+      switch (motor)
+      {
+         case 0 : disable_interrupts(INT_EXT1_H2L);
+                  disable_interrupts(INT_EXT1_L2H);
+            break;
+         case 1 : disable_interrupts(INT_EXT2_H2L);
+                  disable_interrupts(INT_EXT2_L2H);
+            break;
+      }      
+   }
+   // enable normal interrupts
+   if(enable==1)
+   {
+      if (e_type[motor]==1) enable_enc_isr(0);  // e_type 1 = quad, e.g. HEDS
+      if (e_type[motor]==2) enable_enc_isr(1);  // e_type 2 = slotted disk
+   }
+   // enable every edge interrupts (for measurement) for e_type 2 = slotted disk only
+   if(enable==2 && e_type[motor]==2)
+   {
+      enable_enc_isr(2);  
+   }
+}
+
+void motor_init()
+{
+   m_trig_cnt[motor] = 0;
+   e_cha_cnt[motor] = 0; 
+   m_gb_cnt[motor] = 0;
+   
+   output_bit(VMOT,ON);
+   enc_pwr(ON);
+   delay_ms(100);
+   
+   switch (motor){
+      case 0 : motor_setup1();
+         break;
+      case 1 : motor_setup2();
+         break;
+   }
+   // store actual direction
+   if(m_way_rst[motor]!=m_way[motor]){
+      m_way_rst[motor]=m_way[motor];
+      e_mode_rst[motor]= e_mode[motor];
+      // if change of direction set backlash mode
+      e_mode[motor]=5;
+   }
+}
+
+void start_motor(int8 int_mode) //
+{
+   motor_init();
+   
+   m_comp[motor]=FALSE;
+   
+   switch (motor){
+      case 0 : write16(ADDR_M1_COMP,FALSE); 
+         break;
+      case 1 : write16(ADDR_M2_COMP,FALSE);
+         break;
+   }
+   
+   switch(motor){
+      case 0 : output_bit(M1_ENABLE, ON);
+         break;
+      case 1 : output_bit(M2_ENABLE, ON);
+         break;         
+   }
+   
+   delay_ms(50);
+   
+   set_timer3(STEP_INTERVAL);
+   enc_isr(int_mode);
+   clear_interrupt(INT_TIMER3);
+   m_running[motor] = TRUE;   
+   enable_interrupts(INT_TIMER3);
+}
+
+// calculates absolute encoder position (enc_pos) of (port)
+int32 abs_enc_pos(int32 port)
+{
+   int32 enc_steps, enc_target, enc_res, enc_pos, ports;
+   
+   enc_target = port;
+   enc_res    = e_cpr[motor];
+   ports      = e_ppr[motor];
+   
+   enc_res = enc_res * 1000;
+   // res = 1,000,000
+   enc_steps = enc_res / ports;
+   // steps = 1,000,000 / 48
+   //       = 20833
+   enc_target = (port * enc_steps) - enc_steps;
+   //     = (37 * 20833) - 20833
+   //     = 749,988
+   enc_pos = (enc_target / 1000);         // tail remainder
+   //  = 749,988 / 1000
+   //  = 749
+   enc_pos = enc_pos * 1000;              // re-scaled up with remainder removed
+   //  = 749,000
+   enc_target = enc_target - enc_pos;     // calc scaled-up remainder
+   //     = 749,988 - 749,000
+   //     = 988   
+   enc_pos = enc_pos / 1000;
+   //  = 749,000 / 1000
+   //  = 749
+   if (enc_target > 499) enc_pos = ++enc_pos;  // where 500 = 0.500 step
+   return(enc_pos);
+}
+
+int16 rel_enc_pos(int16 e_pos_a)
+{
+   int16 e_pos_r;
+   
+   if(e_pos_a > e_pos[motor])
+   {
+      e_pos_r = e_pos_a - e_pos[motor];
+      if (e_pos_r > (e_cpr[motor]/2))
+      {
+         m_way[motor] = NEG;
+         e_pos_r = e_cpr[motor] - e_pos_r;
+      }
+      else
+      {
+         m_way[motor] = POS;
+      }
+   }
+   else
+   {
+      e_pos_r = e_pos[motor] - e_pos_a;
+      if (e_pos_r > (e_cpr[motor]/2))
+      {
+         m_way[motor] = POS;
+         e_pos_r = e_cpr[motor] - e_pos_r;
+      }
+      else
+      {
+         m_way[motor] = NEG;
+      }
+   }
+   return (e_pos_r);
+}
+
+void terminate(int8 success)
+{
+   m_running[motor] = FALSE;
+         
+   switch (motor){
+      case 0 : 
+               if(m_pwm_hld[motor] > 0) set_pwm1_duty(m_pwm_hld[motor]);
+               else output_bit(M1_ENABLE, OFF);
+         break;  
+      case 1 :
+               if(m_pwm_hld[motor] > 0) set_pwm2_duty(m_pwm_hld[motor]);
+               else output_bit(M2_ENABLE, OFF);
+         break;
+   }
+
+   disable_interrupts(INT_TIMER3);
+   enc_isr(OFF);
+
+   if (m_pwm_hld[0]==0 && m_pwm_hld[1]==0)
+   {
+      output_bit(VMOT,OFF);
+   }
+
+   enc_pwr(OFF);
+
+   if(success==TRUE)
+   {
+      m_error[motor]=FALSE;
+      wrt_m_error();
+      // if aligning reset vars
+      if (e_mode[motor]==3)
+      {
+         e_pos[motor] = 0;
+         e_port[motor] = 1;
+      }
+      // if normal move update port
+      if (e_mode[motor]==2)
+      {
+         e_port[motor] = e_target_port[motor];
+      }
+      // write to memory
+      if(e_mode[motor]==2 || e_mode[motor]==3)
+      {
+         switch(motor)
+         {
+            case 0 : write16(ADDR_E1_POS, e_pos[0]);
+                     write16(ADDR_E1_PORT,e_port[0]);
+               break;
+            case 1 : write16(ADDR_E2_POS, e_pos[1]);
+                     write16(ADDR_E2_PORT,e_port[1]);
+               break;            
+         }
+      }
+   }
+   else
+   {
+      m_error[motor]=TRUE;
+      e_pos[motor] = 0;
+      e_port[motor] = 0;
+      switch(motor)
+      {
+         case 0 : write16(ADDR_E1_POS, e_pos[0]);
+                  write16(ADDR_E1_PORT,e_port[0]);
+            break;
+         case 1 : write16(ADDR_E2_POS, e_pos[1]);
+                  write16(ADDR_E2_PORT,e_port[1]);
+            break;            
+      }
+   }
+   
+   m_comp[motor]=TRUE;
+   
+   switch (motor)
+   {
+      case 0 : write16(ADDR_M1_COMP,TRUE); 
+               write16(ADDR_M1_LIN_POS, m_lin_pos[0]);
+         break;
+      case 1 : write16(ADDR_M2_COMP,TRUE);
+               write16(ADDR_M2_LIN_POS, m_lin_pos[1]);
+         break;
+   }
+   
+   if (nv_report_mode==4)
+   {
+      if(motor==1)
+      {
+         fprintf(COM_A, "@LPC,%Lu,%Ld\r\n", m_comp[motor],m_lin_pos[motor]);
+      }
+   }
+}
+
+int32 end_move(int32 steps, int16 e_port_dist)
+{
+   int32 m_edge_pnt;
+   signed int32 m_pul;
+   signed int32 m_pll;     // motor pulse upper limit & lower limit
+   
+   // hi-res quad
+   if (e_type[motor]==1) terminate(1);
+   // slotted disk
+   if (e_type[motor]==2) {
+      if (e_mode[motor]==2){
+         if(nv_product==ECO || nv_product==WMS2){
+            m_pul = ((m_ppp[motor]*steps)+(m_ppp[motor]/2));
+            m_pll = ((m_ppp[motor]*steps)-(m_ppp[motor]/2));
+         }
+         if (nv_product==WMS4){
+            if (end_even_port==FALSE){
+               m_pul = ((m_ppp[motor]*e_port_dist)+(m_ppp[motor]/2));
+               m_pll = ((m_ppp[motor]*e_port_dist)-(m_ppp[motor]/2));   
+            }
+            else if (end_even_port==TRUE){
+               m_pul = ((m_ppp[motor]*(e_port_dist-1))+(m_ppp[motor]/2));
+               m_pll = (m_ppp[motor]*(e_port_dist-1));
+               m_pll = m_pll -(m_ppp[motor]/2);
+            }
+         }
+         if (m_step_cnt[motor] > m_pul || m_step_cnt[motor] < m_pll){
+            fprintf(COM_A, "@MME,%u,%Ld,%Lu,%Lu,%Ld,%Ld\r\n",motor+1,steps,m_ppp[motor],m_step_cnt[motor],m_pul,m_pll);
+            //align(0);
+         }
+      }
+      e_mode_rst[motor]=e_mode[motor];
+      e_mode[motor]=4;                 // = run-on mode
+      m_edge_pnt=m_step_cnt[motor];
+   }
+   return(m_edge_pnt);
+}
+
+// used to determine start & end on slot or not-slot
+int8 start_and_end_ports()
+{
+//   div_t idiv;
+
+ //  int8 port_port;
+   int8 evenOdd;
+
+   end_even_port = FALSE;
+   start_even_port = FALSE;
+
+   //char config_str1[30];
+  // fprintf(COM_A, "%Lu,%Lu,%Lu,%u,%Lu,%Lu,%Ld\r\n",
+  //       nv_macro_mode, nv_interval, nv_volume,evenOdd,e_port[0],
+  //       e_target_port[0],m_lin_pos[1]);
+
+   if((e_target_port[motor] % 2) == 0)
+   {
+      end_even_port = TRUE;
+   }
+
+   if((e_port[motor] % 2) == 0)
+   {
+      start_even_port = TRUE;
+   }
+
+   // test for ending on an even port
+
+   /*idiv=div(e_target_port[motor],2);
+   if (idiv.rem==0)end_even_port=TRUE;
+
+   // test for starting on an even port
+   idiv=div(e_port[motor],2);
+   if (idiv.rem==0)start_even_port=TRUE;*/
+
+   if (FALSE == start_even_port)
+   {
+      evenOdd = 0;
+      if (TRUE == end_even_port)
+      {
+         evenOdd = 1;
+      }
+   }
+   else
+   {
+      evenOdd = 2;
+      if (TRUE == end_even_port)
+      {
+         evenOdd = 3;
+      }
+   }
+   
+   //char config_str2[30];
+   //fprintf(COM_A, "%Lu,%Lu,%Lu,%u,%Lu,%Lu,%Ld\r\n",
+         //nv_macro_mode, nv_interval, nv_volume, evenOdd,e_port[0],
+         //e_target_port[0],m_lin_pos[1]);
+   
+   
+   return(evenOdd);
+}
+
+/*
+   move the selected motor by (e_mode)
+   0 - simple steps / no encoder
+   1 - encoder ticks on chA
+   2 - port to port using (dir_mode) where 0 = dir & 1 = shortest
+   3 - align to index
+   4 - run-on past disk slot edge
+   5 - back-lash
+   steps    - used as motor steps, encoder ticks, or ports
+   dir_mode - 0 = fixed direction (dir), 1 = shortest route
+*/
+void move_motor(int8 dir_mode, int8 dir, int32 m_steps, int8 int_mode)
+{
+   int32 m_edge_pnt;
+   int16 m_slot_steps, m_extra;
+   int8 port_port;
+   
+   m_way[motor] = dir;
+   m_step_cnt[motor] = 0;
+   m_extra = m_run[motor];
+   m_slot_steps = (m_spr[motor]/e_cpr[motor]);
+   
+   // if port-port mode and not prev aligned then fail
+   //if(((e_mode[motor]==2) && (e_port[motor]==0))== FALSE){
+   if((e_mode[motor] != 2) || (e_port[motor]!= 0))
+   { //changed from the previous line Fraser 7/7/14
+
+      // e_mode = 2 is disk slot mode
+      //
+      if(e_mode[motor] == 2)
+      {  // if mode 2 steps == "port to go to"
+         e_target_port[motor]=m_steps;   // e_target_port = port to goto
+         /* WMS has 48 ports and a 24 slot disk. Even ports are not on a slot.
+            The valve only travels CW. Routine accounts for going past slot 1
+            and if an extra half-slot of movement is needed for an even port.
+         */
+         //*** Start - Aqua Monitor Code ***//
+         if (nv_product==WMS4)
+         {
+            if (e_target_port[motor] > e_port[motor])
+            {
+               e_port_dist[motor]=e_target_port[motor] - e_port[motor];
+               m_steps = e_port_dist[motor]/2;
+            }
+            else
+            {
+               e_port_dist[motor]=((e_ppr[motor]-e_port[motor]) + e_target_port[motor]);
+               m_steps = e_port_dist[motor]/2;
+            }
+            
+            // determine start/end = slot/not slot
+            port_port = start_and_end_ports();
+
+            // set new case for port 2
+            if((e_target_port[motor]==2) && (e_port[motor] == 1))
+            {
+               port_port=4;
+            }
+            
+            switch(port_port){
+               case 0 : m_extra=m_run[motor];      // odd-odd 
+                  break;
+               case 1 : m_extra=m_slot_steps + evn_so[motor];  //odd-even
+                        //fprintf(COM_A, "%Lu\r\n",m_extra);
+                  break;
+               case 2 : m_extra=m_run[motor];      // even-odd
+                        ++m_steps;
+                  break;
+               case 3 : m_extra=m_slot_steps + evn_so[motor];      // even-even
+
+                  break;
+               case 4 : m_extra=m_slot_steps;      // special case for 1 to 2
+                  break;    
+            }
+         }
+         //*** End - Aqua Monitor Code ***//
+         else
+         {
+            m_steps = abs_enc_pos(m_steps);   // calc ports (=steps) to move (cast to int32)
+         }
+
+         // m_steps == steps of motor, encoder or slots
+         if (dir_mode == 1)
+         {
+            m_steps = rel_enc_pos(m_steps);  // cast to int32
+         }
+         else
+         {
+            if (nv_product == WMS2)
+            {
+               m_steps = (m_steps - e_pos[motor]);
+            }
+         }
+      }
+
+      start_motor(int_mode); // incorrect comment - This call will determine back-lash
+
+      while (m_running[motor])
+      {
+         switch(e_mode[motor])
+         {
+            // motor steps
+            case 0 :
+            {
+               if (m_step_cnt[motor] >= m_steps)
+               {
+                  terminate(1);
+               }
+               break;
+            }
+            // encoder ticks                                   signal an error
+            case 1:
+            case 2:
+            {
+               if (m_gb_cnt[motor] >= m_gb_err[motor])
+               {
+                  terminate(0);
+               }
+
+               if (e_cha_cnt[motor] >= m_steps)
+               {
+                  m_edge_pnt = end_move(m_steps, e_port_dist[motor]);
+               }
+               break;
+            }
+            // index                                           signal an error
+            case 3:
+            {
+               if (e_cha_cnt[motor]  >= m_steps)
+               {
+                  terminate(0);
+               }
+
+               if (e_index[motor] == 0)
+               {
+                  if (e_ch_n[motor]==0)
+                  {
+                     wrt_m_error();
+                     m_edge_pnt=end_move(m_steps, e_port_dist[motor]);
+                  }
+               }
+
+               if (e_index[motor]==1)
+               {
+                  if (e_ch_n[motor]==1)
+                  {
+                     wrt_m_error();
+                     m_edge_pnt=end_move(m_steps, e_port_dist[motor]);
+                  }
+               }
+               break; 
+            }
+            // run-on (past disk slot edge)
+            case 4:
+            {
+               if ((m_step_cnt[motor]-m_edge_pnt) >= m_extra)
+               {
+                  e_mode[motor]=e_mode_rst[motor];
+                  fprintf(COM_A, "VALVE STOP %Lu,%Lu\r\n",
+                          m_step_cnt[motor],m_edge_pnt);  // NFI why this fixes random mover error to even ports?delay?
+                  terminate(1);
+               }
+               break;
+            }
+            // run-on (back-lash)
+                     // if motor step count >= backlash setting
+            case 5 :
+            {
+               if (m_step_cnt[motor] >= m_bklsh[motor])
+               {
+                  // reset e_mode to saved e_mode
+                  e_mode[motor]=e_mode_rst[motor];
+                  // reset chA counter to 0
+                  e_cha_cnt[motor] = 0;
+               }
+               break;
+            }
+         }
+      }
+   }
+   else m_error[motor]=TRUE;
+   
+   if(m_error[motor]==TRUE) {
+      wrt_m_error();
+      msg_mer();
+   }
+   //taken out 17:51:00 07/08/2014
+   //fprintf(COM_A, "%Lu,%Lu,%Lu,%u,%Lu,%Lu,%Ld\r\n",
+         //nv_macro_mode, nv_interval, nv_volume, port_port,e_port[0],
+         //e_target_port[0],m_slot_steps);
+}
+
+/* where: dir_mode = 0, movement follows dir variable
+                   = 1, movement is shortest distance
+*/
+void command_move(int8 dir_mode, int8 dir, int8 int_mode)
+{
+   if(arg > 0 && arg < 65536)
+   {
+      move_motor(dir_mode, dir, arg, int_mode);
+   }
+   else if(arg==0)
+   {
+      m_lin_pos[motor]=0;
+      switch (motor){
+         case 0 : write16(ADDR_M1_LIN_POS,0); 
+            break;
+         case 1 : write16(ADDR_M2_LIN_POS,0);
+            break;
+      } 
+      m_error[motor]=0;
+      wrt_m_error();
+   }
+   else cmd_arg();
+}
+
+void poll_enc()
+{
+   int8 chanI, chanA;
+
+   enc_pwr(ON);
+
+   while(TRUE)
+   {
+      delay_ms(250);
+      switch(motor)
+      {
+         case 0:
+         {
+            chanI = input(ENC1_IND);
+            chanA = input(ENC1_PHA);
+            break;
+         }
+         case 1 :
+         {
+            chanI = input(ENC2_IND);
+            chanA = input(ENC2_PHA);
+            break;
+         }
+      }
+
+      fprintf(COM_A, "ind:%u / pha:%u\r\n", chanI, chanA);
+      if (kbhit(COM_A))
+      {
+         if (ESCAPE == getc(COM_A))
+         {
+            break;
+         }
+      }
+   }
+
+   delay_ms(100);
+   enc_pwr(OFF);
+}
+
+//*************************************
+
+void align(int8 dir)
+{
+   int16 steps;
+   int16 e_mode_reset;
+
+   e_mode_reset = e_mode[motor];               // save current e_mode
+
+   // move off - possibly already aligned
+   steps = m_spr[motor]/e_ppr[motor];
+   e_mode[motor] = 0;                          // motor steps
+   move_motor(0, dir, steps, 1);             // last var = int_mode, 1 = normal 
+   // move-off terminates and switches off enc
+
+   // turn enc back on a poll (initial reading)
+   enc_pwr(ON);
+   delay_ms(100);
+   poll_index();
+
+   steps = (e_cpr[motor]+2);                   // set steps = 1 rev + 2 ports
+   e_mode[motor] = 3;
+   move_motor(0, dir, steps, 1);
+
+   // move additional motor steps for alignment offset
+   steps = align_os[0];
+   e_mode[motor] = 0;                          // motor steps
+   move_motor(0, dir, steps, 1);             // last var = int_mode, 1 = normal
+
+   e_pos[motor] = 0;
+   e_port[motor] = 1;
+
+   e_mode[motor] = e_mode_reset;
+}
+
+void cal_disk(int8 dir)
+{
+   int16 steps;
+
+   steps=(e_cpr[motor]+2);   // set steps = 1 rev + 1 port
+
+   // move_motor(int8 dir_mode, int8 dir, int32 steps, int8 int_mode)
+   move_motor(0, dir, steps, 2);    // last var = int_mode, 2 = signal all edges
+}
+
+void recovery()
+{
+   if(nv_product!=AWS)
+   {
+      fprintf(COM_A, "@REC - homing syringe and aligning valve to port 1\r\n");
+      motor=0;
+      align(0);
+      //move_motor(1,0,2,1);  commented out to leave valve at port 1 after receovery
+      motor=1;
+      move_motor(0,0,22000,1);
+      
+      m_lin_pos[1]=0;
+      write16(ADDR_M2_LIN_POS,0);
+   }
+}
+
+

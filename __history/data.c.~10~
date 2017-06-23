@@ -1,0 +1,369 @@
+#include "command.h"
+
+void clear_data_arrays(){
+
+   int8 i;
+   // raw data
+   for (i=0; i<8; ++i) NO3_array[i] = 0;
+   for (i=0; i<8; ++i) PO4_array[i] = 0;
+   for (i=0; i<8; ++i) NH4_array[i] = 0;
+   for (i=0; i<8; ++i) SiO_array[i] = 0;
+}
+
+void calc_abs_NO3(){
+
+   int8 i;
+   float blank, react, ratio;
+      
+   // zero-out abs array
+   for(i=0; i<4; ++i) NO3_abs_array[i] = 0;
+   
+   // raw data array == Br,Rr,Bs,Rs,Bt,Rt,Bu,Ru
+   // abs array = As[0,1],At[2,3],Ar[4,5],Au[6,7]
+   // if (Br > 0 && Rr > 0 && Br > Rr) == if valid raw data update Abs
+   // Removing forcing abs to 0 if negative VK Sept. 24 2015
+   if (NO3_array[0] > 0 && NO3_array[1] > 0) {
+      blank = NO3_array[0];
+      react = NO3_array[1];
+      ratio = blank / react;
+      // Ar
+      NO3_abs_array[0] = log10(ratio);
+   }
+   if (NO3_array[2] > 0 && NO3_array[3] > 0) {
+      blank = NO3_array[2];
+      react = NO3_array[3];
+      ratio = blank / react;   
+      // As
+      NO3_abs_array[1] = log10(ratio);
+   }
+   if (NO3_array[4] > 0 && NO3_array[5] > 0) {
+      blank = NO3_array[4];
+      react = NO3_array[5];
+      ratio = blank / react;
+      // At
+      NO3_abs_array[2] = log10(ratio);
+   }
+   if (NO3_array[6] > 0 && NO3_array[7] > 0) {
+      blank = NO3_array[6];
+      react = NO3_array[7];
+      ratio = blank / react;
+      // Au
+      NO3_abs_array[3] = log10(ratio);
+   }
+   // abs array = As[0,1],At[2,3],Ar[4,5],Au[6,7]
+   sprintf(abs_str, "(As),%1.4g,(At),%1.4g,(Ar),%1.4g,(Au),%1.4g",
+      NO3_abs_array[0],NO3_abs_array[1],NO3_abs_array[2],NO3_abs_array[3]);
+   if (nv_report_mode != 2) fprintf(COM_A, "@ABS,NO3,%s\r\n", abs_str);      
+}
+
+void calc_abs_PO4(){
+
+   int8 i;
+   float blank, react, ratio;
+   
+   // zero-out abs array
+   for(i=0; i<4; ++i) PO4_abs_array[i] = 0;
+   
+   // Br,Rr,Bs,Rs,Bt,Rt,Bu,Ru
+   if (PO4_array[0] > 0 && PO4_array[1] > 0 && PO4_array[0] > PO4_array[1]) {
+      blank = PO4_array[0];
+      react = PO4_array[1];
+      ratio = blank / react;
+      PO4_abs_array[0] = log10(ratio);
+   }
+   if (PO4_array[2] > 0 && PO4_array[3] > 0 && PO4_array[2] > PO4_array[3]) {
+      blank = PO4_array[2];
+      react = PO4_array[3];
+      ratio = blank / react;   
+      PO4_abs_array[1] = log10(ratio);
+   }
+   if (PO4_array[4] > 0 && PO4_array[5] > 0 && PO4_array[4] > PO4_array[5]) {
+      blank = PO4_array[4];
+      react = PO4_array[5];
+      ratio = blank / react;
+      PO4_abs_array[2] = log10(ratio);
+   }
+   if (PO4_array[6] > 0 && PO4_array[7] > 0 && PO4_array[6] > PO4_array[7]) {
+      blank = PO4_array[6];
+      react = PO4_array[7];
+      ratio = blank / react;
+      PO4_abs_array[3] = log10(ratio);
+   }
+   sprintf(abs_str, "(As),%1.4g,(At),%1.4g,(Ar),%1.4g,(Au),%1.4g",
+      PO4_abs_array[0],PO4_abs_array[1],PO4_abs_array[2],PO4_abs_array[3]);
+   //if (nv_report_mode != 2) 
+   fprintf(COM_A, "@ABS,PO4,%s\r\n", abs_str);
+}
+
+void calc_abs_NH4(){
+
+   int8 i;
+   float blank, react, ratio;
+   
+   // zero-out abs array
+   for(i=0; i<4; ++i) NH4_abs_array[i] = 0;
+   
+   // Br,Rr,Bs,Rs,Bt,Rt,Bu,Ru
+   if (NH4_array[0] > 0 && NH4_array[1] > 0 && NH4_array[0] > NH4_array[1]) {
+      blank = NH4_array[0];
+      react = NH4_array[1];
+      ratio = blank / react;
+      NH4_abs_array[0] = log10(ratio);
+   }
+   if (NH4_array[2] > 0 && NH4_array[3] > 0 && NH4_array[2] > NH4_array[3]) {
+      blank = NH4_array[2];
+      react = NH4_array[3];
+      ratio = blank / react;   
+      NH4_abs_array[1] = log10(ratio);
+   }
+   if (NH4_array[4] > 0 && NH4_array[5] > 0 && NH4_array[4] > NH4_array[5]) {
+      blank = NH4_array[4];
+      react = NH4_array[5];
+      ratio = blank / react;
+      NH4_abs_array[2] = log10(ratio);
+   }
+   if (NH4_array[6] > 0 && NH4_array[7] > 0 && NH4_array[6] > NH4_array[7]) {
+      blank = NH4_array[6];
+      react = NH4_array[7];
+      ratio = blank / react;
+      NH4_abs_array[3] = log10(ratio);
+   }
+   sprintf(abs_str, "(As),%1.4g,(At),%1.4g,(Ar),%1.4g,(Au),%1.4g",
+      NH4_abs_array[0],NH4_abs_array[1],NH4_abs_array[2],NH4_abs_array[3]);
+   if (nv_report_mode != 2) fprintf(COM_A, "@ABS,NH4,%s\r\n", abs_str);            
+}
+
+void calc_abs_SiO(){
+
+   int i;
+   float blank, react, ratio;
+   
+   // zero-out abs array
+   for(i=0; i<4; ++i) SiO_abs_array[i] = 0;
+   
+   // Br,Rr,Bs,Rs,Bt,Rt,Bu,Ru
+   if (SiO_array[0] > 0 && SiO_array[1] > 0 && SiO_array[0] > SiO_array[1]) {
+      blank = SiO_array[0];
+      react = SiO_array[1];
+      ratio = blank / react;
+      SiO_abs_array[0] = log10(ratio);
+   }
+   if (SiO_array[2] > 0 && SiO_array[3] > 0 && SiO_array[2] > SiO_array[3]) {
+      blank = SiO_array[2];
+      react = SiO_array[3];
+      ratio = blank / react;   
+      SiO_abs_array[1] = log10(ratio);
+   }
+   if (SiO_array[4] > 0 && SiO_array[5] > 0 && SiO_array[4] > SiO_array[5]) {
+      blank = SiO_array[4];
+      react = SiO_array[5];
+      ratio = blank / react;
+      SiO_abs_array[2] = log10(ratio);
+   }
+   if (SiO_array[6] > 0 && SiO_array[7] > 0 && SiO_array[6] > SiO_array[7]) {
+      blank = SiO_array[6];
+      react = SiO_array[7];
+      ratio = blank / react;
+      SiO_abs_array[3] = log10(ratio);
+   }
+   sprintf(abs_str, "(As),%1.4g,(At),%1.4g,(Ar),%1.4g,(Au),%1.4g",
+      SiO_abs_array[0],SiO_abs_array[1],SiO_abs_array[2],SiO_abs_array[3]);
+   if (nv_report_mode != 2) fprintf(COM_A, "@ABS,SiO,%s\r\n", abs_str);            
+}
+
+void calc_abs_data(){
+
+   strcopy(abs_str,",,,,,,,");
+   
+   switch (chem){
+      case "NO3" : calc_abs_NO3();
+         break;
+      case "PO4" : calc_abs_PO4();
+         break;
+      case "NH4" : calc_abs_NH4();
+         break;
+      case "SiO" : calc_abs_SiO();
+         break;
+   }
+}
+
+void calc_NO3_real_data(){
+   
+   NO3_smp_conc = 0;
+   
+   // apply current coeffs ...
+   if (NO3_abs_array[0] > 0) {
+      NO3_smp_conc = (NO3_slope * NO3_abs_array[0]) + NO3_inter;
+   }
+   sprintf(coeff_str, "(m),%3.3g,(c),%3.3g", NO3_slope,NO3_inter);
+   sprintf(real_str, "(Cs),%3.3g\r\n", NO3_smp_conc);
+   fprintf(COM_A, "@CON,NO3,%s\r\n", real_str);  
+}
+
+void calc_PO4_real_data(){
+
+   PO4_smp_conc = 0;
+
+   // apply current coeffs ...
+   if (PO4_abs_array[0] > 0) {
+      PO4_smp_conc = (PO4_slope * PO4_abs_array[0]) + PO4_inter;
+   }
+   sprintf(coeff_str, "(m),%3.3g,(c),%3.3g", PO4_slope,PO4_inter);
+   sprintf(real_str, "(Cs),%3.3g\r\n", PO4_smp_conc);
+   fprintf(COM_A, "@CON,PO4,%s\r\n", real_str); 
+}
+
+void calc_NH4_real_data(){
+
+   NH4_smp_conc =0;
+   
+   // apply current coeffs ...
+   if (NH4_abs_array[0] > 0) {
+      NH4_smp_conc = (NH4_slope * NH4_abs_array[0]) + NH4_inter;
+   }
+   sprintf(coeff_str, "(m),%3.3g,(c),%3.3g", NH4_slope,NH4_inter);
+   sprintf(real_str, "(Cs),%3.3g\r\n", NH4_smp_conc);
+   fprintf(COM_A, "@CON,NH4,%s\r\n", real_str); 
+}
+
+void calc_SiO_real_data(){
+
+   SiO_smp_conc = 0;
+
+   // apply current coeffs ...
+   if (SiO_abs_array[0] > 0) {
+      SiO_smp_conc = (SiO_slope * SiO_abs_array[0]) + SiO_inter;
+   }
+   sprintf(coeff_str, "(m),%3.3g,(c),%3.3g", SiO_slope,SiO_inter);
+   sprintf(real_str, "(Cs),%3.3g\r\n", SiO_smp_conc);
+   fprintf(COM_A, "@CON,SiO,%s\r\n", real_str); 
+}
+
+void calc_real_data(){
+   
+   strcopy(real_str,",,,\r\n");
+   
+   switch (chem){
+      case "NO3" : calc_NO3_real_data();
+         break;
+      case "PO4" : calc_PO4_real_data();
+         break;
+      case "NH4" : calc_NH4_real_data();
+         break;
+      case "SiO" : calc_SiO_real_data();
+         break;
+   }
+}
+
+// writes the calculated data to a file on the SD card
+// data_buffer is cleared, string to be stored is compiled into "data_buffer"
+// data are concatenated & append_data writes "data_buffer" to the
+// "all" and "new" files
+
+void store_rel_data()
+{
+   clear_data_buffer();
+   
+   if (data_available == TRUE) {
+   
+      strcat(data_buffer, time_stmp_str);
+      strcat(data_buffer, comma);
+      strcat(data_buffer, chem);
+      strcat(data_buffer, comma);
+      strcat(data_buffer, abs_str);
+     //strcat(data_buffer, comma);
+     // strcat(data_buffer, coeff_str);
+     // strcat(data_buffer, comma);
+     // strcat(data_buffer, real_str);
+      
+      if (nv_report_mode == 4) fprintf(COM_A, "%s\r\n", data_buffer);
+   
+      if(sd_status==0){
+      
+         buffer_select = 0;
+         
+         heartbeat(FALSE);
+            append_data(file_ptr_rel_all);
+         heartbeat(TRUE);         
+         
+         heartbeat(FALSE);
+            append_data(file_ptr_rel_new);   
+         heartbeat(TRUE);
+      }
+   }
+}
+
+void calculate_data(){
+   //calc_abs_data(); // out by Fraser Hood on 7/6/15
+   //calc_coeffs();
+   //calc_real_data(); //Commented out by Fraser Hood on 7/6/15
+   store_rel_data();
+}
+
+void store_wms_data(int8 macro)
+{
+   char comma[2] = {',' , '\0'};
+   char endofline[3] = {'\r' , '\n' , '\0'};
+   char config_str[30];
+   
+   clear_data_buffer();
+   time_stamp();
+   strcat(data_buffer, time_stmp_str);
+   strcat(data_buffer, comma);
+   sprintf(config_str, "%u,%Lu,%Lu,%Lu,%Lu,%Lu,%Lu,%Ld",
+         macro,nv_macro_mode, nv_interval, nv_volume, nv_port, nv_sample,
+         e_target_port[0],m_lin_pos[1]);  // changed from e_port[0]
+   strcat(data_buffer, config_str);
+   strcat(data_buffer, endofline);
+   
+   fprintf(COM_A, "%s\r\n", data_buffer);
+
+   if(sd_status==0){
+   
+      buffer_select = 0;
+      
+      heartbeat(FALSE);
+         append_data(file_ptr_raw_all);
+      heartbeat(TRUE);         
+      
+      heartbeat(FALSE);
+         append_data(file_ptr_raw_new);   
+      heartbeat(TRUE);
+   }
+}
+
+void store_aws_data(int8 macro, int16 mmacro_var)
+{
+   char comma[2] = {',' , '\0'};
+   char endofline[3] = {'\r' , '\n' , '\0'};
+   char config_str[30];
+   
+   clear_data_buffer();
+   time_stamp();
+   strcat(data_buffer, time_stmp_str);
+   strcat(data_buffer, comma);
+   sprintf(config_str, "%u,%Lu",macro,mmacro_var);
+   strcat(data_buffer, config_str);
+   strcat(data_buffer, endofline);
+   
+   if (nv_report_mode == 4) fprintf(COM_A, "%s\r\n", data_buffer);
+
+   if(sd_status==0){
+   
+      buffer_select = 0;
+      
+      heartbeat(FALSE);
+         append_data(file_ptr_raw_all);
+      heartbeat(TRUE);         
+      
+      heartbeat(FALSE);
+         append_data(file_ptr_raw_new);   
+      heartbeat(TRUE);
+   }
+}
+
+
+
+
+
+

@@ -1,0 +1,127 @@
+// *** INTERNAL EEPROM FUNCTIONS *** //
+
+void write8(int8 addr, int8 data)
+{
+   write_eeprom(addr, data);
+}
+
+int8 read8(int8 addr)
+{
+   int8 data;
+   data = read_eeprom(addr);
+   return(data);
+}
+
+void write16(int8 addr, int16 data) 
+{ 
+    int i; 
+    for (i = 0; i < 2; i++) 
+    { 
+        write_eeprom(i + addr, *((int8*)&data + i) ) ; 
+    } 
+} 
+
+int16 read16(int8 addr) 
+{ 
+   int i; 
+   int16 data; 
+    
+   for (i = 0; i < 2; i++) 
+      *((int8*)&data + i) = read_eeprom(i + addr); 
+   return(data); 
+}
+
+void write_float(int16 addr, float data) { 
+   int i;
+
+   for (i = 0; i < 4; i++) 
+      write_eeprom(i + addr, *((int8*)&data + i) ) ; 
+}
+
+float read_float(int16 addr) { 
+   int i; 
+   float data;
+
+   for (i = 0; i < 4; i++) 
+      *((int8*)&data + i) = read_eeprom(i + addr);
+
+   return(data); 
+}
+
+// *** ENTERNAL EEPROM FUNCTIONS *** //
+
+void write16_ext_eeprom(int16 addr, int16 data) 
+{ 
+    int i; 
+    int j;
+    for (i = 0; i < 2; i++)
+    { 
+        write_ext_eeprom(i + addr, *((int8*)&data + i) ) ; 
+    } 
+} 
+
+int16 read16_ext_eeprom(int16 addr) 
+{ 
+   int i; 
+   int16 data; 
+
+   for (i = 0; i < 2; i++) 
+      *((int8*)&data + i) = read_ext_eeprom(i + addr); 
+   return(data); 
+}
+
+void eeprom_test()
+{ 
+   int8 data; 
+   int8 wrote; 
+   int32 addr; 
+   int16 errors = 0; 
+         
+   init_ext_eeprom(); 
+         
+   // Fill eeprom with random data. 
+   printf("\n\r"); 
+   printf("writing"); 
+   
+   // comment out for PIC16
+   srand(0x55);
+   
+   for(addr = 0; addr < EEPROM_SIZE; addr++) 
+      { 
+       write_ext_eeprom(addr, (int8)rand()); 
+       //comment out above and use line below for PIC16
+       //write_ext_eeprom(addr, 0x88);
+       if((int8)addr == 0) 
+          putc('.'); 
+      } 
+   
+   // Read the eeprom and check for errors. 
+   printf("\n\r"); 
+   printf("reading"); 
+   
+   // comment out for PIC16
+   srand(0x55);
+   
+   for(addr = 0; addr < EEPROM_SIZE; addr++) 
+      { 
+       data = read_ext_eeprom(addr); 
+       wrote = (int8)rand(); 
+       //comment out above and use line below for PIC16
+       //wrote = 0x88; 
+       if(data != wrote) 
+         { 
+          printf("%lx: read %x, should be %x\n\r", addr, data, wrote); 
+          errors++; 
+          if(errors >= 10) 
+             break; 
+         } 
+   
+       if((int8)addr == 0) 
+          putc('.'); 
+      } 
+   
+   output_low(EEP_WP);
+   
+   printf("\n\r");
+   printf("done\n\r"); 
+}
