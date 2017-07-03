@@ -2,7 +2,7 @@ F N "calc_abs_NO3" 34 18 ""
 D G "__PCH__" 34 65 ""5.071d""
 D G "__DEVICE__" 34 65 "8722"
 D G "__DATE__" 34 65 ""03-Jul-17""
-D G "__TIME__" 34 65 ""14:16:39""
+D G "__TIME__" 34 65 ""15:15:44""
 D G "_UNICODE" 34 65 ""?""
 D G "__EVAL" 34 65 ""?"" "TITLE BLOCK"
 c L "set_tris_a" 1 1 6 "FUNCTION"
@@ -3857,26 +3857,27 @@ V L "ADC_mean" 20 5 "int32[8]" `2011
 V L "ADC_last_sample" 20 6 "int32[8]" `2012 
 F N "rtc_wakeup_isr" 21 2 ""
 F G "rtc_wakeup_isr" 21 3 "void()" `2013  "delay_cycles(10);       // mo ???"
-F N "RDA_isr" 21 20 ""
-F G "RDA_isr" 21 21 "void()" `2014 
-V L "c" 21 22 "int8" `2015 
-C L "RDA_isr" 21 52 1 "FUNCTION"
-C L "RDA_isr" 21 52 1 "FUNCTION"
-C L "RDA_isr" 21 52 1 "FUNCTION"
-C L "RDA_isr" 21 52 1 "FUNCTION"
-F N "busy_clear" 21 61 ""
-F G "busy_clear" 21 62 "void()" `2018 
-F N "busy_set" 21 68 ""
-F G "busy_set" 21 69 "void()" `2019 
-C L "timer0_isr" 21 52 10 "FUNCTION"
-F N "timer0_isr" 21 95 ""
-F G "timer0_isr" 21 96 "void()" `2020  "heartbeat(TRUE);"
-C L "timer0_isr" 21 52 1 "FUNCTION"
-C L "timer0_isr" 21 52 1 "FUNCTION"
-F N "timer1_isr" 21 115 ""
-F G "timer1_isr" 21 116 "void()" `2021  "disables timer1 ints, LED OFF (to end "blink")"
-C L "timer1_isr" 21 52 1 "FUNCTION"
-C L "timed_getc_A" 21 52 8 "FUNCTION"
+C L "rtc_wakeup_isr" 21 5 1 "FUNCTION"
+F N "RDA_isr" 21 21 ""
+F G "RDA_isr" 21 22 "void()" `2014 
+V L "c" 21 23 "int8" `2015 
+C L "RDA_isr" 21 5 1 "FUNCTION"
+C L "RDA_isr" 21 5 1 "FUNCTION"
+C L "RDA_isr" 21 5 1 "FUNCTION"
+C L "RDA_isr" 21 5 1 "FUNCTION"
+F N "busy_clear" 21 62 ""
+F G "busy_clear" 21 63 "void()" `2018 
+F N "busy_set" 21 69 ""
+F G "busy_set" 21 70 "void()" `2019 
+C L "timer0_isr" 21 5 10 "FUNCTION"
+F N "timer0_isr" 21 96 ""
+F G "timer0_isr" 21 97 "void()" `2020  "heartbeat(TRUE);"
+C L "timer0_isr" 21 5 1 "FUNCTION"
+C L "timer0_isr" 21 5 1 "FUNCTION"
+F N "timer1_isr" 21 116 ""
+F G "timer1_isr" 21 117 "void()" `2021  "disables timer1 ints, LED OFF (to end "blink")"
+C L "timer1_isr" 21 5 1 "FUNCTION"
+C L "timed_getc_A" 21 5 8 "FUNCTION"
 C L "timed_getc_A" 22 1 1 "*"
 F N "timed_getc_A" 22 3 ""
 F G "timed_getc_A" 22 4 "int8()" `2022 
@@ -5072,175 +5073,176 @@ F N "commandM" 40 429 ""
 V L "LoggingReentry" 40 429 "int8" `2804 
 F G "commandM" 40 430 "void(int8 LoggingReentry)" `2439 
 V L "macro" 40 431 "int8" `2803 
-F N "commandN" 40 469 ""
-F G "commandN" 40 470 "void()" `2441 
-F N "commandO" 40 484 ""
-F G "commandO" 40 485 "void()" `2442 
-F N "commandPe" 40 495 ""
-F G "commandPe" 40 496 "void()" `2804 
+C L "commandM" 40 2 1 "FUNCTION"
+F N "commandN" 40 476 ""
+F G "commandN" 40 477 "void()" `2441 
+F N "commandO" 40 491 ""
+F G "commandO" 40 492 "void()" `2442 
+F N "commandPe" 40 502 ""
+F G "commandPe" 40 503 "void()" `2804 
 C L "commandPe" 40 2 1 "FUNCTION"
 C L "commandPe" 40 2 1 "FUNCTION"
 C L "commandPe" 40 2 1 "FUNCTION"
 C L "commandPe" 40 2 1 "FUNCTION"
 C L "commandPe" 40 2 1 "FUNCTION"
-F N "commandPa" 40 516 ""
-F G "commandPa" 40 517 "void()" `2805 
-F N "commandP" 40 525 ""
-F G "commandP" 40 526 "void()" `2443 
-F N "commandQa" 40 538 ""
-F G "commandQa" 40 539 "void()" `2806 
-V L "valve" 40 540 "int8" `2807 
-F N "commandQw" 40 553 ""
-F G "commandQw" 40 554 "void()" `2808 
-F N "commandQ" 40 562 ""
-F G "commandQ" 40 563 "void()" `2444 
-F N "commandRe" 40 573 ""
-F G "commandRe" 40 574 "void()" `2809 
-V L "macro_cmd" 40 575 "int8" `2810 
-V L "samples" 40 576 "int16" `2811 
-V L "count" 40 576 "int16" `2812 
+F N "commandPa" 40 523 ""
+F G "commandPa" 40 524 "void()" `2805 
+F N "commandP" 40 532 ""
+F G "commandP" 40 533 "void()" `2443 
+F N "commandQa" 40 545 ""
+F G "commandQa" 40 546 "void()" `2806 
+V L "valve" 40 547 "int8" `2807 
+F N "commandQw" 40 560 ""
+F G "commandQw" 40 561 "void()" `2808 
+F N "commandQ" 40 569 ""
+F G "commandQ" 40 570 "void()" `2444 
+F N "commandRe" 40 580 ""
+F G "commandRe" 40 581 "void()" `2809 
+V L "macro_cmd" 40 582 "int8" `2810 
+V L "samples" 40 583 "int16" `2811 
+V L "count" 40 583 "int16" `2812 
 C L "commandRe" 40 2 2 "FUNCTION"
-F N "commandRw" 40 600 ""
-F G "commandRw" 40 601 "void()" `2814 
-V L "port" 40 602 "int16" `2815 
-V L "i" 40 603 "int8" `2816 
-V L "n" 40 603 "int8" `2817 
-F N "commandRa" 40 616 ""
-F G "commandRa" 40 617 "void()" `2818 
-V L "macro_cmd" 40 618 "int8" `2819 
-V L "samples" 40 619 "int16" `2820 
-V L "count" 40 619 "int16" `2821 
+F N "commandRw" 40 607 ""
+F G "commandRw" 40 608 "void()" `2814 
+V L "port" 40 609 "int16" `2815 
+V L "i" 40 610 "int8" `2816 
+V L "n" 40 610 "int8" `2817 
+F N "commandRa" 40 623 ""
+F G "commandRa" 40 624 "void()" `2818 
+V L "macro_cmd" 40 625 "int8" `2819 
+V L "samples" 40 626 "int16" `2820 
+V L "count" 40 626 "int16" `2821 
 C L "commandRa" 40 2 2 "FUNCTION"
 C L "commandRa" 40 2 1 "FUNCTION"
 C L "commandRa" 40 2 1 "FUNCTION"
-F N "commandR" 40 645 ""
-F G "commandR" 40 646 "void()" `2445 
-F N "commandSe" 40 658 ""
-F G "commandSe" 40 659 "void()" `2823 
+F N "commandR" 40 652 ""
+F G "commandR" 40 653 "void()" `2445 
+F N "commandSe" 40 665 ""
+F G "commandSe" 40 666 "void()" `2823 
 C L "commandSe" 40 2 1 "FUNCTION"
 C L "commandSe" 40 2 1 "FUNCTION"
-F N "commandSw" 40 684 ""
-F G "commandSw" 40 685 "void()" `2824 
-F N "commandSa" 40 693 ""
-F G "commandSa" 40 694 "void()" `2825 
-V L "setting" 40 695 "int16" `2826 
-F N "commandS" 40 704 ""
-F G "commandS" 40 705 "void()" `2446 
-F N "commandT" 40 717 ""
-F G "commandT" 40 718 "void()" `2447 
+F N "commandSw" 40 691 ""
+F G "commandSw" 40 692 "void()" `2824 
+F N "commandSa" 40 700 ""
+F G "commandSa" 40 701 "void()" `2825 
+V L "setting" 40 702 "int16" `2826 
+F N "commandS" 40 711 ""
+F G "commandS" 40 712 "void()" `2446 
+F N "commandT" 40 724 ""
+F G "commandT" 40 725 "void()" `2447 
 C L "commandT" 40 2 1 "FUNCTION"
-F N "commandU" 40 741 ""
-F G "commandU" 40 742 "void()" `2448 
-V L "macro" 40 743 "int8" `2830 
-F N "commandV" 40 755 ""
-F G "commandV" 40 756 "void()" `2449 
-V L "macro" 40 757 "int8" `2831 
-F N "commandW" 40 766 ""
-F G "commandW" 40 767 "void()" `2450 
-F N "commandX" 40 776 ""
-F G "commandX" 40 777 "void()" `2451 
-F N "display_status" 40 793 ""
-V L "status" 40 793 "int8" `2833 
-F G "display_status" 40 794 "void(int8 status)" `2832 
-F N "commandY" 40 803 ""
-F G "commandY" 40 804 "void()" `2452 
+F N "commandU" 40 748 ""
+F G "commandU" 40 749 "void()" `2448 
+V L "macro" 40 750 "int8" `2830 
+F N "commandV" 40 762 ""
+F G "commandV" 40 763 "void()" `2449 
+V L "macro" 40 764 "int8" `2831 
+F N "commandW" 40 773 ""
+F G "commandW" 40 774 "void()" `2450 
+F N "commandX" 40 783 ""
+F G "commandX" 40 784 "void()" `2451 
+F N "display_status" 40 800 ""
+V L "status" 40 800 "int8" `2833 
+F G "display_status" 40 801 "void(int8 status)" `2832 
+F N "commandY" 40 810 ""
+F G "commandY" 40 811 "void()" `2452 
 C L "commandY" 40 2 1 "FUNCTION"
 C L "commandY" 40 2 1 "FUNCTION"
-F N "commandZ" 40 843 ""
-F G "commandZ" 40 844 "void()" `2453 
-F N "command_a" 40 853 ""
-F G "command_a" 40 854 "void()" `2836 
-F N "command_b" 40 859 ""
+F N "commandZ" 40 850 ""
+F G "commandZ" 40 851 "void()" `2453 
+F N "command_a" 40 860 ""
+F G "command_a" 40 861 "void()" `2836 
+F N "command_b" 40 866 ""
 C L "command_b" 40 2 1 "FUNCTION"
-F G "command_b" 40 860 "void()" `2837 
-F N "command_c" 40 873 ""
-F G "command_c" 40 873 "void()" `2838 
-F N "command_d" 40 886 ""
+F G "command_b" 40 867 "void()" `2837 
+F N "command_c" 40 880 ""
+F G "command_c" 40 880 "void()" `2838 
+F N "command_d" 40 893 ""
 C L "command_d" 40 2 1 "FUNCTION"
-F G "command_d" 40 887 "void()" `2839 
-F N "command_e" 40 900 ""
+F G "command_d" 40 894 "void()" `2839 
+F N "command_e" 40 907 ""
 C L "command_e" 40 2 1 "FUNCTION"
-F G "command_e" 40 901 "void()" `2840 
-F N "command_f" 40 914 ""
-F G "command_f" 40 915 "void()" `2841 
-F N "command_g" 40 920 ""
+F G "command_e" 40 908 "void()" `2840 
+F N "command_f" 40 921 ""
+F G "command_f" 40 922 "void()" `2841 
+F N "command_g" 40 927 ""
 C L "command_g" 40 2 1 "FUNCTION"
-F G "command_g" 40 921 "void()" `2842 
-F N "command_h" 40 934 ""
+F G "command_g" 40 928 "void()" `2842 
+F N "command_h" 40 941 ""
 C L "command_h" 40 2 1 "FUNCTION"
-F G "command_h" 40 935 "void()" `2843 
-V L "hold_pc" 40 936 "int16" `2844 
-F N "command_i" 40 950 ""
+F G "command_h" 40 942 "void()" `2843 
+V L "hold_pc" 40 943 "int16" `2844 
+F N "command_i" 40 957 ""
 C L "command_i" 40 2 1 "FUNCTION"
-F G "command_i" 40 951 "void()" `2845 
-F N "command_j" 40 964 ""
+F G "command_i" 40 958 "void()" `2845 
+F N "command_j" 40 971 ""
 C L "command_j" 40 2 1 "FUNCTION"
-F G "command_j" 40 965 "void()" `2846 
-F N "command_k" 40 978 ""
+F G "command_j" 40 972 "void()" `2846 
+F N "command_k" 40 985 ""
 C L "command_k" 40 2 1 "FUNCTION"
-F G "command_k" 40 979 "void()" `2847 
+F G "command_k" 40 986 "void()" `2847 
 C L "command_m" 40 2 1 "FUNCTION"
-F N "command_m" 40 994 ""
+F N "command_m" 40 1001 ""
 C L "command_m" 40 2 1 "FUNCTION"
-F G "command_m" 40 995 "void()" `2848 
-F N "command_n" 40 1008 ""
+F G "command_m" 40 1002 "void()" `2848 
+F N "command_n" 40 1015 ""
 C L "command_n" 40 2 1 "FUNCTION"
-F G "command_n" 40 1009 "void()" `2849 
-F N "command_o" 40 1022 ""
+F G "command_n" 40 1016 "void()" `2849 
+F N "command_o" 40 1029 ""
 C L "command_o" 40 2 1 "FUNCTION"
-F G "command_o" 40 1023 "void()" `2850 
+F G "command_o" 40 1030 "void()" `2850 
 C L "command_o" 40 2 1 "FUNCTION"
-F N "command_p" 40 1036 ""
+F N "command_p" 40 1043 ""
 C L "command_p" 40 2 1 "FUNCTION"
-F G "command_p" 40 1037 "void()" `2851 
-F N "command_q" 40 1050 ""
+F G "command_p" 40 1044 "void()" `2851 
+F N "command_q" 40 1057 ""
 C L "command_q" 40 2 1 "FUNCTION"
-F G "command_q" 40 1051 "void()" `2852 
-F N "command_r" 40 1056 ""
+F G "command_q" 40 1058 "void()" `2852 
+F N "command_r" 40 1063 ""
 C L "command_r" 40 2 1 "FUNCTION"
-F G "command_r" 40 1057 "void()" `2853 
-F N "command_s" 40 1073 ""
+F G "command_r" 40 1064 "void()" `2853 
+F N "command_s" 40 1080 ""
 C L "command_s" 40 2 1 "FUNCTION"
-F G "command_s" 40 1074 "void()" `2854 
-F N "command_t" 40 1088 ""
+F G "command_s" 40 1081 "void()" `2854 
+F N "command_t" 40 1095 ""
 C L "command_t" 40 2 1 "FUNCTION"
-F G "command_t" 40 1089 "void()" `2855 
+F G "command_t" 40 1096 "void()" `2855 
 C L "command_w" 40 2 1 "FUNCTION"
-F N "command_w" 40 1104 ""
+F N "command_w" 40 1111 ""
 C L "command_w" 40 2 1 "FUNCTION"
-F G "command_w" 40 1105 "void()" `2856 
-V L "drive_pc" 40 1106 "int16" `2857 
-F N "command_x" 40 1120 ""
+F G "command_w" 40 1112 "void()" `2856 
+V L "drive_pc" 40 1113 "int16" `2857 
+F N "command_x" 40 1127 ""
 C L "command_x" 40 2 1 "FUNCTION"
-F G "command_x" 40 1121 "void()" `2858 
+F G "command_x" 40 1128 "void()" `2858 
 C L "command_x" 40 2 1 "FUNCTION"
-F N "command_y" 40 1134 ""
+F N "command_y" 40 1141 ""
 C L "command_y" 40 2 1 "FUNCTION"
-F G "command_y" 40 1135 "void()" `2859 
-F N "command_u" 40 1148 ""
-F G "command_u" 40 1149 "void()" `2860 
-F N "command_z" 40 1160 ""
+F G "command_y" 40 1142 "void()" `2859 
+F N "command_u" 40 1155 ""
+F G "command_u" 40 1156 "void()" `2860 
+F N "command_z" 40 1167 ""
 C L "command_z" 40 2 1 "FUNCTION"
-F G "command_z" 40 1161 "void()" `2861 
-F N "step_var_list" 40 1175 ""
-F G "step_var_list" 40 1176 "void()" `2862 
-V L "hold_pc" 40 1177 "int16" `2863 
-V L "drive_pc" 40 1177 "int16" `2864 
-V L "step_us" 40 1177 "int16" `2865 
-F N "command_star" 40 1237 ""
-F G "command_star" 40 1238 "void()" `2910 
-F N "command_prod" 40 1243 ""
-F G "command_prod" 40 1244 "void()" `2911 
-F N "command_hash" 40 1269 ""
-F G "command_hash" 40 1270 "void()" `2916 
-F N "commandFW" 40 1283 ""
-F G "commandFW" 40 1284 "void()" `2917 
-F N "command_set" 40 1299 ""
-F G "command_set" 40 1300 "void()" `2923 
+F G "command_z" 40 1168 "void()" `2861 
+F N "step_var_list" 40 1182 ""
+F G "step_var_list" 40 1183 "void()" `2862 
+V L "hold_pc" 40 1184 "int16" `2863 
+V L "drive_pc" 40 1184 "int16" `2864 
+V L "step_us" 40 1184 "int16" `2865 
+F N "command_star" 40 1244 ""
+F G "command_star" 40 1245 "void()" `2910 
+F N "command_prod" 40 1250 ""
+F G "command_prod" 40 1251 "void()" `2911 
+F N "command_hash" 40 1276 ""
+F G "command_hash" 40 1277 "void()" `2916 
+F N "commandFW" 40 1290 ""
+F G "commandFW" 40 1291 "void()" `2917 
+F N "command_set" 40 1306 ""
+F G "command_set" 40 1307 "void()" `2923 
 C L "command_set" 40 2 1 "FUNCTION"
 C L "command_set" 40 2 1 "FUNCTION"
-F N "select_cmd" 40 1309 ""
-F G "select_cmd" 40 1310 "void()" `2924 
+F N "select_cmd" 40 1316 ""
+F G "select_cmd" 40 1317 "void()" `2924 
 C L "select_cmd" 40 2 1 "FUNCTION"
 C L "select_cmd" 40 2 1 "FUNCTION"
 C L "select_cmd" 40 2 2 "FUNCTION"
@@ -5282,19 +5284,7 @@ C L "main" 0 117 1 "FUNCTION"
 C L "main" 0 117 1 "FUNCTION"
 C L "main" 0 117 2 "FUNCTION"
 C L "main" 0 117 1 "FUNCTION"
-V L "RTC_buffer" 0 295 "int8" `2951 
-V L "a0" 0 296 "int8" `2952 
-V L "a1" 0 297 "int8" `2953 
-V L "a2" 0 298 "int8" `2954 
-V L "a3" 0 299 "int8" `2955 
-V L "a4" 0 300 "int8" `2956 
-V L "a5" 0 301 "int8" `2957 
-V L "a6" 0 302 "int8" `2958 
-V L "a7" 0 303 "int8" `2959 
-V L "a8" 0 304 "int8" `2960 
-V L "a9" 0 305 "int8" `2961 
-V L "a10" 0 306 "int8" `2962 
-V L "a11" 0 307 "int8" `2963 
+C L "main" 0 117 55 "FUNCTION"
 F B "reset_cpu" 0 0
 F B "abs" 1 0
 F B "sleep_ulpwu" 1 0
