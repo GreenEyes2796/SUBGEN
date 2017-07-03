@@ -292,7 +292,7 @@ void main()
    }
    else
    {
-      int8 RTC_buffer = 0;
+      /*int8 RTC_buffer = 0;
       unsigned int8 a0 = 0;
       unsigned int8 a1 = 0;
       unsigned int8 a2 = 0;
@@ -309,7 +309,7 @@ void main()
       RTC_reset_HT();
       output_bit(RTC_CS, ENABLE);
       spi_write(0x89);
-      spi_write(0b11111111);
+      spi_write(0b11000011);
       output_bit(RTC_CS, DISABLE);
       
       output_bit(RTC_CS, ENABLE);
@@ -349,7 +349,7 @@ void main()
       a9 = spi_read(RTC_buffer);
       fprintf(COM_A,"regF: %u\r\n",a9);
       
-      output_bit(RTC_CS, DISABLE);
+      output_bit(RTC_CS, DISABLE);*/
    
       command_prompt();
    }

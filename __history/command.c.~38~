@@ -448,13 +448,6 @@ void commandM(int1 LoggingReentry)
    }   
    else if (arg == 0)
    {
-      //start watchdog at beginning of logging mode
-      RTC_reset_HT();
-      output_bit(RTC_CS, ENABLE);
-      spi_write(0x89);
-      spi_write(0b11000011);
-      output_bit(RTC_CS, DISABLE);
-      
       MaxSamples=FALSE;
       write8(ADDR_MaxSamples, MaxSamples); 
       if (LoggingReentry != TRUE)
@@ -878,16 +871,10 @@ void command_b() // back-lash
 }
 
 void command_c(){
-   if(arg == 0){
+   if(arg = 0){
       output_bit(PIN_J7,0);
-   }else if(arg == 1){
-      output_bit(PIN_J7,1);
    }else{
-      RTC_reset_HT();
-      output_bit(RTC_CS, ENABLE);
-      spi_write(0x89);
-      spi_write(arg);
-      output_bit(RTC_CS, DISABLE);
+      output_bit(PIN_J7,1);
    }
 }
 void command_d() // positive direction

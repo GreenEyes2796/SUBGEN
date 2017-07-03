@@ -2,8 +2,8 @@
 void rtc_wakeup_isr()
 {
 //   delay_cycles(10);       // mo ???
-   //Service watchdog
-   output_bit(PIN_J7,(!input(PIN_J7)));
+   output_bit(PIN_J7,0);
+   output_bit(PIN_J7,1);
    
    rtc_alarm = TRUE;
    sleep_mode = FALSE;
