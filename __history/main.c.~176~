@@ -1,4 +1,4 @@
-             /* TITLE BLOCK
+/* TITLE BLOCK
   
    filename : main.c
    purpose  : main application file
@@ -17,11 +17,11 @@
    #device ICD=TRUE
 #endif
 
-//#ifdef DEBUG_MODE
+#ifdef DEBUG_MODE
    #FUSES MCLR
-//#else
-   //#FUSES NOMCLR
-//#endif
+#else
+   #FUSES NOMCLR
+#endif
 
 #device adc=12
 
@@ -80,17 +80,6 @@
 #include "includes.h"   
 // --------------------------------------------------------------------//
 
-#define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
-#define BYTE_TO_BINARY(byte)  \
-  (byte & 0x80 ? '1' : '0'), \
-  (byte & 0x40 ? '1' : '0'), \
-  (byte & 0x20 ? '1' : '0'), \
-  (byte & 0x10 ? '1' : '0'), \
-  (byte & 0x08 ? '1' : '0'), \
-  (byte & 0x04 ? '1' : '0'), \
-  (byte & 0x02 ? '1' : '0'), \
-  (byte & 0x01 ? '1' : '0') 
-
 void proc_arg()
 {
   int8 number;
@@ -143,7 +132,7 @@ void proc_cmd()
 
 void command_prompt()
 {
-   //disable_interrupts(INT_EXT);
+   disable_interrupts(INT_EXT);
    
    nv_cmd_mode = TRUE;
    write8(ADDR_CMD_MODE, nv_cmd_mode);
@@ -292,7 +281,7 @@ void main()
    }
    else
    {
-      int8 RTC_buffer = 0;
+      unsigned int8 RTC_buffer = 0;
       unsigned int8 a0 = 0;
       unsigned int8 a1 = 0;
       unsigned int8 a2 = 0;
@@ -305,51 +294,54 @@ void main()
       unsigned int8 a9 = 0;
       unsigned int8 a10 = 0;
       unsigned int8 a11 = 0;
+      //RTC_display();
+      //output_bit(RTC_CS, ENABLE);
+     // RTC_buffer = spi_read(0x0F);
+      //RTC_buffer = spi_read(RTC_buffer);;
+      //output_bit(RTC_CS, DISABLE);
+      //fprintf(COM_A,"result1: %d\r\n",RTC_buffer);
       
-      RTC_reset_HT();
+      //output_bit(PIN_J7,0);
       output_bit(RTC_CS, ENABLE);
-      spi_write(0x89);
-      spi_write(0b11111111);
+      RTC_buffer = spi_read(0x09);
+      fprintf(COM_A,"res1: %u\r\n",RTC_buffer);// address - WDT
+      RTC_buffer = spi_read(0b10000111);
+      fprintf(COM_A,"res1: %u\r\n",RTC_buffer);
+      RTC_buffer = spi_read(0x09);
+      fprintf(COM_A,"res1: %u\r\n",RTC_buffer);// address - WDT
+      
+      //RTC_buffer = spi_read();// control byte
+      
+      //output_bit(PIN_J7,1);
       output_bit(RTC_CS, DISABLE);
       
       output_bit(RTC_CS, ENABLE);
       RTC_buffer = spi_read(0x00);
       a0 = RTC_buffer;
-      fprintf(COM_A,"crap: %u\r\n",RTC_buffer);
+      fprintf(COM_A,"res1: %u\r\n",RTC_buffer);
       a1 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg0: %u\r\n",a1);
+      fprintf(COM_A,"res2: %u\r\n",a1);
       a2 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg1: %u\r\n",a2);
+      fprintf(COM_A,"res3: %u\r\n",a2);
       a3 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg2: %u\r\n",a3);
+      fprintf(COM_A,"res4: %u\r\n",a3);
       a4 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg3: %u\r\n",a4);
+      fprintf(COM_A,"res5: %u\r\n",a4);
       a5 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg4: %u\r\n",a5);
+      fprintf(COM_A,"res6: %u\r\n",a5);
       a6 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg5: %u\r\n",a6);
+      fprintf(COM_A,"res7: %u\r\n",a6);
       a7 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg6: %u\r\n",a7);
+      fprintf(COM_A,"res8: %u\r\n",a7);
       a8 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg7: %u\r\n",a8);
+      fprintf(COM_A,"res9: %u\r\n",a8);
       a9 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg8: %u\r\n",a9);
-      a9 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg9: %u\r\n",a9);
-      a9 = spi_read(RTC_buffer);
-      fprintf(COM_A,"regA: %u\r\n",a9);
-      a9 = spi_read(RTC_buffer);
-      fprintf(COM_A,"regB: %u\r\n",a9);
-      a9 = spi_read(RTC_buffer);
-      fprintf(COM_A,"regC: %u\r\n",a9);
-      a9 = spi_read(RTC_buffer);
-      fprintf(COM_A,"regD: %u\r\n",a9);
-      a9 = spi_read(RTC_buffer);
-      fprintf(COM_A,"regE: %u\r\n",a9);
-      a9 = spi_read(RTC_buffer);
-      fprintf(COM_A,"regF: %u\r\n",a9);
-      
-      output_bit(RTC_CS, DISABLE);
+      fprintf(COM_A,"res10: %u\r\n",a9);
+      //RTC_buffer = spi_write(0x09);
+      //RTC_buffer = spi_read();// address - DOM
+      //RTC_buffer = spi_read(RTC_buffer);
+      //output_bit(RTC_CS, DISABLE);
+      fprintf(COM_A,"result2: %u\r\n",RTC_buffer);
    
       command_prompt();
    }

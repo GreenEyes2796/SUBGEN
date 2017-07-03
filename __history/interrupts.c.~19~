@@ -2,7 +2,7 @@
 void rtc_wakeup_isr()
 {
 //   delay_cycles(10);       // mo ???
-   fprintf(COM_A,"test123\r\n");
+   //fprintf(COM_A,"test123\r\n");
    rtc_alarm = TRUE;
    sleep_mode = FALSE;
 

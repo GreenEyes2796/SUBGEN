@@ -309,10 +309,11 @@ void main()
       RTC_reset_HT();
       output_bit(RTC_CS, ENABLE);
       spi_write(0x89);
-      spi_write(0b11111111);
+      spi_write(0b10000111);
       output_bit(RTC_CS, DISABLE);
-      
       output_bit(RTC_CS, ENABLE);
+      
+      
       RTC_buffer = spi_read(0x00);
       a0 = RTC_buffer;
       fprintf(COM_A,"crap: %u\r\n",RTC_buffer);

@@ -305,14 +305,27 @@ void main()
       unsigned int8 a9 = 0;
       unsigned int8 a10 = 0;
       unsigned int8 a11 = 0;
+      //RTC_display();
+      //output_bit(RTC_CS, ENABLE);
+     // RTC_buffer = spi_read(0x0F);
+      //RTC_buffer = spi_read(RTC_buffer);;
+      //output_bit(RTC_CS, DISABLE);
+      //fprintf(COM_A,"result1: %d\r\n",RTC_buffer);
       
+      //output_bit(PIN_J7,0);
+      
+      /*output_bit(RTC_CS, ENABLE);
+      spi_write(0x81);
+      spi_write(0b00101010);
+      output_bit(RTC_CS, DISABLE);*/
       RTC_reset_HT();
       output_bit(RTC_CS, ENABLE);
       spi_write(0x89);
-      spi_write(0b11111111);
+      spi_write(0b10000111);
       output_bit(RTC_CS, DISABLE);
-      
       output_bit(RTC_CS, ENABLE);
+      
+      
       RTC_buffer = spi_read(0x00);
       a0 = RTC_buffer;
       fprintf(COM_A,"crap: %u\r\n",RTC_buffer);
