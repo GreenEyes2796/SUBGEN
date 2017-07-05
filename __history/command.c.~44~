@@ -773,13 +773,13 @@ void commandV()
 void commandW()
 {
    if (arg == 1){
-      //fprintf(COM_A,"1\r\n");
+      fprintf(COM_A,"1\r\n");
       RTC_alarm();
-      //fprintf(COM_A,"2\r\n");
+      fprintf(COM_A,"2\r\n");
       RTC_late();
-      //fprintf(COM_A,"3\r\n");
+      fprintf(COM_A,"3\r\n");
       RTC_alarm_status();
-      //fprintf(COM_A,"4\r\n");
+      fprintf(COM_A,"4\r\n");
    }
    else cmd_arg();
 }

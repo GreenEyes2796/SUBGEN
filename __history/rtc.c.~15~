@@ -348,7 +348,7 @@ void RTC_alarm(){
       RTC_buffer = spi_read(0x8E);        // address - Sec
       RTC_buffer = spi_read(Dec2Bcd(RTC_Sec_Data));  // data
       output_bit(RTC_CS, DISABLE);
-      delay_us(1); // Delays added 1.020A
+      delay_us(1);            // Delays added 1.020A
       
       output_bit(RTC_CS, ENABLE);
       RTC_buffer = spi_read(0x8D);        // address - Min
@@ -360,7 +360,7 @@ void RTC_alarm(){
       RTC_buffer = spi_read(0x8C);        // address - Hour
       RTC_buffer = spi_read(Dec2Bcd(RTC_Hr_Data));  // data
       output_bit(RTC_CS, DISABLE);
-      delay_us(1); 
+      delay_us(1);   
       
       output_bit(RTC_CS, ENABLE);
       RTC_buffer = spi_read(0x8B);        // address - DOM
@@ -369,14 +369,10 @@ void RTC_alarm(){
       delay_us(1);
       
       output_bit(RTC_CS, ENABLE);
-      //fprintf(COM_A,"test61\r\n");
-      RTC_buffer = spi_read(0x8A);// address - Month
-      //fprintf(COM_A,"test62\r\n");
-      //fprintf(COM_A,"test6: %d\r\n",RTC_Mon_Data);
+      RTC_buffer = spi_read(0x8A);        // address - Month
       RTC_buffer = spi_read(RTC_Mon_Data);  // data
       output_bit(RTC_CS, DISABLE);
       delay_us(1);
-      //fprintf(COM_A,"test6\r\n");
    
    RTC_read_alarm();
    }

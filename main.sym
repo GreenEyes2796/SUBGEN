@@ -203,7 +203,7 @@
 855-858 master_macro_loop_count
 859-85C master_macro_loop_start
 85D     disk_ioctl.ctrl
-85D     @39@SPRINTF.P1
+85D     @13@SPRINTF.P1
 85D-860 atan2.y
 85D     main.EscNum
 85E-85F main.EscCount
@@ -988,47 +988,47 @@
 8D0     @PRINTF_L32U_1460FP.@SCRATCH2
 8D0     @PRINTF_LD_19200_31766_31767.@SCRATCH2
 8D0     get_slave_data.@SCRATCH1
-8D1     @39@PRINTF_U_19200_31766_31767.P1
+8D1     @13@PRINTF_U_19200_31766_31767.P1
 8D1     @PRINTF_U_9600_31793_31794.P2
-8D1-8D2 @39@READ_PROGRAM_MEMORY.P3
+8D1-8D2 @13@READ_PROGRAM_MEMORY.P3
 8D1-8D4 read_supply.reading
 8D1-8D2 decode_flag.@STRPARAM
-8D1     @39@WRITE_PROGRAM_MEMORY.P1
-8D1     @39@PRINTF_X_19200_31766_31767.P2
+8D1     @13@WRITE_PROGRAM_MEMORY.P1
+8D1     @13@PRINTF_X_19200_31766_31767.P2
 8D1-8D2 ldr_strncmp.s1
-8D1     @39@PSTRINGCN_19200_31766_31767.P1
+8D1     @13@PSTRINGCN_19200_31766_31767.P1
 8D1     real_load_program.@SCRATCH1
-8D1     @39@PSTRINGC_19200_31766_31767.@SCRATCH1
+8D1     @13@PSTRINGC_19200_31766_31767.@SCRATCH1
 8D1     write16.@SCRATCH3
 8D1     @PRINTF_L32U_1460FP.@SCRATCH3
 8D1     @PRINTF_LD_19200_31766_31767.@SCRATCH3
 8D1     get_slave_data.@SCRATCH2
-8D2     @39@PRINTF_U_19200_31766_31767.P1
-8D2     @39@PRINTF_X_19200_31766_31767.P2
+8D2     @13@PRINTF_U_19200_31766_31767.P1
+8D2     @13@PRINTF_X_19200_31766_31767.P2
 8D2     real_load_program.@SCRATCH2
-8D2     @39@PSTRINGC_19200_31766_31767.@SCRATCH2
-8D2     @39@PSTRINGCN_19200_31766_31767.@SCRATCH1
+8D2     @13@PSTRINGC_19200_31766_31767.@SCRATCH2
+8D2     @13@PSTRINGCN_19200_31766_31767.@SCRATCH1
 8D2     strncat.@SCRATCH1
 8D2     multidrop_off.@SCRATCH1
 8D2     @PRINTF_L32U_1460FP.@SCRATCH4
 8D2     @PRINTF_LD_19200_31766_31767.@SCRATCH4
 8D2     get_slave_data.@SCRATCH3
-8D3     @39@DIV88.P1
+8D3     @13@DIV88.P1
 8D3-8D4 @PRINTF_LU_1460.P2
 8D3-8D4 ldr_strncmp.s2
 8D3     real_load_program.@SCRATCH3
-8D3     @39@PSTRINGC_19200_31766_31767.@SCRATCH3
-8D3     @39@PSTRINGCN_19200_31766_31767.@SCRATCH2
+8D3     @13@PSTRINGC_19200_31766_31767.@SCRATCH3
+8D3     @13@PSTRINGCN_19200_31766_31767.@SCRATCH2
 8D3     strncat.@SCRATCH2
 8D3     @PRINTF_L32U_1460FP.@SCRATCH5
 8D3     @PRINTF_LD_19200_31766_31767.@SCRATCH5
 8D3     @PRINTF_L32D_19200_31766_31767.@SCRATCH1
 8D3     decode_flag.@SCRATCH1
 8D3     get_slave_data.@SCRATCH4
-8D4     @39@DIV88.P1
+8D4     @13@DIV88.P1
 8D4-8D7 fmod.i
 8D4     real_load_program.@SCRATCH4
-8D4     @39@PSTRINGCN_19200_31766_31767.@SCRATCH3
+8D4     @13@PSTRINGCN_19200_31766_31767.@SCRATCH3
 8D4     strncat.@SCRATCH3
 8D4     @PRINTF_L32U_1460FP.@SCRATCH6
 8D4     @PRINTF_LD_19200_31766_31767.@SCRATCH6
@@ -1039,7 +1039,7 @@
 8D5-8F4 ADC_average.ADC_last_sample
 8D5-8D6 strcat.s1
 8D5     ldr_strncmp.n
-8D5     @39@DIV88.@SCRATCH1
+8D5     @13@DIV88.@SCRATCH1
 8D5     read_supply.@SCRATCH1
 8D5     @PRINTF_L32U_1460FP.@SCRATCH7
 8D5     @PRINTF_LD_19200_31766_31767.@SCRATCH7
@@ -1466,18 +1466,18 @@ FC7     SSP1STAT
 FD0     RCON
 FE1-FE2 @WRITE_PACKED_MEMORY.P1
 FE1-FE2 @READ_PACKED_MEMORY.P2
-FE9-FEA @39@READ_PROGRAM_MEMORY.P1
+FE9-FEA @13@READ_PROGRAM_MEMORY.P1
 FE9-FEA @STRFINDINLIST.P2
 FE9-FEA @WRITE_PACKED_MEMORY.P3
 FE9-FEA @MEMSET.P4
 FE9-FEA @WRITE_PROGRAM_MEMORY.P5
-FE9-FEA @39@WRITE_PROGRAM_MEMORY.P6
+FE9-FEA @13@WRITE_PROGRAM_MEMORY.P6
 FE9-FEA @READ_PACKED_MEMORY.P7
 FE9-FEA @READ_PROGRAM_MEMORY.P8
 FF2     INTCON
 FF6-FF8 @READ_PROGRAM_MEMORY.P1
-FF6-FF8 @39@READ_PROGRAM_MEMORY.P2
-FF6-FF8 @39@WRITE_PROGRAM_MEMORY.P3
+FF6-FF8 @13@READ_PROGRAM_MEMORY.P2
+FF6-FF8 @13@WRITE_PROGRAM_MEMORY.P3
 FF6-FF8 @WRITE_PROGRAM_MEMORY.P4
 
 ROM Allocation:
@@ -1883,14 +1883,14 @@ ROM Allocation:
 0095D0  end_move
 009C42  msg_mer
 009CB8  move_motor
-00A698  @goto34602
+00A698  @goto26604
 00A6C2  poll_index
 00A7F4  align
 00A998  recovery
 00AA04  @PSTRINGCN_1460
 00AA36  @PRINTF_LU_1460
 00AAFE  reset_event
-00ACE8  @goto35047
+00ACE8  @goto27050
 00AD28  TestForEsc
 00AD82  @PSTRINGC_1
 00ADAC  busy_clear
@@ -1938,7 +1938,7 @@ ROM Allocation:
 00D242  @PRINTF_LD_1460
 00D344  store_wms_data
 00D506  play_wms_hard_macro
-00D6E8  @goto37685
+00D6E8  @goto29696
 00D714  commandCw
 00D77E  multidrop_on
 00D792  @PSTRINGCN_9600_31793_31794
@@ -1969,7 +1969,7 @@ ROM Allocation:
 00F104  det_cmd
 00F244  commandK
 00F27A  DAC_set
-00F2FA  @goto33271
+00F2FA  @goto25274
 00F322  ADC_average
 00F51E  LED_SAR
 00F5BA  set_LED
@@ -2005,7 +2005,7 @@ ROM Allocation:
 01227A  calc_abs_data
 0122DE  store_rel_data
 0123EC  set_heaters
-012438  @goto35737
+012438  @goto27737
 012460  set_heat
 01249A  set_light
 0124DA  clear_slave_reply
@@ -2020,7 +2020,7 @@ ROM Allocation:
 012B16  @GETCH_BIU_2
 012B30  get_slave_data
 012C20  det_read
-012FE8  @goto35553
+012FE8  @goto27559
 013010  parse_string
 013080  @MULS1616
 0130D6  atol
@@ -2033,17 +2033,17 @@ ROM Allocation:
 0138AC  parse_temp
 0138CE  det_temp
 013ABA  play_macro_line2
-013DFA  @goto37283
+013DFA  @goto29295
 013EA6  read_macro_line_silent
 013F5A  @PRINTF_LU_9600_31793_31794
 014014  sol_switch_cmd
 0140CA  sol_switch
-0144F0  @goto36070
+0144F0  @goto28073
 014552  play_macro_line
-014D26  @goto37383
+014D26  @goto29397
 014DD6  store_aws_data
 014F00  play_macro
-015238  @goto37513
+015238  @goto29530
 015266  RTC_set_AFE
 0152BE  RTC_late
 015778  RTC_alarm_status
@@ -2065,90 +2065,90 @@ ROM Allocation:
 016502  auto_sample_aws
 0166D8  auto_sample_ready
 0168DA  commandM
-0169F4  commandN
-016A82  @PUTCHARI_BIU_2
-016A90  open_pipe
-016B9C  commandO
-016BC0  command_move
-016C7A  commandPe
-016D68  commandPa
-016DA0  commandP
-016DDC  commandQw
-016E24  commandQa
-016E5E  commandQ
-016E8E  commandRe
-016F70  commandRw
-016FD0  commandRa
-0170F4  commandR
-017130  commandSe
-0171B0  commandSw
-0171EC  commandSa
-017220  commandS
-01725C  cmd_inv
-01727C  get_time
-017636  Dec2Bcd
-017674  RTC_Set
-0177BE  commandT
-017850  check_macro
-017A32  get_cmd
-017A7E  macro_comment
-017AC0  get_arg_string
-017B66  write_ext_eeprom
-017BC6  write_macro_line_string
-017D08  get_arg
-017DA6  write16_ext_eeprom
-017DF2  write_macro_line
-017E60  get_macro_line
-017F0E  upload_macro
-018044  write_blank_macros
-0181C0  commandU
-0181FE  read_macro_line
-0182B2  read_macro
-018318  commandV
-01833E  RTC_alarm
-01848C  commandW
-0184B0  commandX
-018518  commandY
-018620  commandZ
-018644  command_set
-01866A  poll_enc
-018770  command_a
-01878C  command_b
-018826  command_c
-01886E  command_d
-018904  command_e
-01899E  command_f
-0189BE  command_g
-018A58  command_h
-018B2C  command_i
-018C08  command_j
-018CA2  command_k
-018D38  step_var_list
-019998  command_m
-019A2E  command_n
-019AC4  command_o
-019B5E  command_p
-019BF8  command_q
-019C14  rst_step_vars_eco
-019EFE  rst_step_vars_wms4
-01A1AA  rst_step_vars_aws
-01A444  rst_step_vars_wms2
-01A6F4  command_r
-01A74E  command_s
-01A85C  command_t
-01A8F2  command_u
-01A92A  command_w
-01A9FE  command_x
-01AA98  command_y
-01AB2E  command_z
-01ABA4  select_cmd
-01AD3E  @goto39927
-01AE0E  proc_arg
-01AEFA  proc_cmd
-01AF2E  command_prompt
-01AFB6  @cinit1
-01AFB6  main
-01B05A  @cinit2
+0169F0  commandN
+016A7E  @PUTCHARI_BIU_2
+016A8C  open_pipe
+016B98  commandO
+016BBC  command_move
+016C76  commandPe
+016D64  commandPa
+016D9C  commandP
+016DD8  commandQw
+016E20  commandQa
+016E5A  commandQ
+016E8A  commandRe
+016F6C  commandRw
+016FCC  commandRa
+0170F0  commandR
+01712C  commandSe
+0171AC  commandSw
+0171E8  commandSa
+01721C  commandS
+017258  cmd_inv
+017278  get_time
+017632  Dec2Bcd
+017670  RTC_Set
+0177BA  commandT
+01784C  check_macro
+017A2E  get_cmd
+017A7A  macro_comment
+017ABC  get_arg_string
+017B62  write_ext_eeprom
+017BC2  write_macro_line_string
+017D04  get_arg
+017DA2  write16_ext_eeprom
+017DEE  write_macro_line
+017E5C  get_macro_line
+017F0A  upload_macro
+018040  write_blank_macros
+0181BC  commandU
+0181FA  read_macro_line
+0182AE  read_macro
+018314  commandV
+01833A  RTC_alarm
+018488  commandW
+0184AC  commandX
+018514  commandY
+01861C  commandZ
+018640  command_set
+018666  poll_enc
+01876C  command_a
+018788  command_b
+018822  command_c
+01886A  command_d
+018900  command_e
+01899A  command_f
+0189BA  command_g
+018A54  command_h
+018B28  command_i
+018C04  command_j
+018C9E  command_k
+018D34  step_var_list
+019994  command_m
+019A2A  command_n
+019AC0  command_o
+019B5A  command_p
+019BF4  command_q
+019C10  rst_step_vars_eco
+019EFA  rst_step_vars_wms4
+01A1A6  rst_step_vars_aws
+01A440  rst_step_vars_wms2
+01A6F0  command_r
+01A74A  command_s
+01A858  command_t
+01A8EE  command_u
+01A926  command_w
+01A9FA  command_x
+01AA94  command_y
+01AB2A  command_z
+01ABA0  select_cmd
+01AD3A  @goto31917
+01AE0A  proc_arg
+01AEF6  proc_cmd
+01AF2A  command_prompt
+01AFB2  @cinit1
+01AFB2  main
+01B056  @cinit2
 01F800  load_program
 01F80A  @const861.call
 01F80E  @const866.call
@@ -2157,16 +2157,16 @@ ROM Allocation:
 01F828  @const889.call
 01F82E  @const890.call
 01F838  @const891.call
-01F842  @39@PUTCHARI_BIU_3
+01F842  @13@PUTCHARI_BIU_3
 01F84A  atoi_b16
-01F8B0  @39@PSTRINGC_19200_31766_31767
-01F8DA  @39@PSTRINGCN_19200_31766_31767
-01F90C  @39@PRINTF_X_19200_31766_31767
-01F952  @39@DIV88
-01F97E  @39@PRINTF_U_19200_31766_31767
-01F9FC  @39@FLASHWR
-01FA1C  @39@WRITE_PROGRAM_MEMORY
-01FA5C  @39@READ_PROGRAM_MEMORY
+01F8B0  @13@PSTRINGC_19200_31766_31767
+01F8DA  @13@PSTRINGCN_19200_31766_31767
+01F90C  @13@PRINTF_X_19200_31766_31767
+01F952  @13@DIV88
+01F97E  @13@PRINTF_U_19200_31766_31767
+01F9FC  @13@FLASHWR
+01FA1C  @13@WRITE_PROGRAM_MEMORY
+01FA5C  @13@READ_PROGRAM_MEMORY
 01FA7A  ldr_strncmp
 01FB0A  real_load_program
 0136  StrtoulGO
@@ -2183,7 +2183,7 @@ Project Directory:
     C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\
 
 Project Files:
-    main.c                                                  [03-Jul-17 14:46  CRC=85373224]
+    main.c                                                  [05-Jul-17 10:56  CRC=1A76263A]
     ..\..\..\..\..\..\..\Program Files (x86)\PICC\Devices\18F87K22.h [01-Mar-17 12:47  CRC=69ACE528]
     includes.h                                              [28-Sep-16 08:32  CRC=2298FD96]
     firmware.c                                              [28-Sep-16 08:32  CRC=C73B502A]
@@ -2201,7 +2201,7 @@ Project Files:
     sd_min.c                                                [28-Sep-16 08:32  CRC=F17BBE69]
     ff_min.h                                                [28-Sep-16 08:32  CRC=C2FD33D2]
     media_io.h                                              [28-Sep-16 08:32  CRC=BB7E65BF]
-    rtc.c                                                   [26-Jun-17 16:19  CRC=E9C5A1AB]
+    rtc.c                                                   [05-Jul-17 11:49  CRC=C2F0AB5C]
     max525.c                                                [28-Sep-16 08:32  CRC=61058107]
     adc.c                                                   [28-Sep-16 08:32  CRC=90CAD002]
     interrupts.c                                            [03-Jul-17 14:46  CRC=017450E7]
@@ -2223,12 +2223,12 @@ Project Files:
     macro_wms.c                                             [28-Sep-16 08:32  CRC=C960C3EC]
     macro_aws.c                                             [28-Sep-16 08:32  CRC=2503163F]
     auto.c                                                  [22-May-17 13:28  CRC=42C802E1]
-    command.c                                               [03-Jul-17 14:57  CRC=724DC3A2]
+    command.c                                               [05-Jul-17 11:49  CRC=576F1C2C]
 
-Source signature=C005A7AB
+Source signature=F8B25686
 Program memory checksum=0000
 Program memory CRC=0000
-Hex file CRC=172D
+Hex file CRC=8344
 
 Units:
     main (main)

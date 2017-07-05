@@ -322,8 +322,10 @@ void RTC_alarm(){
 
    int8 time_error;
    int8 RTC_buffer;
+   fprintf(COM_A,"test0\r\n");
    
    RTC_read_alarm();
+   fprintf(COM_A,"test01\r\n");
    
    time_error = get_time();
    
@@ -340,6 +342,7 @@ void RTC_alarm(){
       // Freq DC to 2 MHz ((10/4)/16) = 625 kHz
       setup_spi(SPI_MASTER|SPI_MODE_0_0|SPI_CLK_DIV_16);
       delay_us(10);
+      fprintf(COM_A,"test1\r\n");
       
       // Do not write alarm seconds last
       // ... it disables the interrupt/flag
@@ -348,35 +351,40 @@ void RTC_alarm(){
       RTC_buffer = spi_read(0x8E);        // address - Sec
       RTC_buffer = spi_read(Dec2Bcd(RTC_Sec_Data));  // data
       output_bit(RTC_CS, DISABLE);
-      delay_us(1); // Delays added 1.020A
+      delay_us(1); 
+      fprintf(COM_A,"test2\r\n");// Delays added 1.020A
       
       output_bit(RTC_CS, ENABLE);
       RTC_buffer = spi_read(0x8D);        // address - Min
       RTC_buffer = spi_read(Dec2Bcd(RTC_Min_Data));  // data
       output_bit(RTC_CS, DISABLE);
       delay_us(1);
+      fprintf(COM_A,"test3\r\n");
       
       output_bit(RTC_CS, ENABLE);
       RTC_buffer = spi_read(0x8C);        // address - Hour
       RTC_buffer = spi_read(Dec2Bcd(RTC_Hr_Data));  // data
       output_bit(RTC_CS, DISABLE);
       delay_us(1); 
+      fprintf(COM_A,"test4\r\n");
       
       output_bit(RTC_CS, ENABLE);
       RTC_buffer = spi_read(0x8B);        // address - DOM
       RTC_buffer = spi_read(Dec2Bcd(RTC_DOM_Data));  // data
       output_bit(RTC_CS, DISABLE); 
       delay_us(1);
+      fprintf(COM_A,"test5\r\n");
       
       output_bit(RTC_CS, ENABLE);
       //fprintf(COM_A,"test61\r\n");
       RTC_buffer = spi_read(0x8A);// address - Month
       //fprintf(COM_A,"test62\r\n");
-      //fprintf(COM_A,"test6: %d\r\n",RTC_Mon_Data);
       RTC_buffer = spi_read(RTC_Mon_Data);  // data
+      //fprintf(COM_A,"test63\r\n");
       output_bit(RTC_CS, DISABLE);
+      //fprintf(COM_A,"test64\r\n");
       delay_us(1);
-      //fprintf(COM_A,"test6\r\n");
+      fprintf(COM_A,"test6\r\n");
    
    RTC_read_alarm();
    }

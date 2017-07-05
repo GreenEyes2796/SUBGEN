@@ -1,12 +1,1 @@
->>> Warning 216 "main.c" Line 358(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PSTRINGCN_19200_31766_31767)
->>> Warning 216 "main.c" Line 358(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PSTRINGC_19200_31766_31767)
->>> Warning 216 "main.c" Line 358(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PRINTF_LU_19200_31766_31767)
->>> Warning 216 "main.c" Line 358(1,2): Interrupts disabled during call to prevent re-entrancy:  (@DIV3232)
->>> Warning 216 "main.c" Line 358(1,2): Interrupts disabled during call to prevent re-entrancy:  (@DIV88)
->>> Warning 216 "main.c" Line 358(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PRINTF_U_19200_31766_31767)
->>> Warning 216 "main.c" Line 358(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PRINTF_L32U_19200_31766_31767)
->>> Warning 216 "main.c" Line 358(1,2): Interrupts disabled during call to prevent re-entrancy:  (RTC_read_flags)
->>> Warning 202 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\macros.c" Line 258(10,20): Variable never used:   macro_cmd2
-      Memory usage:   ROM=87%      RAM=56% - 68%
-      0 Errors,  9 Warnings.
-Build Successful.
+*** Error 199 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\stepper.c" Line 118(16,17): User aborted compilation
