@@ -177,20 +177,25 @@ int8 check_cmd(int8 e)
 
 void proc_cmd()
 {
+   if(!check_cmd(cmd))
+      fputs("\r\n@INV", COM_A);
+   else{
+      fputs("\r\n@OK! ", COM_A);
+      select_cmd();
+   }
+}
+void proc_cmd2()
+{
    if(check_cmd(cmd)) proc_arg();
    else fputs("@INV", COM_A);
 }
 
 void command_prompt(){
+   int8 good_val = FALSE;
    int8 i = 0;
    char temp = 0;
    char input_string[30];
-   char blank_string[30];
-   for(i = 0; i<30; i++){
-      input_string[i] = 0;
-      blank_string[i] = 0;
-   }
-   i = 0;
+   
    
    nv_cmd_mode = TRUE;
    write8(ADDR_CMD_MODE, nv_cmd_mode);
@@ -205,18 +210,25 @@ void command_prompt(){
    cmd_set=0; // user
    
    do {
+      for(i = 0; i<30; i++){
+         input_string[i] = 0;
+  
+      }
+      i = 0;
       fputc('>',COM_A);
-      
+      temp = 0;
       while(temp != CARRIAGE_RET){
          temp = fgetc(COM_A);
          //Backspace character
          if(temp != 8){
-         if (com_echo == TRUE)
-         {
-            fputc(temp,COM_A);
-         }
-         input_string[i] = temp;
-         i++;
+            if (com_echo == TRUE)
+            {
+               fputc(temp,COM_A);
+            }
+            if(temp!= CARRIAGE_RET){
+               input_string[i] = temp;
+               i++;
+            }
          }else{
             if(i != 0){
                input_string[i-1] = 0;
@@ -232,6 +244,34 @@ void command_prompt(){
          }
       }
       cmd = input_string[0];
+      i = 1;
+      //fputs("\r\n",COM_A);
+      while(input_string[i] != 0){
+      //fputc(input_string[i],COM_A);
+         if(!isdigit(input_string[i])){
+            fputs("\r\n@ARG ", COM_A);
+            good_val = FALSE;
+            break;
+         }else{
+            good_val = TRUE;
+         }
+         i++;
+      }
+      if(!good_val){
+         continue;
+      }
+      
+      arg = atoi32(input_string+1);
+      
+      //proc_cmd();
+      //fputs("\r\n@OK! ", COM_A);
+      //select_cmd();
+      
+      if (cmd == '?') msg_busy();
+      else{ 
+            proc_cmd();
+            
+      }
       
       
       

@@ -1,10 +1,9 @@
-F N "calc_abs_NO3" 34 18 ""
-D G "__PCH__" 34 65 ""5.071d""
-D G "__DEVICE__" 34 65 "8722"
-D G "__DATE__" 34 65 ""06-Jul-17""
-D G "__TIME__" 34 65 ""15:10:41""
-D G "_UNICODE" 34 65 ""?""
-D G "__EVAL" 34 65 ""?"" "TITLE BLOCK"
+D G "__PCH__" 0 516 ""5.071d""
+D G "__DEVICE__" 0 516 "8722"
+D G "__DATE__" 0 516 ""06-Jul-17""
+D G "__TIME__" 0 516 ""16:09:01""
+D G "_UNICODE" 0 516 ""?""
+D G "__EVAL" 0 516 ""?"" "TITLE BLOCK"
 c L "set_tris_a" 1 1 6 "FUNCTION"
 f N "set_tris_a" 1 48 ""
 v L "value" 1 48 "int8" `55 
@@ -5263,53 +5262,72 @@ C L "select_cmd" 40 2 1 "FUNCTION"
 C L "select_cmd" 40 2 2 "FUNCTION"
 D G "BYTE_TO_BINARY_PATTERN" 0 83 ""%c%c%c%c%c%c%c%c""
 D G "BYTE_TO_BINARY" 0 84 "(byte)  Š  (byte & 0x80 ? '1' : '0'), Š  (byte & 0x40 ? '1' : '0'), Š  (byte & 0x20 ? '1' : '0'), Š  (byte & 0x10 ? '1' : '0'), Š  (byte & 0x08 ? '1' : '0'), Š  (byte & 0x04 ? '1' : '0'), Š  (byte & 0x02 ? '1' : '0'), Š  (byte & 0x01 ? '1' : '0')"
-F N "proc_arg" 0 94 ""
-F G "proc_arg" 0 95 "void()" `2933 
+F N "proc_arg2" 0 94 ""
+F G "proc_arg2" 0 95 "void()" `2933 
 V L "number" 0 96 "int8" `2934 
 V L "good_arg" 0 97 "int8" `2935 
 V L "temp_number" 0 98 "int8" `2936 
-C L "proc_arg" 0 81 1 "FUNCTION"
-C L "proc_arg" 0 81 1 "FUNCTION"
-C L "proc_arg" 0 81 1 "FUNCTION"
-C L "proc_arg" 0 81 1 "FUNCTION"
-C L "proc_arg" 0 81 1 "FUNCTION"
-C L "proc_arg" 0 119 1 "*"
+C L "proc_arg2" 0 81 1 "FUNCTION"
+C L "proc_arg2" 0 81 1 "FUNCTION"
+C L "proc_arg2" 0 81 1 "FUNCTION"
+C L "proc_arg2" 0 81 1 "FUNCTION"
+C L "proc_arg2" 0 81 1 "FUNCTION"
+C L "proc_arg2" 0 119 1 "*"
+C L "proc_arg2" 0 119 1 "FUNCTION"
+F N "proc_arg" 0 131 ""
+F G "proc_arg" 0 132 "void()" `2939 
+V L "number" 0 133 "int8" `2940 
+V L "good_arg" 0 134 "int8" `2941 
+V L "temp_number" 0 135 "int8" `2942 
 C L "proc_arg" 0 119 1 "FUNCTION"
-F N "check_cmd" 0 131 ""
-V L "e" 0 131 "int8" `2940 
-F G "check_cmd" 0 132 "int8(int8 e)" `2939  "cmd_set - 0=user, 1=full"
-V L "valid" 0 134 "int8" `2941 
-F N "proc_cmd" 0 140 ""
-F G "proc_cmd" 0 141 "void()" `2944 
-F N "command_prompt" 0 146 ""
-F G "command_prompt" 0 146 "void()" `2946 
-V L "i" 0 147 "int8" `2947 
-V L "temp" 0 148 "int8" `2948 
-V L "input_string" 0 149 "int8[30]" `2949 
-V L "blank_string" 0 150 "int8[30]" `2950 
-C L "command_prompt" 0 119 1 "FUNCTION"
-C L "command_prompt" 0 119 10 "FUNCTION"
-F N "command_prompt2" 0 216 ""
-F G "command_prompt2" 0 217 "void()" `2955  "disable_interrupts(INT_EXT);"
-V L "temp_cmd" 0 219 "int8" `2956 
-C L "command_prompt2" 0 119 1 "FUNCTION"
-C L "command_prompt2" 0 119 1 "FUNCTION"
-F N "main" 0 247 ""
-F G "main" 0 248 "void()" `2959 
-V L "EscNum" 0 248 "int8" `2960 
-V L "EscCount" 0 249 "int16" `2961 
-C L "main" 0 119 1 "FUNCTION"
-C L "main" 0 119 1 "FUNCTION"
-C L "main" 0 119 7 "FUNCTION"
-C L "main" 0 119 6 "FUNCTION"
-C L "main" 0 119 2 "FUNCTION"
-C L "main" 0 119 1 "FUNCTION"
-C L "main" 0 119 2 "FUNCTION"
-C L "main" 0 119 1 "FUNCTION"
-C L "main" 0 119 1 "FUNCTION"
-C L "main" 0 119 2 "FUNCTION"
-C L "main" 0 119 1 "FUNCTION"
-C L "main" 0 119 55 "FUNCTION"
+C L "proc_arg" 0 119 1 "FUNCTION"
+C L "proc_arg" 0 119 1 "FUNCTION"
+C L "proc_arg" 0 119 1 "FUNCTION"
+C L "proc_arg" 0 119 1 "FUNCTION"
+C L "proc_arg" 0 156 1 "*"
+C L "proc_arg" 0 156 1 "FUNCTION"
+F N "check_cmd" 0 169 ""
+V L "e" 0 169 "int8" `2946 
+F G "check_cmd" 0 170 "int8(int8 e)" `2945  "cmd_set - 0=user, 1=full"
+V L "valid" 0 172 "int8" `2947 
+F N "proc_cmd" 0 178 ""
+F G "proc_cmd" 0 179 "void()" `2950 
+F N "proc_cmd2" 0 187 ""
+F G "proc_cmd2" 0 188 "void()" `2953 
+F N "command_prompt" 0 193 ""
+F G "command_prompt" 0 193 "void()" `2955 
+V L "good_val" 0 194 "int8" `2956 
+V L "i" 0 195 "int8" `2957 
+V L "temp" 0 196 "int8" `2958 
+V L "input_string" 0 197 "int8[30]" `2959 
+C L "command_prompt" 0 156 1 "FUNCTION"
+C L "command_prompt" 0 156 1 "FUNCTION"
+C L "command_prompt" 0 156 1 "FUNCTION"
+C L "command_prompt" 0 156 1 "FUNCTION"
+C L "command_prompt" 0 156 1 "FUNCTION"
+C L "command_prompt" 0 156 3 "FUNCTION"
+C L "command_prompt" 0 156 10 "FUNCTION"
+F N "command_prompt2" 0 298 ""
+F G "command_prompt2" 0 299 "void()" `2966  "disable_interrupts(INT_EXT);"
+V L "temp_cmd" 0 301 "int8" `2967 
+C L "command_prompt2" 0 156 1 "FUNCTION"
+C L "command_prompt2" 0 156 1 "FUNCTION"
+F N "main" 0 329 ""
+F G "main" 0 330 "void()" `2970 
+V L "EscNum" 0 330 "int8" `2971 
+V L "EscCount" 0 331 "int16" `2972 
+C L "main" 0 156 1 "FUNCTION"
+C L "main" 0 156 1 "FUNCTION"
+C L "main" 0 156 7 "FUNCTION"
+C L "main" 0 156 6 "FUNCTION"
+C L "main" 0 156 2 "FUNCTION"
+C L "main" 0 156 1 "FUNCTION"
+C L "main" 0 156 2 "FUNCTION"
+C L "main" 0 156 1 "FUNCTION"
+C L "main" 0 156 1 "FUNCTION"
+C L "main" 0 156 2 "FUNCTION"
+C L "main" 0 156 1 "FUNCTION"
+C L "main" 0 156 55 "FUNCTION"
 F B "reset_cpu" 0 0
 F B "abs" 1 0
 F B "sleep_ulpwu" 1 0
