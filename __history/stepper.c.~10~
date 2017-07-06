@@ -1139,8 +1139,7 @@ void move_motor(int8 dir_mode, int8 dir, int32 m_steps, int8 int_mode)
       }
 
       start_motor(int_mode); // incorrect comment - This call will determine back-lash
-      
-      //timeout could be set here!!!
+
       while (m_running[motor])
       {
          switch(e_mode[motor])

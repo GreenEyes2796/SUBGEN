@@ -17,8 +17,6 @@ int16 nv_cmd_mode;                  // command mode or sampling mode
 int16 MaxSamples;                   // Max Sample counter flag
 int16 nv_elapsed;                   // time elapsed since last sample
 int16 nv_macro_step;                // step counter for master macro
-int16 valve_align_timeout = -1;
-int16 valve_align_counter = -1;
 // stepper
 int16 nv_com_err;                    // invalid comm response counter 
 // sd card

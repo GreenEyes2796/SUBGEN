@@ -3,12 +3,12 @@ void rtc_wakeup_isr()
 {
 //   delay_cycles(10);       // mo ???
    //Handle updating variables for the valve timeout
-   /*if(valve_align_timeout != -1){
+   if(valve_align_timeout != -1){
       fprintf(COM_A,"align_var: %Ld \r\n",valve_align_timeout);
-      if(valve_align_timeout >= 2){
+      /*if(valve_align_timeout >= 2){
          valve_align_timeout = -1;
          reset_cpu();
-      }
+      }*/
       valve_align_timeout++;
    }*/
    //Service watchdog

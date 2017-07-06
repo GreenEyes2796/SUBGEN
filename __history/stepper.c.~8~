@@ -1139,8 +1139,7 @@ void move_motor(int8 dir_mode, int8 dir, int32 m_steps, int8 int_mode)
       }
 
       start_motor(int_mode); // incorrect comment - This call will determine back-lash
-      
-      //timeout could be set here!!!
+
       while (m_running[motor])
       {
          switch(e_mode[motor])
@@ -1350,13 +1349,12 @@ void recovery()
    {
       //setup_timer_0(RTCC_INTERNAL|RTCC_8_BIT|RTCC_DIV_256);
       //set up valve timeout variable
-      /*ext_int_edge(0, H_TO_L);         // Set up PIC18 EXT0
+      ext_int_edge(0, H_TO_L);         // Set up PIC18 EXT0
       enable_interrupts(INT_EXT);
 
       start_heartbeat();
 
       enable_interrupts(GLOBAL);
-      busy_set();*/
       valve_align_timeout = 0;
       fprintf(COM_A, "@REC - homing syringe and aligning valve to port 1\r\n");
       motor=0;

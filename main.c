@@ -31,8 +31,6 @@
 // WDT time-outs     = 1.024 2.048 4.096 8.192 16.384 32.768 65.536 131.027 sec
 #FUSES WDT1024                   // WDT = 1024 * 4 ms = 4.0960 sec.
 #FUSES WDT_SW  
-//#fuses WDT//, WDT16
-//#fuses WDT// WDT is s/w controlled
 //#use delay(clock=2000000)
 
 #FUSES NOWDT

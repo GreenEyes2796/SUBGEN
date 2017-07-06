@@ -137,7 +137,6 @@ void RTC_read_flags()
    output_bit(RTC_CS, ENABLE);
    RTC_buffer = spi_read(0x0F);
    RTC_Flags_Reg = spi_read(RTC_buffer);
-   spi_read(0x00);
    output_bit(RTC_CS, DISABLE);
 
    RTC_read_flags_running = FALSE;
