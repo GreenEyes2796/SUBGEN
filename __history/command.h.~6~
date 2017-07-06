@@ -28,7 +28,6 @@ void commandW();
 void commandX();
 void commandY();
 void commandZ();
-void command_v();
 
 
 void calc_abs_data();

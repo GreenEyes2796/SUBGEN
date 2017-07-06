@@ -1,9 +1,10 @@
-D G "__PCH__" 0 361 ""5.071d""
-D G "__DEVICE__" 0 361 "8722"
-D G "__DATE__" 0 361 ""06-Jul-17""
-D G "__TIME__" 0 361 ""13:39:34""
-D G "_UNICODE" 0 361 ""?""
-D G "__EVAL" 0 361 ""?"" "TITLE BLOCK"
+F N "calc_abs_NO3" 34 18 ""
+D G "__PCH__" 34 65 ""5.071d""
+D G "__DEVICE__" 34 65 "8722"
+D G "__DATE__" 34 65 ""06-Jul-17""
+D G "__TIME__" 34 65 ""15:10:41""
+D G "_UNICODE" 34 65 ""?""
+D G "__EVAL" 34 65 ""?"" "TITLE BLOCK"
 c L "set_tris_a" 1 1 6 "FUNCTION"
 f N "set_tris_a" 1 48 ""
 v L "value" 1 48 "int8" `55 
@@ -3992,7 +3993,7 @@ F N "time_stamp" 24 53 ""
 F G "time_stamp" 24 54 "void()" `2074 
 V L "v_supply" 24 55 "int16" `2075 
 F N "record_event" 24 66 ""
-F G "record_event" 24 67 "void(int32 ,int8 )" `2083 
+F G "record_event" 24 67 "void()" `2083 
 D G "M1_RESET" 25 2 "PIN_H0"
 D G "M1_ENABLE" 25 3 "PIN_H1"
 D G "M1_CONTROL" 25 4 "PIN_H2"
@@ -4149,7 +4150,7 @@ F G "update_e_pos" 25 462 "void()" `2131
 F N "poll_index" 25 495 ""
 F G "poll_index" 25 496 "void()" `2135  "(e_type) 1 = quad, 2 = slotted disk"
 F N "poll_index_isr" 25 516 ""
-F G "poll_index_isr" 25 517 "void(int32 )" `2136  "(e_type) 1 = quad, 2 = slotted disk"
+F G "poll_index_isr" 25 517 "void()" `2136  "(e_type) 1 = quad, 2 = slotted disk"
 C L "int1_isr" 25 136 1 "FUNCTION"
 F N "int1_isr" 25 539 ""
 F G "int1_isr" 25 540 "void()" `2137 
@@ -4175,7 +4176,7 @@ V L "pwr" 25 646 "int8" `2143
 F G "enc_pwr" 25 647 "void(int8 pwr)" `2142 
 F N "enable_enc_isr" 25 658 ""
 V L "edge" 25 658 "int16" `2145 
-F G "enable_enc_isr" 25 659 "void(int16 edge,int8 pwr)" `2144  "edge 0 = H to L transition (disk mainly clear)"
+F G "enable_enc_isr" 25 659 "void(int16 edge)" `2144  "edge 0 = H to L transition (disk mainly clear)"
 C L "enable_enc_isr" 25 136 1 "FUNCTION"
 C L "enable_enc_isr" 25 136 1 "FUNCTION"
 F N "wrt_m_error" 25 698 ""
@@ -4198,7 +4199,7 @@ F G "start_motor" 25 763 "void(int8 int_mode)" `2150
 C L "abs_enc_pos" 25 136 1 "FUNCTION"
 F N "abs_enc_pos" 25 792 ""
 V L "port" 25 792 "int32" `2153 
-F G "abs_enc_pos" 25 793 "int32(int32 port,int8 port)" `2152 
+F G "abs_enc_pos" 25 793 "int32(int32 port)" `2152 
 V L "enc_steps" 25 794 "int32" `2154 
 V L "enc_target" 25 794 "int32" `2155 
 V L "enc_res" 25 794 "int32" `2156 
@@ -4225,7 +4226,7 @@ C L "terminate" 25 136 1 "FUNCTION"
 F N "end_move" 25 947 ""
 V L "steps" 25 947 "int32" `2168 
 V L "e_port_dist" 25 947 "int16" `2169 
-F G "end_move" 25 948 "int32(int32 steps,int16 e_port_dist,int16 e_pos)" `2167 
+F G "end_move" 25 948 "int32(int32 steps,int16 e_port_dist)" `2167 
 V L "m_edge_pnt" 25 949 "int32" `2170 
 V L "m_pul" 25 950 "sint32" `2171 
 V L "m_pll" 25 951 "sint32" `2172  "motor pulse upper limit & lower limit"
@@ -4247,7 +4248,7 @@ V L "dir_mode" 25 1057 "int8" `2179
 V L "dir" 25 1057 "int8" `2180 
 V L "m_steps" 25 1057 "int32" `2181 
 V L "int_mode" 25 1057 "int8" `2182 
-F G "move_motor" 25 1058 "void(int8 dir_mode,int8 dir,int32 m_steps,int8 int_mode,int8 port)" `2178 
+F G "move_motor" 25 1058 "void(int8 dir_mode,int8 dir,int32 m_steps,int8 int_mode)" `2178 
 V L "m_edge_pnt" 25 1059 "int32" `2183 
 V L "m_slot_steps" 25 1060 "int16" `2184 
 V L "m_extra" 25 1060 "int16" `2185 
@@ -4283,14 +4284,14 @@ F N "command_move" 25 1242 ""
 V L "dir_mode" 25 1242 "int8" `2190 
 V L "dir" 25 1242 "int8" `2191 
 V L "int_mode" 25 1242 "int8" `2192 
-F G "command_move" 25 1243 "void(int8 dir_mode,int8 dir,int8 int_mode,int8 port)" `2189 
+F G "command_move" 25 1243 "void(int8 dir_mode,int8 dir,int8 int_mode)" `2189 
 F N "poll_enc" 25 1263 ""
 F G "poll_enc" 25 1264 "void()" `2193 
 V L "chanI" 25 1265 "int8" `2194 
 V L "chanA" 25 1265 "int8" `2195 
 F N "align" 25 1304 ""
 V L "dir" 25 1304 "int8" `2198 
-F G "align" 25 1305 "void(int8 dir,int8 m_steps)" `2197 
+F G "align" 25 1305 "void(int8 dir)" `2197 
 V L "steps" 25 1306 "int16" `2199 
 V L "e_mode_reset" 25 1307 "int16" `2200 
 C L "align" 25 1121 2 "FUNCTION"
@@ -4302,7 +4303,7 @@ C L "align" 25 1121 1 "FUNCTION"
 C L "align" 25 1121 1 "FUNCTION"
 F N "cal_disk" 25 1337 ""
 V L "dir" 25 1337 "int8" `2202 
-F G "cal_disk" 25 1338 "void(int8 dir,int8 m_steps)" `2201 
+F G "cal_disk" 25 1338 "void(int8 dir)" `2201 
 V L "steps" 25 1339 "int16" `2203 
 C L "cal_disk" 25 1121 2 "FUNCTION"
 C L "cal_disk" 25 1121 1 "FUNCTION"
@@ -4319,7 +4320,7 @@ F N "HB_m2_ON" 26 21 ""
 F G "HB_m2_ON" 26 21 "void()" `2208 
 F N "h_bridge" 26 30 ""
 V L "hb_cmd" 26 30 "int8" `2210 
-F G "h_bridge" 26 31 "void(int8 hb_cmd,int8 hb_cmd)" `2209 
+F G "h_bridge" 26 31 "void(int8 hb_cmd)" `2209 
 V G "wakeup_char_is_D" 27 1 "int8" `2211 
 F N "serial_wakeup" 27 3 ""
 F G "serial_wakeup" 27 4 "serial_wakeup_reason_t()" `2212 
@@ -4417,7 +4418,7 @@ C L "parse_string" 31 4 1 "FUNCTION"
 C L "parse_string" 31 4 1 "FUNCTION"
 F N "load_parsed_data" 31 30 ""
 V L "result" 31 30 "int16" `2252 
-F G "load_parsed_data" 31 31 "void(int16 result,int16 result)" `2251 
+F G "load_parsed_data" 31 31 "void(int16 result)" `2251 
 F N "parse_data" 31 46 ""
 F G "parse_data" 31 47 "int16()" `2256 
 V L "result" 31 48 "int16" `2257 
@@ -4453,13 +4454,13 @@ C L "get_slave_data" 31 64 4 "FUNCTION"
 F N "display_rec" 31 262 ""
 V L "store" 31 262 "int8" `2313 
 V L "display" 31 262 "int8" `2314 
-F G "display_rec" 31 263 "void(int8 store,int8 display,int8 display)" `2312 
+F G "display_rec" 31 263 "void(int8 store,int8 display)" `2312 
 C L "display_rec" 31 64 1 "FUNCTION"
 C L "display_rec" 31 64 1 "FUNCTION"
 F N "det_read" 31 281 ""
 V L "store" 31 281 "int8" `2318 
 V L "display" 31 281 "int8" `2319 
-F G "det_read" 31 282 "int16(int8 store,int8 display,int8 @const2315)" `2317  "get detector reading and write to a file on the SD card"
+F G "det_read" 31 282 "int16(int8 store,int8 display)" `2317  "get detector reading and write to a file on the SD card"
 D G "SHT" 31 289 "4"
 D G "LNG" 31 290 "5"
 V L "endofline" 31 292 "int8[3]" `2320 
@@ -4478,7 +4479,7 @@ C L "det_read" 31 64 1 "FUNCTION"
 F N "get_det_read" 31 391 ""
 V L "store" 31 391 "int8" `2336 
 V L "display" 31 391 "int8" `2337 
-F G "get_det_read" 31 392 "void(int8 store,int8 display,int8 @const2315)" `2335 
+F G "get_det_read" 31 392 "void(int8 store,int8 display)" `2335 
 V L "index" 31 393 "int8" `2338 
 F N "parse_temp" 31 434 ""
 F G "parse_temp" 31 435 "int16()" `2340 
@@ -4505,7 +4506,7 @@ C L "temp_probe" 31 64 1 "FUNCTION"
 F N "probe_read" 31 512 ""
 V L "store" 31 512 "int8" `2357 
 V L "display" 31 512 "int8" `2358 
-F G "probe_read" 31 512 "int16(int8 store,int8 display,int8 @const2315)" `2356  "get detector reading and write to a file on the SD card"
+F G "probe_read" 31 512 "int16(int8 store,int8 display)" `2356  "get detector reading and write to a file on the SD card"
 C L "probe_read" 31 64 4 "FUNCTION"
 V L "endofline" 31 520 "int8[3]" `2359 
 V L "temp" 31 521 "int16" `2360 
@@ -4513,10 +4514,10 @@ C L "probe_read" 31 530 1 "*"
 C L "probe_read" 31 532 2 "*"
 F N "set_heaters" 32 1 ""
 V L "set" 32 1 "int8" `2367 
-F G "set_heaters" 32 2 "void(int8 set,int8 set)" `2366 
+F G "set_heaters" 32 2 "void(int8 set)" `2366 
 F N "LED_SAR" 32 23 ""
 V L "intensity" 32 23 "int16" `2370 
-F G "LED_SAR" 32 24 "void(int16 intensity,int16 intensity)" `2369  "ADC1 = PD1 (color)"
+F G "LED_SAR" 32 24 "void(int16 intensity)" `2369  "ADC1 = PD1 (color)"
 C L "LED_SAR" 32 26 3 "FUNCTION"
 V L "i" 32 30 "int8" `2371 
 V L "LED_level" 32 31 "int16" `2372 
@@ -4526,7 +4527,7 @@ V L "temp" 32 31 "int16" `2375
 C L "LED_SAR" 32 26 1 "FUNCTION"
 F N "set_LED" 32 55 ""
 V L "intensity" 32 55 "int16" `2377 
-F G "set_LED" 32 56 "int8(int16 intensity,int16 LED_level)" `2376 
+F G "set_LED" 32 56 "int8(int16 intensity)" `2376 
 V L "valid" 32 57 "int8" `2378 
 F N "load_scanned_data" 32 68 ""
 F G "load_scanned_data" 32 69 "void()" `2379 
@@ -4535,13 +4536,13 @@ V L "scans" 32 84 "int16" `2382
 V L "store" 32 84 "int8" `2383 
 V L "display" 32 84 "int8" `2384 
 V L "test" 32 84 "int8" `2385 
-F G "read_colorimeter" 32 85 "void(int16 scans,int8 store,int8 display,int8 test,int8 test)" `2381 
+F G "read_colorimeter" 32 85 "void(int16 scans,int8 store,int8 display,int8 test)" `2381 
 V L "v_supply" 32 86 "int16" `2386 
 V L "wave_l" 32 86 "int16" `2387 
 C L "read_colorimeter" 32 26 2 "FUNCTION"
 F N "DAC_set_test" 32 116 ""
 V L "channel" 32 116 "int16" `2391 
-F G "DAC_set_test" 32 117 "void(int16 channel,int16 channel)" `2390 
+F G "DAC_set_test" 32 117 "void(int16 channel)" `2390 
 V L "i" 32 118 "int8" `2392 
 V L "setting" 32 119 "int16" `2393 
 F N "set_LED_test" 32 132 ""
@@ -4558,13 +4559,13 @@ F G "display_valve_status" 33 16 "void()" `2402
 V L "v" 33 17 "int8" `2403 
 F N "sol_switch_cmd" 33 36 ""
 V L "setting" 33 36 "int16" `2417 
-F G "sol_switch_cmd" 33 37 "void(int16 setting,int16 setting)" `2416 
+F G "sol_switch_cmd" 33 37 "void(int16 setting)" `2416 
 F N "sol_chip_cmd" 33 47 ""
 V L "chip" 33 47 "int8" `2425 
-F G "sol_chip_cmd" 33 48 "void(int8 chip,int8 chip)" `2424 
+F G "sol_chip_cmd" 33 48 "void(int8 chip)" `2424 
 F N "sol_switch" 33 62 ""
 V L "valve" 33 62 "int8" `2431 
-F G "sol_switch" 33 63 "void(int8 valve,int8 valve)" `2430 
+F G "sol_switch" 33 63 "void(int8 valve)" `2430 
 C L "sol_switch" 33 75 1 "FUNCTION"
 C L "sol_switch" 33 75 1 "FUNCTION"
 C L "sol_switch" 33 75 1 "FUNCTION"
@@ -4597,7 +4598,7 @@ F N "commandL" 35 16 ""
 f G "commandL" 35 16 "void()" `2444 
 F N "commandM" 35 17 ""
 V L "LoggingReentry" 35 17 "int8" `2446 
-f G "commandM" 35 17 "void(int8 LoggingReentry,int8 LoggingReentry)" `2445 
+f G "commandM" 35 17 "void(int8 LoggingReentry)" `2445 
 F N "commandN" 35 18 ""
 f G "commandN" 35 18 "void()" `2447 
 F N "commandO" 35 19 ""
@@ -4624,19 +4625,21 @@ F N "commandY" 35 29 ""
 f G "commandY" 35 29 "void()" `2458 
 F N "commandZ" 35 30 ""
 f G "commandZ" 35 30 "void()" `2459 
-F N "calc_abs_data" 35 33 ""
-f G "calc_abs_data" 35 33 "void()" `2460 
-V G "endofline" 34 3 "int8[3]" `2461 
+F N "command_v" 35 31 ""
+f G "command_v" 35 31 "void()" `2460 
+F N "calc_abs_data" 35 34 ""
+f G "calc_abs_data" 35 34 "void()" `2461 
+V G "endofline" 34 3 "int8[3]" `2462 
 F N "clear_data_arrays" 34 5 ""
-F G "clear_data_arrays" 34 5 "void()" `2462 
-V L "i" 34 7 "int8" `2463  "raw data"
+F G "clear_data_arrays" 34 5 "void()" `2463 
+V L "i" 34 7 "int8" `2464  "raw data"
 C L "clear_data_arrays" 34 15 1 "FUNCTION"
 F N "calc_abs_NO3" 34 18 ""
-F G "calc_abs_NO3" 34 18 "void()" `2464 
-V L "i" 34 20 "int8" `2465 
-V L "blank" 34 21 "float" `2466 
-V L "react" 34 21 "float" `2467 
-V L "ratio" 34 21 "float" `2468  "zero-out abs array"
+F G "calc_abs_NO3" 34 18 "void()" `2465 
+V L "i" 34 20 "int8" `2466 
+V L "blank" 34 21 "float" `2467 
+V L "react" 34 21 "float" `2468 
+V L "ratio" 34 21 "float" `2469  "zero-out abs array"
 C L "calc_abs_NO3" 34 15 4 "FUNCTION"
 C L "calc_abs_NO3" 34 15 1 "FUNCTION"
 C L "calc_abs_NO3" 34 15 1 "FUNCTION"
@@ -4644,11 +4647,11 @@ C L "calc_abs_NO3" 34 15 1 "FUNCTION"
 C L "calc_abs_NO3" 34 15 1 "FUNCTION"
 C L "calc_abs_NO3" 34 15 2 "FUNCTION"
 F N "calc_abs_NO2" 34 65 ""
-F G "calc_abs_NO2" 34 65 "void()" `2476 
-V L "i" 34 67 "int8" `2477 
-V L "blank" 34 68 "float" `2478 
-V L "react" 34 68 "float" `2479 
-V L "ratio" 34 68 "float" `2480  "zero-out abs array"
+F G "calc_abs_NO2" 34 65 "void()" `2477 
+V L "i" 34 67 "int8" `2478 
+V L "blank" 34 68 "float" `2479 
+V L "react" 34 68 "float" `2480 
+V L "ratio" 34 68 "float" `2481  "zero-out abs array"
 C L "calc_abs_NO2" 34 15 4 "FUNCTION"
 C L "calc_abs_NO2" 34 15 1 "FUNCTION"
 C L "calc_abs_NO2" 34 15 1 "FUNCTION"
@@ -4656,213 +4659,213 @@ C L "calc_abs_NO2" 34 15 1 "FUNCTION"
 C L "calc_abs_NO2" 34 15 1 "FUNCTION"
 C L "calc_abs_NO2" 34 15 2 "FUNCTION"
 F N "calc_abs_PO4" 34 114 ""
-F G "calc_abs_PO4" 34 114 "void()" `2483 
-V L "i" 34 116 "int8" `2484 
-V L "blank" 34 117 "float" `2485 
-V L "react" 34 117 "float" `2486 
-V L "ratio" 34 117 "float" `2487  "zero-out abs array"
+F G "calc_abs_PO4" 34 114 "void()" `2484 
+V L "i" 34 116 "int8" `2485 
+V L "blank" 34 117 "float" `2486 
+V L "react" 34 117 "float" `2487 
+V L "ratio" 34 117 "float" `2488  "zero-out abs array"
 C L "calc_abs_PO4" 34 15 1 "FUNCTION"
 C L "calc_abs_PO4" 34 15 2 "FUNCTION"
 C L "calc_abs_PO4" 34 15 5 "FUNCTION"
 F N "calc_abs_NH4" 34 160 ""
-F G "calc_abs_NH4" 34 160 "void()" `2490 
-V L "i" 34 162 "int8" `2491 
-V L "blank" 34 163 "float" `2492 
-V L "react" 34 163 "float" `2493 
-V L "ratio" 34 163 "float" `2494  "zero-out abs array"
+F G "calc_abs_NH4" 34 160 "void()" `2491 
+V L "i" 34 162 "int8" `2492 
+V L "blank" 34 163 "float" `2493 
+V L "react" 34 163 "float" `2494 
+V L "ratio" 34 163 "float" `2495  "zero-out abs array"
 C L "calc_abs_NH4" 34 15 1 "FUNCTION"
 C L "calc_abs_NH4" 34 15 2 "FUNCTION"
 C L "calc_abs_NH4" 34 15 4 "FUNCTION"
 F N "calc_abs_SiO" 34 206 ""
-F G "calc_abs_SiO" 34 206 "void()" `2497 
-V L "i" 34 208 "int8" `2498 
-V L "blank" 34 209 "float" `2499 
-V L "react" 34 209 "float" `2500 
-V L "ratio" 34 209 "float" `2501  "zero-out abs array"
+F G "calc_abs_SiO" 34 206 "void()" `2498 
+V L "i" 34 208 "int8" `2499 
+V L "blank" 34 209 "float" `2500 
+V L "react" 34 209 "float" `2501 
+V L "ratio" 34 209 "float" `2502  "zero-out abs array"
 C L "calc_abs_SiO" 34 15 1 "FUNCTION"
 C L "calc_abs_SiO" 34 15 2 "FUNCTION"
 C L "calc_abs_SiO" 34 15 4 "FUNCTION"
 F N "calc_abs_data" 34 252 ""
-F G "calc_abs_data" 34 252 "void()" `2460 
+F G "calc_abs_data" 34 252 "void()" `2461 
 F N "calc_NO3_real_data" 34 271 ""
-F G "calc_NO3_real_data" 34 271 "void()" `2506 
+F G "calc_NO3_real_data" 34 271 "void()" `2507 
 C L "calc_NO3_real_data" 34 15 1 "FUNCTION"
 F N "calc_PO4_real_data" 34 285 ""
-F G "calc_PO4_real_data" 34 285 "void()" `2510 
+F G "calc_PO4_real_data" 34 285 "void()" `2511 
 C L "calc_PO4_real_data" 34 15 1 "FUNCTION"
 F N "calc_NH4_real_data" 34 298 ""
-F G "calc_NH4_real_data" 34 298 "void()" `2514 
+F G "calc_NH4_real_data" 34 298 "void()" `2515 
 C L "calc_NH4_real_data" 34 15 1 "FUNCTION"
 F N "calc_SiO_real_data" 34 311 ""
-F G "calc_SiO_real_data" 34 311 "void()" `2518 
+F G "calc_SiO_real_data" 34 311 "void()" `2519 
 C L "calc_SiO_real_data" 34 15 1 "FUNCTION"
 F N "calc_real_data" 34 324 ""
-F G "calc_real_data" 34 324 "void()" `2522 
+F G "calc_real_data" 34 324 "void()" `2523 
 C L "store_rel_data" 34 15 5 "FUNCTION"
 F N "store_rel_data" 34 346 ""
-F G "store_rel_data" 34 347 "void()" `2525 
+F G "store_rel_data" 34 347 "void()" `2526 
 C L "store_rel_data" 34 15 3 "FUNCTION"
 F N "calculate_data" 34 379 ""
-F G "calculate_data" 34 379 "void()" `2527  "calc_abs_data(); // out by Fraser Hood on 7/6/15"
+F G "calculate_data" 34 379 "void()" `2528  "calc_abs_data(); // out by Fraser Hood on 7/6/15"
 C L "calculate_data" 34 15 2 "FUNCTION"
 F N "store_wms_data" 34 386 ""
-V L "macro" 34 386 "int8" `2529 
-F G "store_wms_data" 34 387 "void(int8 macro,int8 macro)" `2528 
-V L "comma" 34 388 "int8[2]" `2530 
-V L "endofline" 34 389 "int8[3]" `2531 
-V L "config_str" 34 390 "int8[30]" `2532 
+V L "macro" 34 386 "int8" `2530 
+F G "store_wms_data" 34 387 "void(int8 macro)" `2529 
+V L "comma" 34 388 "int8[2]" `2531 
+V L "endofline" 34 389 "int8[3]" `2532 
+V L "config_str" 34 390 "int8[30]" `2533 
 C L "store_wms_data" 34 15 1 "FUNCTION"
 F N "store_aws_data" 34 418 ""
-V L "macro" 34 418 "int8" `2538 
-V L "mmacro_var" 34 418 "int16" `2539 
-F G "store_aws_data" 34 419 "void(int8 macro,int16 mmacro_var,int16 mmacro_var)" `2537 
-V L "comma" 34 420 "int8[2]" `2540 
-V L "endofline" 34 421 "int8[3]" `2541 
-V L "config_str" 34 422 "int8[30]" `2542 
+V L "macro" 34 418 "int8" `2539 
+V L "mmacro_var" 34 418 "int16" `2540 
+F G "store_aws_data" 34 419 "void(int8 macro,int16 mmacro_var)" `2538 
+V L "comma" 34 420 "int8[2]" `2541 
+V L "endofline" 34 421 "int8[3]" `2542 
+V L "config_str" 34 422 "int8[30]" `2543 
 D G "MACEND" 36 3 "1024"
-D G "MACROLIST_ECO" 36 5 ""#/+-%rpdACDFGHiKlLPQRSTUY;"" "Valid macro commands"
+D G "MACROLIST_ECO" 36 5 ""#/+-%rpdACDFGHiKlLPQRSTUvY;"" "Valid macro commands"
 D G "MASTERLIST_ECO" 36 6 ""#MZr%;"" "Master macro commands"
 D G "MACROLIST_WMS" 36 8 ""#+-BGPQRTY;""
 D G "MASTERLIST_WMS" 36 9 ""#JMP;""
 D G "MACROLIST_AWS" 36 11 ""#+-CDPQSY;""
 D G "MASTERLIST_AWS" 36 12 ""#MP;""
-V G "macro_address" 36 17 "int16[21]" `2545 
-V G "string_address" 36 20 "int16[21]" `2546 
+V G "macro_address" 36 17 "int16[21]" `2546 
+V G "string_address" 36 20 "int16[21]" `2547 
 F N "bus_on" 36 23 ""
-F G "bus_on" 36 24 "void()" `2547 
+F G "bus_on" 36 24 "void()" `2548 
 F N "bus_off" 36 30 ""
-F G "bus_off" 36 31 "void()" `2548 
+F G "bus_off" 36 31 "void()" `2549 
 C G "" 36 37 2 "*"
-V G "string_arg" 36 40 "int8[50]" `2549  "If the command is p than this is called rather than get_arg()."
+V G "string_arg" 36 40 "int8[50]" `2550  "If the command is p than this is called rather than get_arg()."
 F N "get_arg_string" 36 43 ""
-F G "get_arg_string" 36 43 "void()" `2550 
-V L "i" 36 44 "int8" `2551 
+F G "get_arg_string" 36 43 "void()" `2551 
+V L "i" 36 44 "int8" `2552 
 F N "get_arg" 36 66 ""
-F G "get_arg" 36 67 "int16()" `2552 
-V L "number" 36 68 "int8" `2553 
-V L "macro_arg" 36 69 "int16" `2554 
+F G "get_arg" 36 67 "int16()" `2553 
+V L "number" 36 68 "int8" `2554 
+V L "macro_arg" 36 69 "int16" `2555 
 C L "get_arg" 36 37 1 "FUNCTION"
 C L "get_arg" 36 37 1 "FUNCTION"
 C L "get_arg" 36 37 1 "FUNCTION"
 C L "get_arg" 36 37 1 "FUNCTION"
 C L "check_macro" 36 37 1 "FUNCTION"
 F N "check_macro" 36 100 ""
-V L "e" 36 100 "int8" `2556 
-V L "macro" 36 100 "int8" `2557 
-F G "check_macro" 36 101 "int8(int8 e,int8 macro,int8 config_str)" `2555 
-V L "valid_macro" 36 102 "int8" `2558 
+V L "e" 36 100 "int8" `2557 
+V L "macro" 36 100 "int8" `2558 
+F G "check_macro" 36 101 "int8(int8 e,int8 macro)" `2556 
+V L "valid_macro" 36 102 "int8" `2559 
 C L "get_cmd" 36 37 1 "FUNCTION"
 F N "get_cmd" 36 120 ""
-V L "macro" 36 120 "int8" `2566 
-F G "get_cmd" 36 121 "int8(int8 macro,int8 config_str)" `2565 
-V L "e" 36 122 "int8" `2567 
-V L "valid_macro" 36 123 "int8" `2568 
+V L "macro" 36 120 "int8" `2567 
+F G "get_cmd" 36 121 "int8(int8 macro)" `2566 
+V L "e" 36 122 "int8" `2568 
+V L "valid_macro" 36 123 "int8" `2569 
 F N "write_macro_line" 36 138 ""
-V L "macro_cmd" 36 138 "int8" `2570 
-V L "macro_arg" 36 138 "int16" `2571 
-V L "macro" 36 138 "int8" `2572 
-V L "line" 36 138 "int16" `2573 
-F G "write_macro_line" 36 139 "void(int8 macro_cmd,int16 macro_arg,int8 macro,int16 line,int16 line)" `2569 
-V L "addr" 36 140 "int16" `2574  "line*3 because 3 bytes but line incremented by one each time"
+V L "macro_cmd" 36 138 "int8" `2571 
+V L "macro_arg" 36 138 "int16" `2572 
+V L "macro" 36 138 "int8" `2573 
+V L "line" 36 138 "int16" `2574 
+F G "write_macro_line" 36 139 "void(int8 macro_cmd,int16 macro_arg,int8 macro,int16 line)" `2570 
+V L "addr" 36 140 "int16" `2575  "line*3 because 3 bytes but line incremented by one each time"
 C L "write_macro_line_string" 36 37 3 "FUNCTION"
 F N "write_macro_line_string" 36 154 ""
-V L "macro_cmd" 36 154 "int8" `2576 
-V L "macro" 36 154 "int8" `2577 
-V L "line" 36 154 "int16" `2578 
-V L "count" 36 154 "int16" `2579 
-F G "write_macro_line_string" 36 155 "void(int8 macro_cmd,int8 macro,int16 line,int16 count,int16 count)" `2575 
-V L "addr" 36 156 "int16" `2580 
-V L "i" 36 161 "int8" `2581 
+V L "macro_cmd" 36 154 "int8" `2577 
+V L "macro" 36 154 "int8" `2578 
+V L "line" 36 154 "int16" `2579 
+V L "count" 36 154 "int16" `2580 
+F G "write_macro_line_string" 36 155 "void(int8 macro_cmd,int8 macro,int16 line,int16 count)" `2576 
+V L "addr" 36 156 "int16" `2581 
+V L "i" 36 161 "int8" `2582 
 C L "write_macro_line_string" 36 37 1 "FUNCTION"
 F N "write_blank_macros" 36 179 ""
-F G "write_blank_macros" 36 180 "void()" `2583 
+F G "write_blank_macros" 36 180 "void()" `2584 
 C L "write_blank_macros" 36 37 1 "FUNCTION"
 C L "write_blank_macros" 36 37 1 "FUNCTION"
 F N "macro_comment" 36 206 ""
-F G "macro_comment" 36 207 "void()" `2584 
-V L "mcc" 36 208 "int8" `2585 
+F G "macro_comment" 36 207 "void()" `2585 
+V L "mcc" 36 208 "int8" `2586 
 F N "get_macro_line" 36 223 ""
-V L "macro" 36 223 "int8" `2587 
-V L "line" 36 223 "int16" `2588 
-V L "count" 36 223 "int16" `2589 
-F G "get_macro_line" 36 224 "int8(int8 macro,int16 line,int16 count,int16 count)" `2586 
-V L "macro_cmd" 36 225 "int8" `2590 
-V L "macro_arg" 36 226 "int16" `2591 
-V L "valid_macro" 36 227 "int8" `2592 
+V L "macro" 36 223 "int8" `2588 
+V L "line" 36 223 "int16" `2589 
+V L "count" 36 223 "int16" `2590 
+F G "get_macro_line" 36 224 "int8(int8 macro,int16 line,int16 count)" `2587 
+V L "macro_cmd" 36 225 "int8" `2591 
+V L "macro_arg" 36 226 "int16" `2592 
+V L "valid_macro" 36 227 "int8" `2593 
 C L "get_macro_line" 36 37 1 "FUNCTION"
 C L "get_macro_line" 36 37 2 "FUNCTION"
 C L "get_macro_line" 36 37 1 "FUNCTION"
 F N "upload_macro" 36 253 ""
-V L "macro" 36 253 "int8" `2594 
-F G "upload_macro" 36 254 "void(int8 macro,int8 config_str)" `2593 
-V L "line" 36 255 "int16" `2595 
-V L "valid_macro" 36 256 "int8" `2596 
-V L "macro_cmd" 36 257 "int8" `2597 
-V L "macro_cmd2" 36 258 "int8" `2598 
-V L "count" 36 259 "int16" `2599 
+V L "macro" 36 253 "int8" `2595 
+F G "upload_macro" 36 254 "void(int8 macro)" `2594 
+V L "line" 36 255 "int16" `2596 
+V L "valid_macro" 36 256 "int8" `2597 
+V L "macro_cmd" 36 257 "int8" `2598 
+V L "macro_cmd2" 36 258 "int8" `2599 
+V L "count" 36 259 "int16" `2600 
 C L "upload_macro" 36 37 1 "FUNCTION"
 C L "upload_macro" 36 37 3 "FUNCTION"
 C L "upload_macro" 36 37 1 "FUNCTION"
 C L "read_macro_line" 36 295 1 "*"
 F N "read_macro_line" 36 297 ""
-V L "macro" 36 297 "int8" `2607 
-V L "line" 36 297 "int16" `2608 
-F G "read_macro_line" 36 298 "int8(int8 macro,int16 line,int16 write_macro_line_string)" `2606 
-V L "addr" 36 299 "int16" `2609 
-V L "macro_cmd" 36 300 "int8" `2610 
-V L "macro_arg" 36 301 "int16" `2611 
+V L "macro" 36 297 "int8" `2608 
+V L "line" 36 297 "int16" `2609 
+F G "read_macro_line" 36 298 "int8(int8 macro,int16 line)" `2607 
+V L "addr" 36 299 "int16" `2610 
+V L "macro_cmd" 36 300 "int8" `2611 
+V L "macro_arg" 36 301 "int16" `2612 
 F N "read_macro_line_silent" 36 313 ""
-V L "macro" 36 313 "int8" `2614 
-V L "line" 36 313 "int16" `2615 
-F G "read_macro_line_silent" 36 314 "int8(int8 macro,int16 line,int16 write_macro_line_string)" `2613 
-V L "addr" 36 315 "int16" `2616 
-V L "macro_cmd" 36 316 "int8" `2617 
-V L "macro_arg" 36 317 "int16" `2618 
+V L "macro" 36 313 "int8" `2615 
+V L "line" 36 313 "int16" `2616 
+F G "read_macro_line_silent" 36 314 "int8(int8 macro,int16 line)" `2614 
+V L "addr" 36 315 "int16" `2617 
+V L "macro_cmd" 36 316 "int8" `2618 
+V L "macro_arg" 36 317 "int16" `2619 
 C L "read_macro_line_string" 36 295 2 "FUNCTION"
 F N "read_macro_line_string" 36 331 ""
-V L "macro" 36 331 "int8" `2621 
-V L "line" 36 331 "int16" `2622 
-V L "count" 36 331 "int16" `2623 
-F G "read_macro_line_string" 36 332 "void(int8 macro,int16 line,int16 count,int16 count)" `2620 
-V L "addr" 36 333 "int16" `2624 
-V L "i" 36 336 "int8" `2625 
+V L "macro" 36 331 "int8" `2622 
+V L "line" 36 331 "int16" `2623 
+V L "count" 36 331 "int16" `2624 
+F G "read_macro_line_string" 36 332 "void(int8 macro,int16 line,int16 count)" `2621 
+V L "addr" 36 333 "int16" `2625 
+V L "i" 36 336 "int8" `2626 
 C L "read_macro_line_string" 36 295 1 "FUNCTION"
 F N "read_macro" 36 351 ""
-V L "macro" 36 351 "int8" `2627 
-F G "read_macro" 36 352 "void(int8 macro,int8 config_str)" `2626 
-V L "line" 36 353 "int16" `2628 
-V L "macro_cmd" 36 354 "int8" `2629 
-V L "count" 36 355 "int8" `2630 
+V L "macro" 36 351 "int8" `2628 
+F G "read_macro" 36 352 "void(int8 macro)" `2627 
+V L "line" 36 353 "int16" `2629 
+V L "macro_cmd" 36 354 "int8" `2630 
+V L "count" 36 355 "int8" `2631 
 C L "read_macro" 36 295 1 "FUNCTION"
 C L "delay_sec" 36 372 1 "*"
 F N "delay_sec" 36 374 ""
-V L "sec" 36 374 "int16" `2632 
-F G "delay_sec" 36 375 "void(int16 sec,int16 sec)" `2631 
-V L "j" 36 376 "int16" `2633 
+V L "sec" 36 374 "int16" `2633 
+F G "delay_sec" 36 375 "void(int16 sec)" `2632 
+V L "j" 36 376 "int16" `2634 
 F N "step_err_status" 36 383 ""
-F G "step_err_status" 36 384 "int8()" `2634 
-V L "macro_status" 36 385 "int8" `2635 
+F G "step_err_status" 36 384 "int8()" `2635 
+V L "macro_status" 36 385 "int8" `2636 
 F N "get_reading" 36 398 ""
-F G "get_reading" 36 399 "void()" `2636 
+F G "get_reading" 36 399 "void()" `2637 
 C L "get_reading" 36 372 1 "FUNCTION"
 F N "set_heat" 36 410 ""
-V L "macro_cmd" 36 410 "int8" `2638 
-V L "macro_arg" 36 410 "int16" `2639 
-F G "set_heat" 36 411 "void(int8 macro_cmd,int16 macro_arg,int16 check_macro)" `2637 
+V L "macro_cmd" 36 410 "int8" `2639 
+V L "macro_arg" 36 410 "int16" `2640 
+F G "set_heat" 36 411 "void(int8 macro_cmd,int16 macro_arg)" `2638 
 F N "set_light" 36 422 ""
-V L "macro_cmd" 36 422 "int8" `2641 
-V L "macro_arg" 36 422 "int16" `2642 
-F G "set_light" 36 423 "void(int8 macro_cmd,int16 macro_arg,int16 check_macro)" `2640  "fprintf(COM_A,"%Lu\r\n",nv_det_type);"
-V G "count1" 36 436 "int16" `2643 
+V L "macro_cmd" 36 422 "int8" `2642 
+V L "macro_arg" 36 422 "int16" `2643 
+F G "set_light" 36 423 "void(int8 macro_cmd,int16 macro_arg)" `2641  "fprintf(COM_A,"%Lu\r\n",nv_det_type);"
+V G "count1" 36 436 "int16" `2644 
 F N "play_macro_line2" 36 437 ""
-V L "macro" 36 437 "int8" `2645 
-V L "line" 36 437 "int16" `2646 
-V L "mmacro_var" 36 437 "int16" `2647 
-F G "play_macro_line2" 36 438 "int8(int8 macro,int16 line,int16 mmacro_var,int16 @const2543)" `2644 
-V L "addr" 36 439 "int16" `2648 
-V L "macro_cmd" 36 440 "int8" `2649 
-V L "macro_arg" 36 441 "int16" `2650 
-V L "macro_status" 36 442 "int8" `2651 
+V L "macro" 36 437 "int8" `2646 
+V L "line" 36 437 "int16" `2647 
+V L "mmacro_var" 36 437 "int16" `2648 
+F G "play_macro_line2" 36 438 "int8(int8 macro,int16 line,int16 mmacro_var)" `2645 
+V L "addr" 36 439 "int16" `2649 
+V L "macro_cmd" 36 440 "int8" `2650 
+V L "macro_arg" 36 441 "int16" `2651 
+V L "macro_status" 36 442 "int8" `2652 
 C L "play_macro_line2" 36 372 1 "FUNCTION"
 C L "play_macro_line2" 36 372 4 "FUNCTION"
 C L "play_macro_line2" 36 372 1 "FUNCTION"
@@ -4873,28 +4876,28 @@ C L "play_macro_line2" 36 372 1 "FUNCTION"
 C L "play_macro_line2" 36 372 1 "FUNCTION"
 C L "play_macro_line2" 36 372 1 "FUNCTION"
 C L "play_macro_line2" 36 372 1 "FUNCTION"
-C L "play_macro_line2" 36 372 1 "FUNCTION"
+C L "play_macro_line2" 36 372 33 "FUNCTION"
 C L "play_macro_line2" 36 372 1 "FUNCTION"
 C L "play_macro_line2" 36 372 6 "FUNCTION"
 C L "play_macro_line" 36 372 1 "FUNCTION"
-F N "play_macro_line" 36 602 ""
-V L "macro" 36 602 "int8" `2655 
-V L "line" 36 602 "*int16" `2656 
-V L "mmacro_var" 36 602 "int16" `2657 
-F G "play_macro_line" 36 603 "int8(int8 macro,*int16 line,int16 mmacro_var,int16 @const2543)" `2654 
-V L "addr" 36 604 "int16" `2658 
-V L "macro_cmd" 36 605 "int8" `2659 
-V L "macro_arg" 36 606 "int16" `2660 
-V L "macro_status" 36 607 "int8" `2661 
+F N "play_macro_line" 36 604 ""
+V L "macro" 36 604 "int8" `2656 
+V L "line" 36 604 "*int16" `2657 
+V L "mmacro_var" 36 604 "int16" `2658 
+F G "play_macro_line" 36 605 "int8(int8 macro,*int16 line,int16 mmacro_var)" `2655 
+V L "addr" 36 606 "int16" `2659 
+V L "macro_cmd" 36 607 "int8" `2660 
+V L "macro_arg" 36 608 "int16" `2661 
+V L "macro_status" 36 609 "int8" `2662 
 C L "play_macro_line" 36 372 1 "FUNCTION"
 C L "play_macro_line" 36 372 1 "FUNCTION"
 C L "play_macro_line" 36 372 1 "FUNCTION"
 C L "play_macro_line" 36 372 1 "FUNCTION"
-V L "count" 36 644 "int32" `2663 
+V L "count" 36 646 "int32" `2664 
 C L "play_macro_line" 36 372 2 "FUNCTION"
-V L "start_line" 36 648 "int32" `2664 
-V L "end_line" 36 649 "int32" `2665 
-V L "curr" 36 652 "int8" `2666 
+V L "start_line" 36 650 "int32" `2665 
+V L "end_line" 36 651 "int32" `2666 
+V L "curr" 36 654 "int8" `2667 
 C L "play_macro_line" 36 372 1 "FUNCTION"
 C L "play_macro_line" 36 372 1 "FUNCTION"
 C L "play_macro_line" 36 372 1 "FUNCTION"
@@ -4906,6 +4909,7 @@ C L "play_macro_line" 36 372 1 "FUNCTION"
 C L "play_macro_line" 36 372 1 "FUNCTION"
 C L "play_macro_line" 36 372 1 "FUNCTION"
 C L "play_macro_line" 36 372 1 "FUNCTION"
+C L "play_macro_line" 36 372 33 "FUNCTION"
 C L "play_macro_line" 36 372 1 "FUNCTION"
 C L "play_macro_line" 36 372 4 "FUNCTION"
 C L "play_macro_line" 36 372 1 "FUNCTION"
@@ -4914,25 +4918,25 @@ C L "play_macro_line" 36 372 1 "FUNCTION"
 C L "play_macro_line" 36 372 1 "FUNCTION"
 C L "play_macro_line" 36 372 6 "FUNCTION"
 C L "play_macro" 36 372 1 "FUNCTION"
-F N "play_macro" 36 841 ""
-V L "macro" 36 841 "int8" `2670 
-V L "mmacro_var" 36 841 "int16" `2671 
-F G "play_macro" 36 842 "void(int8 macro,int16 mmacro_var,int16 @const2543)" `2669 
-V L "line" 36 843 "int16" `2672 
-V L "macro_status" 36 844 "int8" `2673 
+F N "play_macro" 36 881 ""
+V L "macro" 36 881 "int8" `2671 
+V L "mmacro_var" 36 881 "int16" `2672 
+F G "play_macro" 36 882 "void(int8 macro,int16 mmacro_var)" `2670 
+V L "line" 36 883 "int16" `2673 
+V L "macro_status" 36 884 "int8" `2674 
 C L "play_macro" 36 372 1 "FUNCTION"
 C L "play_macro" 36 372 10 "FUNCTION"
 C L "play_macro" 36 372 1 "FUNCTION"
 C L "play_macro" 36 372 1 "FUNCTION"
 C L "play_macro" 36 372 3 "FUNCTION"
-V G "master_macro_loop_count" 36 920 "int32" `2685 
-V G "master_macro_loop_start" 36 921 "int32" `2686 
-F N "master_macro_eco" 36 923 ""
-F G "master_macro_eco" 36 923 "int8()" `2687 
-V L "addr" 36 924 "int16" `2688 
-V L "macro_cmd" 36 925 "int8" `2689 
-V L "macro_arg" 36 926 "int16" `2690 
-V L "macro_batch" 36 927 "int8" `2691 
+V G "master_macro_loop_count" 36 960 "int32" `2686 
+V G "master_macro_loop_start" 36 961 "int32" `2687 
+F N "master_macro_eco" 36 963 ""
+F G "master_macro_eco" 36 963 "int8()" `2688 
+V L "addr" 36 964 "int16" `2689 
+V L "macro_cmd" 36 965 "int8" `2690 
+V L "macro_arg" 36 966 "int16" `2691 
+V L "macro_batch" 36 967 "int8" `2692 
 C L "master_macro_eco" 36 372 1 "FUNCTION"
 C L "master_macro_eco" 36 372 1 "FUNCTION"
 C L "master_macro_eco" 36 372 1 "FUNCTION"
@@ -4945,28 +4949,28 @@ C L "master_macro_eco" 36 372 1 "FUNCTION"
 C L "master_macro_eco" 36 372 1 "FUNCTION"
 C L "play_wms_macro_cmd" 37 1 1 "FUNCTION"
 F N "play_wms_macro_cmd" 37 2 ""
-V L "macro_cmd" 37 2 "int8" `2695 
-V L "macro_arg" 37 2 "int16" `2696 
-F G "play_wms_macro_cmd" 37 3 "int8(int8 macro_cmd,int16 macro_arg,int16 check_macro)" `2694 
-V L "macro_status" 37 4 "int8" `2697 
+V L "macro_cmd" 37 2 "int8" `2696 
+V L "macro_arg" 37 2 "int16" `2697 
+F G "play_wms_macro_cmd" 37 3 "int8(int8 macro_cmd,int16 macro_arg)" `2695 
+V L "macro_status" 37 4 "int8" `2698 
 C L "play_wms_macro_cmd" 37 1 4 "FUNCTION"
 C L "play_wms_macro_cmd" 37 1 1 "FUNCTION"
 C L "play_wms_macro_cmd" 37 1 1 "FUNCTION"
 C L "play_wms_macro_cmd" 37 1 1 "FUNCTION"
 C L "play_wms_macro_cmd" 37 1 6 "FUNCTION"
 F N "play_wms_hard_macro" 37 61 ""
-V L "port" 37 61 "int16" `2699 
-F G "play_wms_hard_macro" 37 62 "void(int16 port,int16 enc_target)" `2698 
-V L "macro_status" 37 63 "int8" `2700 
+V L "port" 37 61 "int16" `2700 
+F G "play_wms_hard_macro" 37 62 "void(int16 port)" `2699 
+V L "macro_status" 37 63 "int8" `2701 
 C L "play_wms_hard_macro" 37 1 1 "FUNCTION"
 C L "play_wms_hard_macro" 37 1 1 "FUNCTION"
 F N "master_macro_wms" 37 112 ""
-V L "step" 37 112 "int16" `2710 
-F G "master_macro_wms" 37 112 "int8(int16 step,int16 step)" `2709 
-V L "addr" 37 114 "int16" `2711 
-V L "macro_cmd" 37 116 "int8[3]" `2712 
-V L "macro_arg" 37 117 "int16[3]" `2713 
-V L "macro_end" 37 118 "int8" `2714 
+V L "step" 37 112 "int16" `2711 
+F G "master_macro_wms" 37 112 "int8(int16 step)" `2710 
+V L "addr" 37 114 "int16" `2712 
+V L "macro_cmd" 37 116 "int8[3]" `2713 
+V L "macro_arg" 37 117 "int16[3]" `2714 
+V L "macro_end" 37 118 "int8" `2715 
 C L "master_macro_wms" 37 1 1 "FUNCTION"
 C L "master_macro_wms" 37 1 1 "FUNCTION"
 C L "master_macro_wms" 37 1 1 "FUNCTION"
@@ -4976,12 +4980,12 @@ C L "master_macro_wms" 37 1 1 "FUNCTION"
 C L "master_macro_wms" 37 1 2 "FUNCTION"
 C L "master_macro_wms" 37 1 1 "FUNCTION"
 F N "master_macro_aws" 38 1 ""
-V L "step" 38 1 "int16" `2717 
-F G "master_macro_aws" 38 1 "int8(int16 step,int16 macro_end)" `2716 
-V L "addr" 38 3 "int16" `2718 
-V L "macro_cmd" 38 5 "int8[2]" `2719 
-V L "macro_arg" 38 6 "int16[2]" `2720 
-V L "macro_end" 38 7 "int8" `2721 
+V L "step" 38 1 "int16" `2718 
+F G "master_macro_aws" 38 1 "int8(int16 step)" `2717 
+V L "addr" 38 3 "int16" `2719 
+V L "macro_cmd" 38 5 "int8[2]" `2720 
+V L "macro_arg" 38 6 "int16[2]" `2721 
+V L "macro_end" 38 7 "int8" `2722 
 C L "master_macro_aws" 38 14 1 "FUNCTION"
 C L "master_macro_aws" 38 14 1 "FUNCTION"
 C L "master_macro_aws" 38 14 1 "FUNCTION"
@@ -4989,8 +4993,8 @@ C L "master_macro_aws" 38 14 1 "FUNCTION"
 C L "master_macro_aws" 38 14 1 "FUNCTION"
 C L "master_macro_aws" 38 14 1 "FUNCTION"
 F N "auto_sample_eco" 39 1 ""
-F G "auto_sample_eco" 39 2 "int8()" `2723 
-V L "macro_cmd" 39 3 "int8" `2724 
+F G "auto_sample_eco" 39 2 "int8()" `2724 
+V L "macro_cmd" 39 3 "int8" `2725 
 C L "auto_sample_eco" 39 14 2 "FUNCTION"
 C L "auto_sample_eco" 39 14 1 "FUNCTION"
 C L "auto_sample_eco" 39 14 1 "FUNCTION"
@@ -4998,15 +5002,15 @@ C L "auto_sample_eco" 39 14 1 "FUNCTION"
 C L "auto_sample_eco" 39 14 1 "FUNCTION"
 C L "auto_sample_eco" 39 14 1 "FUNCTION"
 F N "auto_sample_wms" 39 66 ""
-F G "auto_sample_wms" 39 67 "int8()" `2729 
-V L "macro_end" 39 68 "int8" `2730 
+F G "auto_sample_wms" 39 67 "int8()" `2730 
+V L "macro_end" 39 68 "int8" `2731 
 C L "auto_sample_wms" 39 14 1 "FUNCTION"
 F N "auto_sample_aws" 39 130 ""
-F G "auto_sample_aws" 39 131 "int8()" `2734 
-V L "macro_end" 39 132 "int8" `2735 
+F G "auto_sample_aws" 39 131 "int8()" `2735 
+V L "macro_end" 39 132 "int8" `2736 
 C L "auto_sample_aws" 39 14 1 "FUNCTION"
 F N "auto_sample_ready" 39 187 ""
-F G "auto_sample_ready" 39 188 "int8()" `2740 
+F G "auto_sample_ready" 39 188 "int8()" `2741 
 C L "auto_sample_ready" 39 14 1 "FUNCTION"
 C L "auto_sample_ready" 39 14 1 "FUNCTION"
 C L "auto_sample_ready" 39 14 1 "FUNCTION"
@@ -5018,48 +5022,48 @@ C L "auto_sample_ready" 39 14 1 "FUNCTION"
 D G "USERCMDLIST" 40 4 ""%*/&+-ABDEFGHIJKLMNOPQRSTUVWXYZ^""
 D G "FULLCMDLIST" 40 5 ""#%*/&+-ABDEFGHIJKLMNOPQRSTUVWXYZ^abcdefghijklmnopqrstuvwxyz""
 F N "command_addr" 40 8 ""
-F G "command_addr" 40 9 "void()" `2745 
+F G "command_addr" 40 9 "void()" `2746 
 F N "commandAe" 40 16 ""
-F G "commandAe" 40 17 "void()" `2746 
+F G "commandAe" 40 17 "void()" `2747 
 F N "commandAw" 40 34 ""
-F G "commandAw" 40 35 "void()" `2748 
+F G "commandAw" 40 35 "void()" `2749 
 F N "commandA" 40 43 ""
 F G "commandA" 40 44 "void()" `2433 
 F N "commandBe" 40 54 ""
-F G "commandBe" 40 55 "void()" `2749 
+F G "commandBe" 40 55 "void()" `2750 
 F N "commandBw" 40 66 ""
-F G "commandBw" 40 67 "void()" `2751 
-V L "hb_cmd" 40 68 "int8" `2752 
+F G "commandBw" 40 67 "void()" `2752 
+V L "hb_cmd" 40 68 "int8" `2753 
 F N "commandB" 40 77 ""
 F G "commandB" 40 78 "void()" `2434 
 F N "commandCe" 40 88 ""
-F G "commandCe" 40 89 "void()" `2753 
+F G "commandCe" 40 89 "void()" `2754 
 F N "commandCw" 40 141 ""
-F G "commandCw" 40 142 "void()" `2777 
-V L "port" 40 143 "int16" `2778 
+F G "commandCw" 40 142 "void()" `2778 
+V L "port" 40 143 "int16" `2779 
 F N "commandCa" 40 155 ""
-F G "commandCa" 40 156 "void()" `2779 
-V L "chip" 40 157 "int8" `2780 
+F G "commandCa" 40 156 "void()" `2780 
+V L "chip" 40 157 "int8" `2781 
 F N "commandC" 40 166 ""
 F G "commandC" 40 167 "void()" `2435 
 F N "commandD" 40 179 ""
 F G "commandD" 40 180 "void()" `2436 
 F N "commandE" 40 197 ""
 F G "commandE" 40 198 "void()" `2437 
-V L "result" 40 202 "int8" `2782 
+V L "result" 40 202 "int8" `2783 
 F N "commandF" 40 226 ""
 F G "commandF" 40 227 "void()" `2438 
 F N "commandG" 40 234 ""
 F G "commandG" 40 235 "void()" `2439 
 F N "commandHe" 40 273 ""
-F G "commandHe" 40 274 "void()" `2788 
-V L "v_supply" 40 275 "int16" `2789 
+F G "commandHe" 40 274 "void()" `2789 
+V L "v_supply" 40 275 "int16" `2790 
 F N "commandHw" 40 302 ""
-F G "commandHw" 40 303 "void()" `2797 
-V L "v_supply" 40 305 "int16" `2798 
+F G "commandHw" 40 303 "void()" `2798 
+V L "v_supply" 40 305 "int16" `2799 
 F N "commandHa" 40 325 ""
-F G "commandHa" 40 326 "void()" `2802 
-V L "v_supply" 40 328 "int16" `2803 
+F G "commandHa" 40 326 "void()" `2803 
+V L "v_supply" 40 328 "int16" `2804 
 F N "commandH" 40 349 ""
 F G "commandH" 40 350 "void()" `2440 
 F N "commandI" 40 362 ""
@@ -5069,68 +5073,68 @@ F G "commandJ" 40 372 "void()" `2442
 F N "commandK" 40 380 ""
 F G "commandK" 40 381 "void()" `2443 
 F N "commandLe" 40 392 ""
-F G "commandLe" 40 393 "void()" `2807 
+F G "commandLe" 40 393 "void()" `2808 
 F N "commandLw" 40 409 ""
-F G "commandLw" 40 410 "void()" `2808 
+F G "commandLw" 40 410 "void()" `2809 
 F N "commandL" 40 418 ""
 F G "commandL" 40 419 "void()" `2444 
 F N "commandM" 40 429 ""
-V L "LoggingReentry" 40 429 "int8" `2810 
+V L "LoggingReentry" 40 429 "int8" `2811 
 F G "commandM" 40 430 "void(int8 LoggingReentry)" `2445 
-V L "macro" 40 431 "int8" `2809 
+V L "macro" 40 431 "int8" `2810 
 C L "commandM" 40 2 2 "FUNCTION"
 F N "commandN" 40 477 ""
 F G "commandN" 40 478 "void()" `2447 
 F N "commandO" 40 492 ""
 F G "commandO" 40 493 "void()" `2448 
 F N "commandPe" 40 503 ""
-F G "commandPe" 40 504 "void()" `2810 
+F G "commandPe" 40 504 "void()" `2811 
 C L "commandPe" 40 2 1 "FUNCTION"
 C L "commandPe" 40 2 1 "FUNCTION"
 C L "commandPe" 40 2 1 "FUNCTION"
 C L "commandPe" 40 2 1 "FUNCTION"
 C L "commandPe" 40 2 1 "FUNCTION"
 F N "commandPa" 40 524 ""
-F G "commandPa" 40 525 "void()" `2811 
+F G "commandPa" 40 525 "void()" `2812 
 F N "commandP" 40 533 ""
 F G "commandP" 40 534 "void()" `2449 
 F N "commandQa" 40 546 ""
-F G "commandQa" 40 547 "void()" `2812 
-V L "valve" 40 548 "int8" `2813 
+F G "commandQa" 40 547 "void()" `2813 
+V L "valve" 40 548 "int8" `2814 
 F N "commandQw" 40 561 ""
-F G "commandQw" 40 562 "void()" `2814 
+F G "commandQw" 40 562 "void()" `2815 
 F N "commandQ" 40 570 ""
 F G "commandQ" 40 571 "void()" `2450 
 F N "commandRe" 40 581 ""
-F G "commandRe" 40 582 "void()" `2815 
-V L "macro_cmd" 40 583 "int8" `2816 
-V L "samples" 40 584 "int16" `2817 
-V L "count" 40 584 "int16" `2818 
+F G "commandRe" 40 582 "void()" `2816 
+V L "macro_cmd" 40 583 "int8" `2817 
+V L "samples" 40 584 "int16" `2818 
+V L "count" 40 584 "int16" `2819 
 C L "commandRe" 40 2 2 "FUNCTION"
 F N "commandRw" 40 608 ""
-F G "commandRw" 40 609 "void()" `2820 
-V L "port" 40 610 "int16" `2821 
-V L "i" 40 611 "int8" `2822 
-V L "n" 40 611 "int8" `2823 
+F G "commandRw" 40 609 "void()" `2821 
+V L "port" 40 610 "int16" `2822 
+V L "i" 40 611 "int8" `2823 
+V L "n" 40 611 "int8" `2824 
 F N "commandRa" 40 624 ""
-F G "commandRa" 40 625 "void()" `2824 
-V L "macro_cmd" 40 626 "int8" `2825 
-V L "samples" 40 627 "int16" `2826 
-V L "count" 40 627 "int16" `2827 
+F G "commandRa" 40 625 "void()" `2825 
+V L "macro_cmd" 40 626 "int8" `2826 
+V L "samples" 40 627 "int16" `2827 
+V L "count" 40 627 "int16" `2828 
 C L "commandRa" 40 2 2 "FUNCTION"
 C L "commandRa" 40 2 1 "FUNCTION"
 C L "commandRa" 40 2 1 "FUNCTION"
 F N "commandR" 40 653 ""
 F G "commandR" 40 654 "void()" `2451 
 F N "commandSe" 40 666 ""
-F G "commandSe" 40 667 "void()" `2829 
+F G "commandSe" 40 667 "void()" `2830 
 C L "commandSe" 40 2 1 "FUNCTION"
 C L "commandSe" 40 2 1 "FUNCTION"
 F N "commandSw" 40 692 ""
-F G "commandSw" 40 693 "void()" `2830 
+F G "commandSw" 40 693 "void()" `2831 
 F N "commandSa" 40 701 ""
-F G "commandSa" 40 702 "void()" `2831 
-V L "setting" 40 703 "int16" `2832 
+F G "commandSa" 40 702 "void()" `2832 
+V L "setting" 40 703 "int16" `2833 
 F N "commandS" 40 712 ""
 F G "commandS" 40 713 "void()" `2452 
 F N "commandT" 40 725 ""
@@ -5138,10 +5142,10 @@ F G "commandT" 40 726 "void()" `2453
 C L "commandT" 40 2 1 "FUNCTION"
 F N "commandU" 40 749 ""
 F G "commandU" 40 750 "void()" `2454 
-V L "macro" 40 751 "int8" `2836 
+V L "macro" 40 751 "int8" `2837 
 F N "commandV" 40 763 ""
 F G "commandV" 40 764 "void()" `2455 
-V L "macro" 40 765 "int8" `2837 
+V L "macro" 40 765 "int8" `2838 
 F N "commandW" 40 774 ""
 F G "commandW" 40 775 "void()" `2456 
 C L "commandW" 40 2 1 "FUNCTION"
@@ -5151,8 +5155,8 @@ C L "commandW" 40 2 1 "FUNCTION"
 F N "commandX" 40 788 ""
 F G "commandX" 40 789 "void()" `2457 
 F N "display_status" 40 805 ""
-V L "status" 40 805 "int8" `2839 
-F G "display_status" 40 806 "void(int8 status,int8 status)" `2838 
+V L "status" 40 805 "int8" `2840 
+F G "display_status" 40 806 "void(int8 status)" `2839 
 F N "commandY" 40 815 ""
 F G "commandY" 40 816 "void()" `2458 
 C L "commandY" 40 2 1 "FUNCTION"
@@ -5160,65 +5164,65 @@ C L "commandY" 40 2 1 "FUNCTION"
 F N "commandZ" 40 855 ""
 F G "commandZ" 40 856 "void()" `2459 
 F N "command_a" 40 865 ""
-F G "command_a" 40 866 "void()" `2842 
+F G "command_a" 40 866 "void()" `2843 
 F N "command_b" 40 871 ""
 C L "command_b" 40 2 1 "FUNCTION"
-F G "command_b" 40 872 "void()" `2843 
+F G "command_b" 40 872 "void()" `2844 
 F N "command_c" 40 885 ""
-F G "command_c" 40 885 "void()" `2844 
+F G "command_c" 40 885 "void()" `2845 
 F N "command_d" 40 898 ""
 C L "command_d" 40 2 1 "FUNCTION"
-F G "command_d" 40 899 "void()" `2845 
+F G "command_d" 40 899 "void()" `2846 
 F N "command_e" 40 912 ""
 C L "command_e" 40 2 1 "FUNCTION"
-F G "command_e" 40 913 "void()" `2846 
+F G "command_e" 40 913 "void()" `2847 
 F N "command_f" 40 926 ""
-F G "command_f" 40 927 "void()" `2847 
+F G "command_f" 40 927 "void()" `2848 
 F N "command_g" 40 932 ""
 C L "command_g" 40 2 1 "FUNCTION"
-F G "command_g" 40 933 "void()" `2848 
+F G "command_g" 40 933 "void()" `2849 
 F N "command_h" 40 946 ""
 C L "command_h" 40 2 1 "FUNCTION"
-F G "command_h" 40 947 "void()" `2849 
-V L "hold_pc" 40 948 "int16" `2850 
+F G "command_h" 40 947 "void()" `2850 
+V L "hold_pc" 40 948 "int16" `2851 
 F N "command_i" 40 962 ""
 C L "command_i" 40 2 1 "FUNCTION"
-F G "command_i" 40 963 "void()" `2851 
+F G "command_i" 40 963 "void()" `2852 
 F N "command_j" 40 976 ""
 C L "command_j" 40 2 1 "FUNCTION"
-F G "command_j" 40 977 "void()" `2852 
+F G "command_j" 40 977 "void()" `2853 
 F N "command_k" 40 990 ""
 C L "command_k" 40 2 1 "FUNCTION"
-F G "command_k" 40 991 "void()" `2853 
+F G "command_k" 40 991 "void()" `2854 
 C L "command_m" 40 2 1 "FUNCTION"
 F N "command_m" 40 1006 ""
 C L "command_m" 40 2 1 "FUNCTION"
-F G "command_m" 40 1007 "void()" `2854 
+F G "command_m" 40 1007 "void()" `2855 
 F N "command_n" 40 1020 ""
 C L "command_n" 40 2 1 "FUNCTION"
-F G "command_n" 40 1021 "void()" `2855 
+F G "command_n" 40 1021 "void()" `2856 
 F N "command_o" 40 1034 ""
 C L "command_o" 40 2 1 "FUNCTION"
-F G "command_o" 40 1035 "void()" `2856 
+F G "command_o" 40 1035 "void()" `2857 
 C L "command_o" 40 2 1 "FUNCTION"
 F N "command_p" 40 1048 ""
 C L "command_p" 40 2 1 "FUNCTION"
-F G "command_p" 40 1049 "void()" `2857 
+F G "command_p" 40 1049 "void()" `2858 
 F N "command_q" 40 1062 ""
 C L "command_q" 40 2 1 "FUNCTION"
-F G "command_q" 40 1063 "void()" `2858 
+F G "command_q" 40 1063 "void()" `2859 
 F N "command_r" 40 1068 ""
 C L "command_r" 40 2 1 "FUNCTION"
-F G "command_r" 40 1069 "void()" `2859 
+F G "command_r" 40 1069 "void()" `2860 
 F N "command_s" 40 1085 ""
 C L "command_s" 40 2 1 "FUNCTION"
-F G "command_s" 40 1086 "void()" `2860 
+F G "command_s" 40 1086 "void()" `2861 
 F N "command_t" 40 1100 ""
 C L "command_t" 40 2 1 "FUNCTION"
-F G "command_t" 40 1101 "void()" `2861 
+F G "command_t" 40 1101 "void()" `2862 
 C L "command_v" 40 2 2 "FUNCTION"
 F N "command_v" 40 1117 ""
-F G "command_v" 40 1117 "void()" `2862 
+F G "command_v" 40 1117 "void()" `2460 
 F N "command_w" 40 1153 ""
 C L "command_w" 40 2 1 "FUNCTION"
 F G "command_w" 40 1154 "void()" `2863 
@@ -5263,39 +5267,49 @@ F N "proc_arg" 0 94 ""
 F G "proc_arg" 0 95 "void()" `2933 
 V L "number" 0 96 "int8" `2934 
 V L "good_arg" 0 97 "int8" `2935 
+V L "temp_number" 0 98 "int8" `2936 
 C L "proc_arg" 0 81 1 "FUNCTION"
 C L "proc_arg" 0 81 1 "FUNCTION"
 C L "proc_arg" 0 81 1 "FUNCTION"
 C L "proc_arg" 0 81 1 "FUNCTION"
 C L "proc_arg" 0 81 1 "FUNCTION"
-C L "proc_arg" 0 117 1 "*"
-C L "proc_arg" 0 117 1 "FUNCTION"
-F N "check_cmd" 0 129 ""
-V L "e" 0 129 "int8" `2939 
-F G "check_cmd" 0 130 "int8(int8 e,int8 valid_macro)" `2938  "cmd_set - 0=user, 1=full"
-V L "valid" 0 132 "int8" `2940 
-F N "proc_cmd" 0 138 ""
-F G "proc_cmd" 0 139 "void()" `2943 
-F N "command_prompt" 0 144 ""
-F G "command_prompt" 0 145 "void()" `2945  "disable_interrupts(INT_EXT);"
-C L "command_prompt" 0 117 1 "FUNCTION"
-C L "command_prompt" 0 117 1 "FUNCTION"
-F N "main" 0 174 ""
-F G "main" 0 175 "void()" `2948 
-V L "EscNum" 0 175 "int8" `2949 
-V L "EscCount" 0 176 "int16" `2950 
-C L "main" 0 117 1 "FUNCTION"
-C L "main" 0 117 1 "FUNCTION"
-C L "main" 0 117 7 "FUNCTION"
-C L "main" 0 117 6 "FUNCTION"
-C L "main" 0 117 2 "FUNCTION"
-C L "main" 0 117 1 "FUNCTION"
-C L "main" 0 117 2 "FUNCTION"
-C L "main" 0 117 1 "FUNCTION"
-C L "main" 0 117 1 "FUNCTION"
-C L "main" 0 117 2 "FUNCTION"
-C L "main" 0 117 1 "FUNCTION"
-C L "main" 0 117 55 "FUNCTION"
+C L "proc_arg" 0 119 1 "*"
+C L "proc_arg" 0 119 1 "FUNCTION"
+F N "check_cmd" 0 131 ""
+V L "e" 0 131 "int8" `2940 
+F G "check_cmd" 0 132 "int8(int8 e)" `2939  "cmd_set - 0=user, 1=full"
+V L "valid" 0 134 "int8" `2941 
+F N "proc_cmd" 0 140 ""
+F G "proc_cmd" 0 141 "void()" `2944 
+F N "command_prompt" 0 146 ""
+F G "command_prompt" 0 146 "void()" `2946 
+V L "i" 0 147 "int8" `2947 
+V L "temp" 0 148 "int8" `2948 
+V L "input_string" 0 149 "int8[30]" `2949 
+V L "blank_string" 0 150 "int8[30]" `2950 
+C L "command_prompt" 0 119 1 "FUNCTION"
+C L "command_prompt" 0 119 10 "FUNCTION"
+F N "command_prompt2" 0 216 ""
+F G "command_prompt2" 0 217 "void()" `2955  "disable_interrupts(INT_EXT);"
+V L "temp_cmd" 0 219 "int8" `2956 
+C L "command_prompt2" 0 119 1 "FUNCTION"
+C L "command_prompt2" 0 119 1 "FUNCTION"
+F N "main" 0 247 ""
+F G "main" 0 248 "void()" `2959 
+V L "EscNum" 0 248 "int8" `2960 
+V L "EscCount" 0 249 "int16" `2961 
+C L "main" 0 119 1 "FUNCTION"
+C L "main" 0 119 1 "FUNCTION"
+C L "main" 0 119 7 "FUNCTION"
+C L "main" 0 119 6 "FUNCTION"
+C L "main" 0 119 2 "FUNCTION"
+C L "main" 0 119 1 "FUNCTION"
+C L "main" 0 119 2 "FUNCTION"
+C L "main" 0 119 1 "FUNCTION"
+C L "main" 0 119 1 "FUNCTION"
+C L "main" 0 119 2 "FUNCTION"
+C L "main" 0 119 1 "FUNCTION"
+C L "main" 0 119 55 "FUNCTION"
 F B "reset_cpu" 0 0
 F B "abs" 1 0
 F B "sleep_ulpwu" 1 0

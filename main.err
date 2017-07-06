@@ -1,13 +1,101 @@
->>> Warning 216 "main.c" Line 358(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PSTRINGCN_19200_31766_31767)
->>> Warning 216 "main.c" Line 358(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PSTRINGC_19200_31766_31767)
->>> Warning 216 "main.c" Line 358(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PRINTF_LU_19200_31766_31767)
->>> Warning 216 "main.c" Line 358(1,2): Interrupts disabled during call to prevent re-entrancy:  (@DIV3232)
->>> Warning 216 "main.c" Line 358(1,2): Interrupts disabled during call to prevent re-entrancy:  (@DIV88)
->>> Warning 216 "main.c" Line 358(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PRINTF_U_19200_31766_31767)
->>> Warning 216 "main.c" Line 358(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PRINTF_L32U_19200_31766_31767)
->>> Warning 216 "main.c" Line 358(1,2): Interrupts disabled during call to prevent re-entrancy:  (RTC_read_flags)
->>> Warning 202 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\global.h" Line 21(7,26): Variable never used:   valve_align_counter
->>> Warning 202 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\macros.c" Line 258(10,20): Variable never used:   macro_cmd2
-      Memory usage:   ROM=87%      RAM=56% - 68%
-      0 Errors,  10 Warnings.
-Build Successful.
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x80
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0xA5
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x07
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0xFF
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0xFF
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0xFF
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x06
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x00
+*** Error 12 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(116,128): Undefined identifier   NO3_abs_arra
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(7,8): Illegal C character in input file  0x07
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(7,8): Illegal C character in input file  0xE2
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(7,8): Illegal C character in input file  0x84
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(11,12): Illegal C character in input file  0x92
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(14,15): Illegal C character in input file  0xF5
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(14,15): Illegal C character in input file  0xE4
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(14,15): Illegal C character in input file  0x40
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(14,15): Illegal C character in input file  0xF0
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0xB0
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0xD7
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0x01
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0x80
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0xDC
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(17,18): Illegal C character in input file  0x03
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(22,23): Illegal C character in input file  0x08
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(22,23): Illegal C character in input file  0x40
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(24,25): Illegal C character in input file  0x04
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(24,25): Illegal C character in input file  0x08
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(24,25): Illegal C character in input file  0xD0
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(26,27): Illegal C character in input file  0x04
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(26,27): Illegal C character in input file  0x08
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(26,27): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(26,27): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(26,27): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(26,27): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(26,27): Illegal C character in input file  0x90
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x04
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x08
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(28,29): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(31,32): Illegal C character in input file  0x55 after \
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(37,38): Illegal C character in input file  0x47 after \
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(48,49): Illegal C character in input file  0x44 after \
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x80
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x00
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0xA5
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x08
+*** Error 1 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\data.c" Line 61(1,2): Illegal C character in input file  0x00

@@ -91,10 +91,11 @@
   (byte & 0x02 ? '1' : '0'), \
   (byte & 0x01 ? '1' : '0') 
 
-void proc_arg()
+void proc_arg2()
 {
   int8 number;
   int8 good_arg;
+  char temp_number = 0;
 
   number = 0;
   arg = 0;
@@ -103,6 +104,7 @@ void proc_arg()
   while (number != CARRIAGE_RET)
   {                     // 13 = CR = terminator
      number = fgetc(COM_A);
+     temp_number = number;
      if (number != CARRIAGE_RET) fputc(number, COM_A);
      if (number > 47 && number < 58)
      {       // ASCII 0 = 48
@@ -126,6 +128,44 @@ void proc_arg()
   }
 }
 
+void proc_arg()
+{
+  int8 number;
+  int8 good_arg;
+  char temp_number = 0;
+
+  number = 0;
+  arg = 0;
+  good_arg = FALSE;
+  
+  while (number != CARRIAGE_RET)
+  {                     // 13 = CR = terminator
+     number = fgetc(COM_A);
+     temp_number = number;
+     if (number != CARRIAGE_RET) fputc(number, COM_A);
+     if (number > 47 && number < 58)
+     {       // ASCII 0 = 48
+        number = number - 48;
+        arg = arg * 10;                    // increase significance
+        arg = arg + number;                // for each number
+        good_arg = TRUE;
+     }
+     else if (number == CARRIAGE_RET && good_arg == TRUE)
+     {
+          fputs("@OK! ", COM_A);             // got a valid number
+          // *** COMMAND PROCESSOR *** //
+          select_cmd();
+     }
+     else
+     {
+        good_arg = FALSE;
+        fputs("@ARG ", COM_A);             // bad input
+     }
+     if (good_arg == FALSE) break;
+  }
+}
+
+
 int8 check_cmd(int8 e)
 {
    // cmd_set - 0=user, 1=full
@@ -141,9 +181,16 @@ void proc_cmd()
    else fputs("@INV", COM_A);
 }
 
-void command_prompt()
-{
-   //disable_interrupts(INT_EXT);
+void command_prompt(){
+   int8 i = 0;
+   char temp = 0;
+   char input_string[30];
+   char blank_string[30];
+   for(i = 0; i<30; i++){
+      input_string[i] = 0;
+      blank_string[i] = 0;
+   }
+   i = 0;
    
    nv_cmd_mode = TRUE;
    write8(ADDR_CMD_MODE, nv_cmd_mode);
@@ -159,13 +206,81 @@ void command_prompt()
    
    do {
       fputc('>',COM_A);
-      cmd=fgetc(COM_A);
-      if (com_echo == TRUE)
-      {
-         fputc(cmd,COM_A);
+      
+      while(temp != CARRIAGE_RET){
+         temp = fgetc(COM_A);
+         //Backspace character
+         if(temp != 8){
+         if (com_echo == TRUE)
+         {
+            fputc(temp,COM_A);
+         }
+         input_string[i] = temp;
+         i++;
+         }else{
+            if(i != 0){
+               input_string[i-1] = 0;
+               i--;
+               //Clear buffer and overwrite with previous minus one character
+               fputc('\r',COM_A);
+               fprintf(COM_A,"                                       ");
+               fputc('\r',COM_A);
+               fprintf(COM_A,">");
+               fprintf(COM_A,input_string);
+               
+            }
+         }
       }
-      if (cmd == '?') msg_busy();
-      else proc_cmd();
+      cmd = input_string[0];
+      
+      
+      
+         
+      /*if(cmd != 8){
+         temp_cmd = cmd;
+         if (com_echo == TRUE)
+         {
+            fputc(cmd,COM_A);
+         }
+         if (cmd == '?') msg_busy();
+         else proc_cmd();
+      }else{
+         if(temp_cmd != 0){
+            fprintf(COM_A,"\r\n>%c",temp_cmd);
+         }
+      }
+      //restart_wdt();*/
+   } while(nv_cmd_mode == TRUE);
+
+}
+
+
+void command_prompt2()
+{
+   //disable_interrupts(INT_EXT);
+   char temp_cmd = 0;
+   nv_cmd_mode = TRUE;
+   write8(ADDR_CMD_MODE, nv_cmd_mode);
+   
+   fputs("@CMD", COM_A);
+   
+   sprintf(event_str, ",command prompt\r\n");
+   record_event();
+   
+   busy_clear();
+   
+   cmd_set=0; // user
+   
+   do {
+      fputc('>',COM_A);
+      cmd=fgetc(COM_A);
+         temp_cmd = cmd;
+         if (com_echo == TRUE)
+         {
+            fputc(cmd,COM_A);
+         }
+         if (cmd == '?') msg_busy();
+         else proc_cmd();
       //restart_wdt();
    } while(nv_cmd_mode == TRUE);
 }

@@ -2,7 +2,7 @@
 // --------------------------------------------------------------------//
 #define MACEND  1024
 // --------------------------------------------------------------------//
-#define MACROLIST_ECO   "#/+-%rpdACDFGHiKlLPQRSTUY;" // Valid macro commands
+#define MACROLIST_ECO   "#/+-%rpdACDFGHiKlLPQRSTUvY;" // Valid macro commands
 #define MASTERLIST_ECO  "#MZr%;"               // Master macro commands
 // --------------------------------------------------------------------//
 #define MACROLIST_WMS   "#+-BGPQRTY;"
@@ -547,9 +547,11 @@ int8 play_macro_line2(int8 macro, int16 line, int16 mmacro_var)
                     else if (macro_arg == 0) bus_off();
                     macro_status = 'a';
             break;
-         case 'v': 
-         //shouldve been a switch statement but I already wrote it so...
-            if(macro_arg == 00){
+         case 'v':
+            arg = macro_arg;
+            command_v();
+            macro_status = 'a';
+            /*if(macro_arg == 00){
                output_bit(PIN_D0,0);
             }else if(macro_arg == 01){
                output_bit(PIN_D0,1);
@@ -581,7 +583,7 @@ int8 play_macro_line2(int8 macro, int16 line, int16 mmacro_var)
                output_bit(PIN_D7,0);
             }else if(macro_arg == 71){
                output_bit(PIN_D7,1);
-            }     
+            }*/     
             break;
          // end of macro   
          case ';' : macro_status = 'f';
@@ -739,6 +741,44 @@ int8 play_macro_line(int8 macro, int16* line, int16 mmacro_var)
          case 'Y' : if (macro_arg == 1) bus_on();
                     else if (macro_arg == 0) bus_off();
                     macro_status = 'a';
+            break;
+         case 'v': 
+            arg = macro_arg;
+            command_v();
+            macro_status = 'a';
+            /*if(macro_arg == 00){
+               output_bit(PIN_D0,0);
+            }else if(macro_arg == 01){
+               output_bit(PIN_D0,1);
+            }else if(macro_arg == 10){
+               output_bit(PIN_D1,0);
+            }else if(macro_arg == 11){
+               output_bit(PIN_D1,1);
+            }else if(macro_arg == 20){
+               output_bit(PIN_D2,0);
+            }else if(macro_arg == 21){
+               output_bit(PIN_D2,1);
+            }else if(macro_arg == 30){
+               output_bit(PIN_D3,0);
+            }else if(macro_arg == 31){
+               output_bit(PIN_D3,1);
+            }else if(macro_arg == 40){
+               output_bit(PIN_D4,0);
+            }else if(macro_arg == 41){
+               output_bit(PIN_D4,1);
+            }else if(macro_arg == 50){
+               output_bit(PIN_D5,0);
+            }else if(macro_arg == 51){
+               output_bit(PIN_D5,1);
+            }else if(macro_arg == 60){
+               output_bit(PIN_D6,0);
+            }else if(macro_arg == 61){
+               output_bit(PIN_D6,1);
+            }else if(macro_arg == 70){
+               output_bit(PIN_D7,0);
+            }else if(macro_arg == 71){
+               output_bit(PIN_D7,1);
+            }*/     
             break;
          // end of macro   
          case ';' : macro_status = 'f';

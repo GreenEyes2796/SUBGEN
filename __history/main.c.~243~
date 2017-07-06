@@ -1,4 +1,4 @@
-/* TITLE BLOCK
+             /* TITLE BLOCK
   
    filename : main.c
    purpose  : main application file
@@ -29,11 +29,11 @@
 // WDT resolution    = 4ms
 // WDT post-scalers  = 256   512,  1024  2048  4096   8192   16384  32768
 // WDT time-outs     = 1.024 2.048 4.096 8.192 16.384 32.768 65.536 131.027 sec
-//#FUSES WDT1024                   // WDT = 1024 * 4 ms = 4.0960 sec.
-//#FUSES WDT_SW  
-//#fuses WDT//, WDT16
-//#fuses WDT// WDT is s/w controlled
+#FUSES WDT1024                   // WDT = 1024 * 4 ms = 4.0960 sec.
+#FUSES WDT_SW  
 //#use delay(clock=2000000)
+
+#FUSES NOWDT
 
 
 #FUSES SOSC_DIG                  // Enables C0 & C1 as digital I/O
@@ -80,10 +80,22 @@
 #include "includes.h"   
 // --------------------------------------------------------------------//
 
+#define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
+#define BYTE_TO_BINARY(byte)  \
+  (byte & 0x80 ? '1' : '0'), \
+  (byte & 0x40 ? '1' : '0'), \
+  (byte & 0x20 ? '1' : '0'), \
+  (byte & 0x10 ? '1' : '0'), \
+  (byte & 0x08 ? '1' : '0'), \
+  (byte & 0x04 ? '1' : '0'), \
+  (byte & 0x02 ? '1' : '0'), \
+  (byte & 0x01 ? '1' : '0') 
+
 void proc_arg()
 {
   int8 number;
   int8 good_arg;
+  char temp_number = 0;
 
   number = 0;
   arg = 0;
@@ -92,6 +104,7 @@ void proc_arg()
   while (number != CARRIAGE_RET)
   {                     // 13 = CR = terminator
      number = fgetc(COM_A);
+     temp_number = number;
      if (number != CARRIAGE_RET) fputc(number, COM_A);
      if (number > 47 && number < 58)
      {       // ASCII 0 = 48
@@ -130,9 +143,14 @@ void proc_cmd()
    else fputs("@INV", COM_A);
 }
 
-void command_prompt()
-{
-   disable_interrupts(INT_EXT);
+void command_prompt(){
+   int8 i = 0;
+   char temp = 0;
+   char input_string[30];
+   for(i = 0; i<30; i++){
+      input_string[i] = 0;
+   }
+   i = 0;
    
    nv_cmd_mode = TRUE;
    write8(ADDR_CMD_MODE, nv_cmd_mode);
@@ -148,13 +166,74 @@ void command_prompt()
    
    do {
       fputc('>',COM_A);
-      cmd=fgetc(COM_A);
-      if (com_echo == TRUE)
-      {
-         fputc(cmd,COM_A);
+      
+      while(temp != CARRIAGE_RET){
+         temp = fgetc(COM_A);
+         if(temp != 8){
+         if (com_echo == TRUE)
+         {
+            fputc(temp,COM_A);
+         }
+         input_string[i] = temp;
+         i++;
+         }else{
+            if(i != 0){
+               input_string[i] = 0;
+               i--;
+               fprintf(COM_A,"\r\n>");
+               fprintf(COM_A,input_string);
+               
+            }
+         }
       }
-      if (cmd == '?') msg_busy();
-      else proc_cmd();
+      
+      
+         
+      /*if(cmd != 8){
+         temp_cmd = cmd;
+         if (com_echo == TRUE)
+         {
+            fputc(cmd,COM_A);
+         }
+         if (cmd == '?') msg_busy();
+         else proc_cmd();
+      }else{
+         if(temp_cmd != 0){
+            fprintf(COM_A,"\r\n>%c",temp_cmd);
+         }
+      }
+      //restart_wdt();*/
+   } while(nv_cmd_mode == TRUE);
+
+}
+
+
+void command_prompt2()
+{
+   //disable_interrupts(INT_EXT);
+   char temp_cmd = 0;
+   nv_cmd_mode = TRUE;
+   write8(ADDR_CMD_MODE, nv_cmd_mode);
+   
+   fputs("@CMD", COM_A);
+   
+   sprintf(event_str, ",command prompt\r\n");
+   record_event();
+   
+   busy_clear();
+   
+   cmd_set=0; // user
+   
+   do {
+      fputc('>',COM_A);
+      cmd=fgetc(COM_A);
+         temp_cmd = cmd;
+         if (com_echo == TRUE)
+         {
+            fputc(cmd,COM_A);
+         }
+         if (cmd == '?') msg_busy();
+         else proc_cmd();
       //restart_wdt();
    } while(nv_cmd_mode == TRUE);
 }
@@ -281,7 +360,7 @@ void main()
    }
    else
    {
-      int8 RTC_buffer = 0;
+      /*int8 RTC_buffer = 0;
       unsigned int8 a0 = 0;
       unsigned int8 a1 = 0;
       unsigned int8 a2 = 0;
@@ -294,45 +373,51 @@ void main()
       unsigned int8 a9 = 0;
       unsigned int8 a10 = 0;
       unsigned int8 a11 = 0;
-      //RTC_display();
-      //output_bit(RTC_CS, ENABLE);
-     // RTC_buffer = spi_read(0x0F);
-      //RTC_buffer = spi_read(RTC_buffer);;
-      //output_bit(RTC_CS, DISABLE);
-      //fprintf(COM_A,"result1: %d\r\n",RTC_buffer);
       
-      //output_bit(PIN_J7,0);
+      RTC_reset_HT();
       output_bit(RTC_CS, ENABLE);
       spi_write(0x89);
-      spi_write(0b10000111);
+      spi_write(0b11000011);
       output_bit(RTC_CS, DISABLE);
       
       output_bit(RTC_CS, ENABLE);
-      
-      
       RTC_buffer = spi_read(0x00);
       a0 = RTC_buffer;
-      fprintf(COM_A,"res1: %u\r\n",RTC_buffer);
+      fprintf(COM_A,"crap: %u\r\n",RTC_buffer);
       a1 = spi_read(RTC_buffer);
-      fprintf(COM_A,"res2: %u\r\n",a1);
+      fprintf(COM_A,"reg0: %u\r\n",a1);
       a2 = spi_read(RTC_buffer);
-      fprintf(COM_A,"res3: %u\r\n",a2);
+      fprintf(COM_A,"reg1: %u\r\n",a2);
       a3 = spi_read(RTC_buffer);
-      fprintf(COM_A,"res4: %u\r\n",a3);
+      fprintf(COM_A,"reg2: %u\r\n",a3);
       a4 = spi_read(RTC_buffer);
-      fprintf(COM_A,"res5: %u\r\n",a4);
+      fprintf(COM_A,"reg3: %u\r\n",a4);
       a5 = spi_read(RTC_buffer);
-      fprintf(COM_A,"res6: %u\r\n",a5);
+      fprintf(COM_A,"reg4: %u\r\n",a5);
       a6 = spi_read(RTC_buffer);
-      fprintf(COM_A,"res7: %u\r\n",a6);
+      fprintf(COM_A,"reg5: %u\r\n",a6);
       a7 = spi_read(RTC_buffer);
-      fprintf(COM_A,"res8: %u\r\n",a7);
+      fprintf(COM_A,"reg6: %u\r\n",a7);
       a8 = spi_read(RTC_buffer);
-      fprintf(COM_A,"res9: %u\r\n",a8);
+      fprintf(COM_A,"reg7: %u\r\n",a8);
       a9 = spi_read(RTC_buffer);
-      fprintf(COM_A,"res10: %u\r\n",a9);
-      fprintf(COM_A,"result2: %u\r\n",RTC_buffer);
-      output_bit(RTC_CS, DISABLE);
+      fprintf(COM_A,"reg8: %u\r\n",a9);
+      a9 = spi_read(RTC_buffer);
+      fprintf(COM_A,"reg9: %u\r\n",a9);
+      a9 = spi_read(RTC_buffer);
+      fprintf(COM_A,"regA: %u\r\n",a9);
+      a9 = spi_read(RTC_buffer);
+      fprintf(COM_A,"regB: %u\r\n",a9);
+      a9 = spi_read(RTC_buffer);
+      fprintf(COM_A,"regC: %u\r\n",a9);
+      a9 = spi_read(RTC_buffer);
+      fprintf(COM_A,"regD: %u\r\n",a9);
+      a9 = spi_read(RTC_buffer);
+      fprintf(COM_A,"regE: %u\r\n",a9);
+      a9 = spi_read(RTC_buffer);
+      fprintf(COM_A,"regF: %u\r\n",a9);
+      
+      output_bit(RTC_CS, DISABLE);*/
    
       command_prompt();
    }
