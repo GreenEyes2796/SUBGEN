@@ -882,7 +882,9 @@ void command_b() // back-lash
    else cmd_arg();   
 }
 
-//Turn individual dio pins on and off
+//Set watchdog temporarily (arg should be dec equivalent of bcd)
+//c0,c1 services watchdog
+//probably don't use this anyway
 void command_c(){
    if(arg == 0){
       output_bit(PIN_J7,0);
@@ -893,6 +895,7 @@ void command_c(){
       output_bit(RTC_CS, ENABLE);
       spi_write(0x89);
       spi_write(arg);
+      spi_read(0x00);
       output_bit(RTC_CS, DISABLE);
    }
 }

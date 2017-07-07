@@ -196,6 +196,7 @@ void command_prompt(){
    char temp = 0;
    char input_string[30];
    
+   //Disable rtc watchdog
    output_bit(RTC_CS, ENABLE);
    spi_write(0x89);
    spi_write(0b00000000);
@@ -236,6 +237,7 @@ void command_prompt(){
                i++;
             }
          }else{
+            //backspace code
             if(i != 0){
                input_string[i-1] = 0;
                i--;
@@ -250,8 +252,15 @@ void command_prompt(){
          }
       }
       cmd = input_string[0];
+      if (cmd == '?'){
+         msg_busy();
+      }else if (input_string[1] == 0){
+         fputs("\r\n@ARG ", COM_A);
+         good_val = FALSE;
+      }else{
       i = 1;
       //fputs("\r\n",COM_A);
+      //Check that argument is digits only
       while(input_string[i] != 0){
       //fputc(input_string[i],COM_A);
          if(!isdigit(input_string[i])){
@@ -266,36 +275,17 @@ void command_prompt(){
       if(!good_val){
          continue;
       }
-      
+      //convert arg from string to int32
       arg = atoi32(input_string+1);
       
-      //proc_cmd();
-      //fputs("\r\n@OK! ", COM_A);
-      //select_cmd();
+      proc_cmd();
+      }
       
-      if (cmd == '?') msg_busy();
+      /*if (cmd == '?') msg_busy();
       else{ 
             proc_cmd();
             
-      }
-      
-      
-      
-         
-      /*if(cmd != 8){
-         temp_cmd = cmd;
-         if (com_echo == TRUE)
-         {
-            fputc(cmd,COM_A);
-         }
-         if (cmd == '?') msg_busy();
-         else proc_cmd();
-      }else{
-         if(temp_cmd != 0){
-            fprintf(COM_A,"\r\n>%c",temp_cmd);
-         }
-      }
-      //restart_wdt();*/
+      }*/
    } while(nv_cmd_mode == TRUE);
 
 }
@@ -453,65 +443,6 @@ void main()
    }
    else
    {
-      /*int8 RTC_buffer = 0;
-      unsigned int8 a0 = 0;
-      unsigned int8 a1 = 0;
-      unsigned int8 a2 = 0;
-      unsigned int8 a3 = 0;
-      unsigned int8 a4 = 0;
-      unsigned int8 a5 = 0;
-      unsigned int8 a6 = 0;
-      unsigned int8 a7 = 0;
-      unsigned int8 a8 = 0;
-      unsigned int8 a9 = 0;
-      unsigned int8 a10 = 0;
-      unsigned int8 a11 = 0;
-      
-      RTC_reset_HT();
-      output_bit(RTC_CS, ENABLE);
-      spi_write(0x89);
-      spi_write(0b11000011);
-      output_bit(RTC_CS, DISABLE);
-      
-      output_bit(RTC_CS, ENABLE);
-      RTC_buffer = spi_read(0x00);
-      a0 = RTC_buffer;
-      fprintf(COM_A,"crap: %u\r\n",RTC_buffer);
-      a1 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg0: %u\r\n",a1);
-      a2 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg1: %u\r\n",a2);
-      a3 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg2: %u\r\n",a3);
-      a4 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg3: %u\r\n",a4);
-      a5 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg4: %u\r\n",a5);
-      a6 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg5: %u\r\n",a6);
-      a7 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg6: %u\r\n",a7);
-      a8 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg7: %u\r\n",a8);
-      a9 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg8: %u\r\n",a9);
-      a9 = spi_read(RTC_buffer);
-      fprintf(COM_A,"reg9: %u\r\n",a9);
-      a9 = spi_read(RTC_buffer);
-      fprintf(COM_A,"regA: %u\r\n",a9);
-      a9 = spi_read(RTC_buffer);
-      fprintf(COM_A,"regB: %u\r\n",a9);
-      a9 = spi_read(RTC_buffer);
-      fprintf(COM_A,"regC: %u\r\n",a9);
-      a9 = spi_read(RTC_buffer);
-      fprintf(COM_A,"regD: %u\r\n",a9);
-      a9 = spi_read(RTC_buffer);
-      fprintf(COM_A,"regE: %u\r\n",a9);
-      a9 = spi_read(RTC_buffer);
-      fprintf(COM_A,"regF: %u\r\n",a9);
-      
-      output_bit(RTC_CS, DISABLE);*/
-   
       command_prompt();
    }
 

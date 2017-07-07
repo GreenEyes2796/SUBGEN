@@ -66,7 +66,7 @@ void msg_max()
 
 void msg_busy()
 {
-   if (busy_status == TRUE) fprintf(COM_A, "\r\n?@BSY\r\n");
-   else fprintf(COM_A, "\r\n@RDY\r\n");
+   if (busy_status == TRUE) fprintf(COM_A, "?@BSY\r\n");
+   else fprintf(COM_A, "@RDY\r\n");
 }
 

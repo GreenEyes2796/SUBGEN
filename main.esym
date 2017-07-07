@@ -1,10 +1,9 @@
-D G "AM_ARC" 16 161 "0x20" "Archive"
-D G "__PCH__" 0 522 ""5.071d""
-D G "__DEVICE__" 0 522 "8722"
-D G "__DATE__" 0 522 ""07-Jul-17""
-D G "__TIME__" 0 522 ""11:31:21""
-D G "_UNICODE" 0 522 ""?""
-D G "__EVAL" 0 522 ""?"" "TITLE BLOCK"
+D G "__PCH__" 0 453 ""5.071d""
+D G "__DEVICE__" 0 453 "8722"
+D G "__DATE__" 0 453 ""07-Jul-17""
+D G "__TIME__" 0 453 ""12:14:48""
+D G "_UNICODE" 0 453 ""?""
+D G "__EVAL" 0 453 ""?"" "TITLE BLOCK"
 c L "set_tris_a" 1 1 6 "FUNCTION"
 f N "set_tris_a" 1 48 ""
 v L "value" 1 48 "int8" `55 
@@ -2021,14 +2020,14 @@ V G "bus_pwr_status" 5 120 "int8" `1002
 V G "valve_status" 5 121 "int8[33]" `1003  "Stops timer isr from servicing WD. If heartbeat(TRUE) is not called"
 C L "suspend_heartbeat" 6 1 1 "FUNCTION"
 F N "suspend_heartbeat" 6 5 ""
-F G "suspend_heartbeat" 6 6 "void(int8 coeff_str)" `1004 
+F G "suspend_heartbeat" 6 6 "void()" `1004 
 C L "setup_led_pulse" 6 1 1 "FUNCTION"
 F N "setup_led_pulse" 6 12 ""
 F G "setup_led_pulse" 6 13 "void()" `1005 
 C L "setup_led_pulse" 6 1 1 "FUNCTION"
 C L "restart_heartbeat" 6 1 1 "FUNCTION"
 F N "restart_heartbeat" 6 24 ""
-F G "restart_heartbeat" 6 25 "void(*int8 NO2_abs_array,*int8 PO4_abs_array)" `1006  "pre-sets timer0, resets WDT, LED ON, clear t0 int"
+F G "restart_heartbeat" 6 25 "void()" `1006  "pre-sets timer0, resets WDT, LED ON, clear t0 int"
 F N "heartbeat" 6 34 ""
 V L "beating" 6 34 "int8" `1008 
 F G "heartbeat" 6 35 "void(int8 beating)" `1007 
@@ -2068,7 +2067,7 @@ F N "strncpy" 7 61 ""
 V L "s1" 7 61 "*int8" `1018 
 V L "s2" 7 61 "*int8" `1019 
 V L "n" 7 61 "int16" `1020 
-F G "strncpy" 7 62 "*int8(*int8 s1,*int8 s2,int16 n,*int8 NO2_abs_array,*int8 PO4_abs_array)" `1017 
+F G "strncpy" 7 62 "*int8(*int8 s1,*int8 s2,int16 n)" `1017 
 V L "s" 7 63 "*int8" `1021 
 F N "strcat" 7 78 ""
 V L "s1" 7 78 "*int8" `1023 
@@ -2086,14 +2085,14 @@ F N "memcmp" 7 120 ""
 V L "s1" 7 120 "*void" `1032 
 V L "s2" 7 120 "*void" `1033 
 V L "n" 7 120 "int16" `1034 
-F G "memcmp" 7 121 "sint8(*void s1,*void s2,int16 n,*int8 PO4_abs_array)" `1031 
+F G "memcmp" 7 121 "sint8(*void s1,*void s2,int16 n)" `1031 
 V L "su1" 7 122 "*int8" `1035 
 V L "su2" 7 122 "*int8" `1036 
 C L "strcmp" 7 19 2 "FUNCTION"
 F N "strcmp" 7 134 ""
 V L "s1" 7 134 "*int8" `1038 
 V L "s2" 7 134 "*int8" `1039 
-F G "strcmp" 7 135 "sint8(*int8 s1,*int8 s2,*int8 NO2_abs_array,*int8 PO4_abs_array)" `1037 
+F G "strcmp" 7 135 "sint8(*int8 s1,*int8 s2)" `1037 
 C L "strcoll" 7 19 2 "FUNCTION"
 F N "strcoll" 7 144 ""
 V L "s1" 7 144 "*int8" `1041 
@@ -2129,19 +2128,19 @@ C L "strcspn" 7 19 4 "FUNCTION"
 F N "strcspn" 7 227 ""
 V L "s1" 7 227 "*int8" `1063 
 V L "s2" 7 227 "*int8" `1064 
-F G "strcspn" 7 228 "int8(*int8 s1,*int8 s2,*int8 PO4_inter)" `1062 
+F G "strcspn" 7 228 "int8(*int8 s1,*int8 s2)" `1062 
 V L "sc1" 7 229 "*int8" `1065 
 V L "sc2" 7 229 "*int8" `1066 
 F N "strpbrk" 7 242 ""
 V L "s1" 7 242 "*int8" `1068 
 V L "s2" 7 242 "*int8" `1069 
-F G "strpbrk" 7 243 "*int8(*int8 s1,*int8 s2,*int8 strcat,sint8 sc2)" `1067 
+F G "strpbrk" 7 243 "*int8(*int8 s1,*int8 s2)" `1067 
 V L "sc1" 7 244 "*int8" `1070 
 V L "sc2" 7 244 "*int8" `1071 
 F N "strrchr" 7 257 ""
 V L "s" 7 257 "*int8" `1073 
 V L "c" 7 257 "int8" `1074 
-F G "strrchr" 7 258 "*int8(*int8 s,int8 c,sint8 sc2)" `1072 
+F G "strrchr" 7 258 "*int8(*int8 s,int8 c)" `1072 
 V L "p" 7 259 "*int8" `1075 
 C L "strspn" 7 19 2 "FUNCTION"
 F N "strspn" 7 272 ""
@@ -2153,18 +2152,18 @@ V L "sc2" 7 274 "*int8" `1080
 F N "strstr" 7 291 ""
 V L "s1" 7 291 "*int8" `1082 
 V L "s2" 7 291 "*int8" `1083 
-F G "strstr" 7 292 "*int8(*int8 s1,*int8 s2,int32 c)" `1081 
+F G "strstr" 7 292 "*int8(*int8 s1,*int8 s2)" `1081 
 V L "s" 7 293 "*int8" `1084 
 V L "t" 7 293 "*int8" `1085 
 C L "strlen" 7 19 2 "FUNCTION"
 F N "strlen" 7 318 ""
 V L "s" 7 318 "*int8" `1087 
-F G "strlen" 7 319 "int16(*int8 s,sint8 su,sint8 strchr)" `1086 
+F G "strlen" 7 319 "int16(*int8 s)" `1086 
 V L "sc" 7 320 "*int8" `1088 
 F N "strtok" 7 341 ""
 V L "s1" 7 341 "*int8" `1090 
 V L "s2" 7 341 "*int8" `1091 
-F G "strtok" 7 342 "*int8(*int8 s1,*int8 s2,sint16 strchr)" `1089 
+F G "strtok" 7 342 "*int8(*int8 s1,*int8 s2)" `1089 
 V L "beg" 7 343 "*int8" `1092 
 V L "end" 7 343 "*int8" `1093 
 V L "save" 7 344 "*int8" `1094 
@@ -2172,14 +2171,14 @@ C L "stricmp" 7 19 6 "FUNCTION"
 F N "stricmp" 7 392 ""
 V L "s1" 7 392 "*int8" `1096 
 V L "s2" 7 392 "*int8" `1097 
-F G "stricmp" 7 393 "sint8(*int8 s1,*int8 s2,int8 ,int8 )" `1095 
+F G "stricmp" 7 393 "sint8(*int8 s1,*int8 s2)" `1095 
 F N "strlwr" 7 406 ""
 V L "s" 7 406 "*int8" `1101 
-F G "strlwr" 7 407 "*int8(*int8 s,sint16 ,sint16 )" `1100 
+F G "strlwr" 7 407 "*int8(*int8 s)" `1100 
 V L "p" 7 408 "*int8" `1102 
 F N "strupr" 7 420 ""
 V L "s" 7 420 "*int8" `1104 
-F G "strupr" 7 421 "*int8(*int8 s,sint16 ,sint16 )" `1103 
+F G "strupr" 7 421 "*int8(*int8 s)" `1103 
 V L "p" 7 422 "*int8" `1105 
 D G "_STDLIB" 10 13 ""
 D G "RAND_MAX" 10 20 "32767" "The value of which is the maximum value"
@@ -2195,13 +2194,13 @@ V L "s" 10 51 "*int8" `1115
 f G "atoi" 10 51 "sint8(*int8 s)" `1114  "Syntax: signed int32  atoi32(char * s)"
 F N "atoi32" 10 59 ""
 V L "s" 10 59 "*int8" `1117 
-f G "atoi32" 10 59 "sint32(*int8 s,float )" `1116  "Syntax: char *  itoa(signed int32 num, int8 base, char * s)"
+f G "atoi32" 10 59 "sint32(*int8 s)" `1116  "Syntax: char *  itoa(signed int32 num, int8 base, char * s)"
 C L "atoi32" 10 47 2 "FUNCTION"
 F N "itoa" 10 80 ""
 V L "num" 10 80 "sint32" `1119 
 V L "base" 10 80 "int8" `1120 
 V L "s" 10 80 "*int8" `1121 
-f G "itoa" 10 80 "*int8(sint32 num,int8 base,*int8 s,float ,float )" `1118  "Standard template: signed int16  atol(char * s)"
+f G "itoa" 10 80 "*int8(sint32 num,int8 base,*int8 s)" `1118  "Standard template: signed int16  atol(char * s)"
 C L "itoa" 10 82 1 "*"
 C L "itoa" 10 82 1 "*"
 F N "atol" 10 86 ""
@@ -2244,7 +2243,7 @@ C L "strtof" 10 144 1 "*"
 C L "strtof" 10 144 1 "*"
 F N "atoe" 10 150 ""
 V L "s" 10 150 "*int8" `1137 
-f G "atoe" 10 150 "float(*int8 s,int32 num)" `1136  "Pseudo-random sequence generation functions"
+f G "atoe" 10 150 "float(*int8 s)" `1136  "Pseudo-random sequence generation functions"
 C L "atoe" 10 144 1 "FUNCTION"
 C L "atoe" 10 161 1 "*"
 C L "atoe" 10 161 1 "*"
@@ -2438,7 +2437,7 @@ F N "mbtowc" 10 1239 ""
 V L "pwc" 10 1239 "*int8" `1237 
 V L "s" 10 1239 "*int8" `1238 
 V L "n" 10 1239 "int16" `1239 
-F G "mbtowc" 10 1240 "int8(*int8 pwc,*int8 s,int16 n,float )" `1236 
+F G "mbtowc" 10 1240 "int8(*int8 pwc,*int8 s,int16 n)" `1236 
 F N "wctomb" 10 1245 ""
 V L "s" 10 1245 "*int8" `1241 
 V L "wchar" 10 1245 "int8" `1242 
@@ -2447,7 +2446,7 @@ F N "mbstowcs" 10 1251 ""
 V L "pwcs" 10 1251 "*int8" `1244 
 V L "s" 10 1251 "*int8" `1245 
 V L "n" 10 1251 "int16" `1246 
-F G "mbstowcs" 10 1252 "int16(*int8 pwcs,*int8 s,int16 n,float cnt)" `1243 
+F G "mbstowcs" 10 1252 "int16(*int8 pwcs,*int8 s,int16 n)" `1243 
 F N "wcstombs" 10 1257 ""
 V L "s" 10 1257 "*int8" `1248 
 V L "pwcs" 10 1257 "*int8" `1249 
@@ -2507,7 +2506,7 @@ F G "floor" 11 208 "float(float x)" `1297
 C L "ceil" 11 2 5 "FUNCTION"
 F N "ceil" 11 233 ""
 V L "x" 11 233 "float" `1300 
-F G "ceil" 11 234 "float(float x,float x)" `1299 
+F G "ceil" 11 234 "float(float x)" `1299 
 D G "fabs" 11 259 "abs"
 C L "fmod" 11 2 6 "FUNCTION"
 F N "fmod" 11 271 ""
@@ -2574,7 +2573,7 @@ D G "TWOBYPI" 11 1163 "0.6366197723675813"
 C L "cos" 11 2 3 "FUNCTION"
 F N "cos" 11 1171 ""
 V L "x" 11 1171 "float" `1348 
-F G "cos" 11 1172 "float(float x,float x)" `1347 
+F G "cos" 11 1172 "float(float x)" `1347 
 V L "y" 11 1173 "float" `1349 
 V L "t" 11 1173 "float" `1350 
 V L "t2" 11 1173 "float" `1351 
@@ -2593,7 +2592,7 @@ C L "cos" 11 2 1 "FUNCTION"
 C L "sin" 11 2 5 "FUNCTION"
 F N "sin" 11 1310 ""
 V L "x" 11 1310 "float" `1357 
-F G "sin" 11 1311 "float(float x,float value,sint8 end)" `1356 
+F G "sin" 11 1311 "float(float x)" `1356 
 C L "tan" 11 2 5 "FUNCTION"
 F N "tan" 11 1336 ""
 V L "x" 11 1336 "float" `1359 
@@ -2605,7 +2604,7 @@ V G "qas" 11 1377 "[3]" `1366
 F N "ASIN_COS" 11 1379 ""
 V L "x" 11 1379 "float" `1369 
 V L "n" 11 1379 "int8" `1370 
-F G "ASIN_COS" 11 1380 "float(float x,int8 n,int8 data)" `1368 
+F G "ASIN_COS" 11 1380 "float(float x,int8 n)" `1368 
 V L "y" 11 1381 "float" `1371 
 V L "res" 11 1381 "float" `1372 
 V L "r" 11 1381 "float" `1373 
@@ -2669,13 +2668,13 @@ C L "ldexp" 11 2 6 "FUNCTION"
 F N "ldexp" 11 2207 ""
 V L "value" 11 2207 "float" `1414 
 V L "exp" 11 2207 "sint8" `1415 
-F G "ldexp" 11 2208 "float(float value,sint8 exp,int8 )" `1413 
+F G "ldexp" 11 2208 "float(float value,sint8 exp)" `1413 
 D G "EEPROM_ADDRESS" 12 3 "int16"
 D G "EEPROM_SIZE" 12 4 "65536"
 F N "init_ext_eeprom" 12 6 ""
 F G "init_ext_eeprom" 12 7 "void()" `1416 
 F N "ext_eeprom_ready" 12 15 ""
-F G "ext_eeprom_ready" 12 16 "int8(int8 )" `1417 
+F G "ext_eeprom_ready" 12 16 "int8()" `1417 
 V L "data" 12 17 "int8" `1418 
 F N "write_ext_eeprom" 12 28 ""
 V L "address" 12 28 "int16" `1420 
@@ -2742,15 +2741,15 @@ F G "blip" 14 2 "void()" `1475
 F N "signon" 14 11 ""
 F G "signon" 14 12 "void()" `1476 
 F N "cmd_inv" 14 27 ""
-F G "cmd_inv" 14 28 "void(*int8 Buffer,int32 SectorNumber,int8 SectorCount)" `1487 
+F G "cmd_inv" 14 28 "void()" `1487 
 F N "cmd_arg" 14 32 ""
-F G "cmd_arg" 14 33 "void(int8 SectorCount)" `1489 
+F G "cmd_arg" 14 33 "void()" `1489 
 F N "cmd_err" 14 37 ""
-F G "cmd_err" 14 38 "void(int8 ctrl,*void buff)" `1491 
+F G "cmd_err" 14 38 "void()" `1491 
 F N "cmd_ok" 14 42 ""
 F G "cmd_ok" 14 43 "void()" `1493 
 F N "cmd_res" 14 47 ""
-F G "cmd_res" 14 48 "void(int8 token)" `1495 
+F G "cmd_res" 14 48 "void()" `1495 
 F N "msg_card_ok" 14 52 ""
 F G "msg_card_ok" 14 53 "void()" `1497 
 F N "msg_card_fail" 14 57 ""
@@ -2787,7 +2786,7 @@ f G "get_fattime" 17 36 "int32()" `1530  "Prototypes for disk control functions"
 D G "SD_spi_read" 17 42 "spi_read"
 D G "SD_spi_write" 17 43 "spi_write"
 F N "disk_initialize" 17 46 ""
-f G "disk_initialize" 17 46 "DSTATUS(int16 )" `1531 
+f G "disk_initialize" 17 46 "DSTATUS()" `1531 
 F N "disk_shutdown" 17 49 ""
 f G "disk_shutdown" 17 49 "DSTATUS()" `1532 
 F N "disk_status" 17 52 ""
@@ -4352,9 +4351,8 @@ C L "wakeup" 27 9 1 "FUNCTION"
 C L "wakeup" 27 9 1 "FUNCTION"
 C L "wakeup" 27 9 2 "FUNCTION"
 C L "wakeup" 27 9 1 "FUNCTION"
-C L "wakeup" 27 9 2 "FUNCTION"
-F N "go_to_sleep" 27 131 ""
-F G "go_to_sleep" 27 132 "void()" `2219 
+F N "go_to_sleep" 27 130 ""
+F G "go_to_sleep" 27 131 "void()" `2219 
 F N "reset_event" 28 1 ""
 F G "reset_event" 28 2 "void()" `2220 
 D G "MACROM" 29 30 "0x0300"
@@ -5303,23 +5301,24 @@ F G "command_prompt" 0 193 "void()" `2951
 V L "good_val" 0 194 "int8" `2952 
 V L "i" 0 195 "int8" `2953 
 V L "temp" 0 196 "int8" `2954 
-V L "input_string" 0 197 "int8[30]" `2955 
+V L "input_string" 0 197 "int8[30]" `2955  "Disable rtc watchdog"
 C L "command_prompt" 0 156 1 "FUNCTION"
 C L "command_prompt" 0 156 1 "FUNCTION"
 C L "command_prompt" 0 156 1 "FUNCTION"
 C L "command_prompt" 0 156 1 "FUNCTION"
+C L "command_prompt" 0 156 2 "FUNCTION"
 C L "command_prompt" 0 156 1 "FUNCTION"
-C L "command_prompt" 0 156 3 "FUNCTION"
-C L "command_prompt" 0 156 10 "FUNCTION"
-F N "command_prompt2" 0 304 ""
-F G "command_prompt2" 0 305 "void()" `2962  "disable_interrupts(INT_EXT);"
-V L "temp_cmd" 0 307 "int8" `2963 
+C L "command_prompt" 0 156 1 "FUNCTION"
+C L "command_prompt" 0 156 4 "FUNCTION"
+F N "command_prompt2" 0 294 ""
+F G "command_prompt2" 0 295 "void()" `2963  "disable_interrupts(INT_EXT);"
+V L "temp_cmd" 0 297 "int8" `2964 
 C L "command_prompt2" 0 156 1 "FUNCTION"
 C L "command_prompt2" 0 156 1 "FUNCTION"
-F N "main" 0 335 ""
-F G "main" 0 336 "void()" `2966 
-V L "EscNum" 0 336 "int8" `2967 
-V L "EscCount" 0 337 "int16" `2968 
+F N "main" 0 325 ""
+F G "main" 0 326 "void()" `2967 
+V L "EscNum" 0 326 "int8" `2968 
+V L "EscCount" 0 327 "int16" `2969 
 C L "main" 0 156 1 "FUNCTION"
 C L "main" 0 156 1 "FUNCTION"
 C L "main" 0 156 7 "FUNCTION"
@@ -5331,7 +5330,6 @@ C L "main" 0 156 1 "FUNCTION"
 C L "main" 0 156 1 "FUNCTION"
 C L "main" 0 156 2 "FUNCTION"
 C L "main" 0 156 1 "FUNCTION"
-C L "main" 0 156 55 "FUNCTION"
 F B "reset_cpu" 0 0
 F B "abs" 1 0
 F B "sleep_ulpwu" 1 0
