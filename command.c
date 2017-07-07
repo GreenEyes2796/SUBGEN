@@ -453,6 +453,8 @@ void commandM(int1 LoggingReentry)
       output_bit(RTC_CS, ENABLE);
       spi_write(0x89);
       spi_write(0b11111111);
+      output_bit(RTC_CS, DISABLE);
+      output_bit(RTC_CS, ENABLE);
       spi_read(0x00);
       output_bit(RTC_CS, DISABLE);
       
@@ -895,6 +897,8 @@ void command_c(){
       output_bit(RTC_CS, ENABLE);
       spi_write(0x89);
       spi_write(arg);
+      output_bit(RTC_CS, DISABLE);
+      output_bit(RTC_CS, ENABLE);
       spi_read(0x00);
       output_bit(RTC_CS, DISABLE);
    }

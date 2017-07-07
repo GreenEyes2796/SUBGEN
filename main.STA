@@ -1,5 +1,5 @@
 
-ROM used:   115064/131072 (88%)
+ROM used:   115086/131072 (88%)
             130720/131072 (100%) including unused fragments
 
             6.5 Average locations per line
@@ -13,7 +13,7 @@ Stack size: 31
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-  452   214   3  main.c
+  454   216   3  main.c
  1287     0   0  ..\..\..\..\..\..\..\Program Files (x86)\PICC\Devices\18F87K22.h
    39     0   0  includes.h
   225    75   1  firmware.c
@@ -38,10 +38,10 @@ Lines Stmts  %   Files
   202    93   1  serial.c
   107    67   1  init_hw.c
    82    39   1  util.c
- 1375   769  12  stepper.c
+ 1375   769  11  stepper.c
    42    25   0  h-bridge.c
   150    81   1  sleep.c
-   71    51   1  reset.c
+   75    55   1  reset.c
    80     0   0  memory.c
    77    52   1  init_vars.c
   560   328   5  detector.c
@@ -53,9 +53,9 @@ Lines Stmts  %   Files
   169   112   2  macro_wms.c
    54    26   0  macro_aws.c
   257   160   2  auto.c
- 1496   998  15  command.c
+ 1500  1002  15  command.c
 ----- -----
-17680  6678 Total
+17690  6688 Total
 
 Page ROM  %  RAM    Vol Diff  Functions:
 ---- --- --- ---    --- ----  ----------
@@ -64,21 +64,21 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     22   0    0             @GETCH_BIU_1
 1     14   0    0             @PUTCHARI_BIU_2
 1     26   0    0             @GETCH_BIU_2
-1      8   0    0   2539  8.8  @9@PUTCHARI_BIU_3
+1      8   0    0   2539  8.8  @11@PUTCHARI_BIU_3
 1    102   0    5    382  7.5  atoi_b16
 1    144   0    6    348  8.6  ldr_strncmp
 1    918   1  115   3405 12.4  real_load_program
 1      4   0    0   2539  8.8  @const861
-1     42   0    3   2539  8.8  @9@PSTRINGC_19200_31766_31767
+1     42   0    3   2539  8.8  @11@PSTRINGC_19200_31766_31767
 1      4   0    0   2539  8.8  @const866
 1     16   0    0   2539  8.8  @const867
-1     50   0    4   2539  8.8  @9@PSTRINGCN_19200_31766_31767
-1     70   0    2   2539  8.8  @9@PRINTF_X_19200_31766_31767
-1     44   0    3   2539  8.8  @9@DIV88
-1    126   0    2   2539  8.8  @9@PRINTF_U_19200_31766_31767
-1     32   0    0   2539  8.8  @9@FLASHWR
-1     64   0    7   2539  8.8  @9@WRITE_PROGRAM_MEMORY
-1     30   0    7   2539  8.8  @9@READ_PROGRAM_MEMORY
+1     50   0    4   2539  8.8  @11@PSTRINGCN_19200_31766_31767
+1     70   0    2   2539  8.8  @11@PRINTF_X_19200_31766_31767
+1     44   0    3   2539  8.8  @11@DIV88
+1    126   0    2   2539  8.8  @11@PRINTF_U_19200_31766_31767
+1     32   0    0   2539  8.8  @11@FLASHWR
+1     64   0    7   2539  8.8  @11@WRITE_PROGRAM_MEMORY
+1     30   0    7   2539  8.8  @11@READ_PROGRAM_MEMORY
 1      6   0    0   2539  8.8  @const888
 1      6   0    0   2539  8.8  @const889
 1     10   0    0   2539  8.8  @const890
@@ -115,7 +115,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 1     80   0    2             @SITOF
 1    916   1   25    979 10.0  log
 1    108   0    8    102  2.8  log10
-1     16   0    0     82  1.6  init_ext_eeprom
+0     16   0    0     82  1.6  init_ext_eeprom
 1     40   0    1    151  3.1  ext_eeprom_ready
 1     96   0    5    307  3.3  write_ext_eeprom
 1     90   0    5    270  3.7  read_ext_eeprom
@@ -294,7 +294,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 1     34   0    1     49  1.9  RTC_alarm_status
 0      8   0    0   1555  7.1  @const2012
 0    128   0    7    869  6.1  DAC_set
-0     40   0    0   2539  8.8  @goto8877
+0     40   0    0   2539  8.8  @goto42100
 0    522   1   77    821  5.5  ADC_average
 0     36   0    0    172  3.9  rtc_wakeup_isr
 0     96   0    1    497  5.5  RDA_isr
@@ -363,7 +363,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0    300   0   12   1718  8.6  @PRINTF_L32D_19200_31766_31767
 0    168   0    3    456  4.7  start_and_end_ports
 0   2528   3   20   4058 11.6  move_motor
-0     42   0    0    456  4.7  @goto10217
+0     42   0    0    456  4.7  @goto43431
 0     22   0    0   4058 11.6  @const2195
 1    186   0    5    463  8.0  command_move
 1    262   0    2    530  5.5  poll_enc
@@ -384,7 +384,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     40   0    3    795  5.7  @PSTRINGC_1462
 0      8   0    0   2539  8.8  @const2229
 1     22   0    0    132  3.3  go_to_sleep
-0    550   1    0   1446  2.6  reset_event
+0    558   1    0   1644  2.7  reset_event
 0      8   0    0    132  3.3  @const2232
 0     30   0    0   1446  2.6  @const2233
 0      8   0    0   2539  8.8  @const2234
@@ -401,10 +401,10 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     34   0    0     48  2.1  @const2247
 0      8   0    0     48  2.1  @const2248
 0     36   0    0    393  6.1  @const2249
-0     64   0    0    321  4.1  @goto10686
+0     64   0    0    321  4.1  @goto43913
 0    540   1    0   1010  1.9  init_nv_vars
 0    488   0    0    991  3.4  reset_nv_vars
-1     22   0    0     48  2.1  clear_slave_reply
+0     22   0    0     48  2.1  clear_slave_reply
 0     24   0    0     48  2.1  clear_flag_str
 1    112   0    4    393  6.1  parse_string
 1    208   0    4    321  4.1  load_parsed_data
@@ -446,11 +446,11 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0    224   0   12   2539  8.8  @PRINTF_L32U_9600_31793_31794
 1    240   0   12    908  8.7  get_slave_data
 1    182   0    2    424  4.7  display_rec
-1    968   1   35   2516 12.0  det_read
+1    970   1   35   2516 12.0  det_read
 0     10   0    0   2539  8.8  @const2336
 0     16   0    0   2539  8.8  @const2337
 0     16   0    0   2539  8.8  @const2338
-1     40   0    0   2539  8.8  @goto11193
+1     40   0    0   2539  8.8  @goto44423
 0     22   0    0             @const2340
 0     38   0    2   2539  8.8  @PSTRINGR_1462
 1    310   0    4    770  6.9  get_det_read
@@ -462,7 +462,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 1    394   0   15    663  6.2  temp_probe
 1    414   0   17   1030  6.9  probe_read
 1     76   0    2    383  4.2  set_heaters
-1     40   0    0             @goto11381
+1     40   0    0             @goto44600
 0    156   0   11    626  8.3  LED_SAR
 0     86   0    3    253  5.5  set_LED
 0    206   0    2    373  4.0  load_scanned_data
@@ -490,7 +490,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0      8   0    0             @const2435
 0     48   0    3             @PSTRINGC_9600_31793_31794
 1   1062   1    3   3750  6.9  sol_switch
-1     98   0    0             @goto11713
+1     98   0    0             @goto44936
 1    198   0    3    624  4.8  clear_data_arrays
 1   1180   1   15   1731  6.8  calc_abs_NO3
 0    102   0    0    624  4.8  @const2477
@@ -556,10 +556,10 @@ Page ROM  %  RAM    Vol Diff  Functions:
 1     58   0    3    187  4.0  set_heat
 1     64   0    3    187  4.0  set_light
 1    856   1   13   3804  9.1  play_macro_line2
-1    184   0    0   3804  9.1  @goto12931
+1    184   0    0   3804  9.1  @goto46147
 1   2028   2   28   8676 11.6  play_macro_line
 0     24   0    0   8676 11.6  @const2675
-1    184   0    0             @goto13032
+1    184   0    0             @goto46250
 1    824   1    8   1639  8.9  play_macro
 0     20   0    0             @const2682
 0     16   0    0   1639  8.9  @const2683
@@ -570,7 +570,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0      8   0    0             @const2688
 0      8   0    0             @const2689
 0      8   0    0   1478  6.4  @const2690
-1     46   0    0   1570  8.7  @goto13166
+1     46   0    0   1570  8.7  @goto46382
 0     34   0    0             @const2692
 1    662   1    8   1595 11.9  master_macro_eco
 0     18   0    0             @const2700
@@ -583,7 +583,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0      8   0    0   1130  8.5  @const2713
 0      8   0    0             @const2714
 0      8   0    0   1229  5.8  @const2715
-0     44   0    0             @goto13338
+0     44   0    0             @goto46549
 1    504   1   14   1449  8.5  master_macro_wms
 1    388   0   11   1130  8.5  master_macro_aws
 1    546   1    1   1229  5.8  auto_sample_eco
@@ -659,8 +659,8 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     54   0    0    106  3.6  commandK
 1    208   0    2    352  6.4  commandLe
 0     60   0    0    116  4.2  commandLw
-0     46   0    0     98  2.6  commandL
-1    286   0    4    944  8.7  commandM
+1     46   0    0     98  2.6  commandL
+1    290   0    4   1036  8.7  commandM
 1    142   0    0    272  5.0  commandN
 1     36   0    0     80  2.3  commandO
 1    238   0    2    458  7.5  commandPe
@@ -693,7 +693,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 1     36   0    0     80  2.3  commandZ
 1     28   0    0     50  2.0  command_a
 1    154   0    2    240  5.8  command_b
-1     80   0    0    280  3.2  command_c
+1     84   0    0    357  3.3  command_c
 1    150   0    2    240  5.8  command_d
 1    154   0    2    240  5.8  command_e
 1     32   0    0     57  2.5  command_f
@@ -732,7 +732,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     38   0    0             @const2936
 1     38   0    0     98  3.1  command_set
 1    416   0    0   3754  5.3  select_cmd
-1    208   0    0   3754  5.3  @goto15673
+1    208   0    0   3754  5.3  @goto48876
 0      6   0    0    764  8.2  @const2944
 0      6   0    0             @const2945
 0      6   0    0    764  8.2  @const2950
@@ -742,7 +742,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0      8   0    0    104  2.9  @const2958
 0      8   0    0             @const2959
 0      6   0    0     65  2.3  @const2961
-1    544   1   35   2263 10.4  command_prompt
+1    548   1   35   2368 10.4  command_prompt
 0      6   0    0   2263 10.4  @const2967
 0     18   0    0    491  4.6  @const2968
 0     40   0    0             @const2969
@@ -760,12 +760,12 @@ Page ROM  %  RAM    Vol Diff  Functions:
 
 Program metrics:
     Functions               548
-    Statements              6678
+    Statements              6688
     Comments                4338
-    Volume (V)              1327952
-    Difficulty (D)          3235.5
-    Effort to implement (E) 4296533127
-    Time to implement (T)   66304 hours, 31 minutes
+    Volume (V)              1328962
+    Difficulty (D)          3235.6
+    Effort to implement (E) 4299931951
+    Time to implement (T)   66356 hours, 58 minutes
     Est Delivered Bugs (B)  881
     Cyclomatic Complexity   2812
     Maintainability (MI)    42
@@ -775,7 +775,7 @@ Program metrics:
 00000-00006     4  4  
 00008-00104   254  0  
 00106-0FFFE  65270  4  
-10000-1F7FE  47846  15642  
+10000-1F7FE  47868  15620  
 1F800-1F808     4  6  
 1F80A-1FFFE  1686  352  
 
