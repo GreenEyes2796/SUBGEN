@@ -102,23 +102,17 @@ int1 wakeup()
             msg_card_fail();
          }
 
-         
+         fprintf(COM_A, "@RST\r\n");
          if (!wakeup_char_is_D){
-            fprintf(COM_A, "@RST\r\n");
             reset_cpu();
          }else{
-           //go back to sleep
             wakeup_char_is_D = 0;
-            //fprintf(COM_A,"\r\n@SLEEP");
-            //delay_ms(5);
-            initilizeSleepState();
          }
       }
       else
       {
          if (WAKE_UP_FALSE == serWakeupReason)
          {
-            
             initilizeSleepState();
          }
       }

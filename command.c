@@ -882,6 +882,7 @@ void command_b() // back-lash
    else cmd_arg();   
 }
 
+//Turn individual dio pins on and off
 void command_c(){
    if(arg == 0){
       output_bit(PIN_J7,0);

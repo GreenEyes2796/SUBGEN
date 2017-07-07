@@ -1,0 +1,13 @@
+>>> Warning 216 "main.c" Line 519(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PSTRINGCN_19200_31766_31767)
+>>> Warning 216 "main.c" Line 519(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PSTRINGC_19200_31766_31767)
+>>> Warning 216 "main.c" Line 519(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PRINTF_LU_19200_31766_31767)
+>>> Warning 216 "main.c" Line 519(1,2): Interrupts disabled during call to prevent re-entrancy:  (@DIV3232)
+>>> Warning 216 "main.c" Line 519(1,2): Interrupts disabled during call to prevent re-entrancy:  (@DIV88)
+>>> Warning 216 "main.c" Line 519(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PRINTF_U_19200_31766_31767)
+>>> Warning 216 "main.c" Line 519(1,2): Interrupts disabled during call to prevent re-entrancy:  (@PRINTF_L32U_19200_31766_31767)
+>>> Warning 216 "main.c" Line 519(1,2): Interrupts disabled during call to prevent re-entrancy:  (RTC_read_flags)
+>>> Warning 202 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\global.h" Line 21(7,26): Variable never used:   valve_align_counter
+>>> Warning 202 "C:\Users\Green Eyes\Dropbox\Green Eyes\Code\SUBGEN\SUB 2.125_fraser\macros.c" Line 258(10,20): Variable never used:   macro_cmd2
+      Memory usage:   ROM=88%      RAM=56% - 69%
+      0 Errors,  10 Warnings.
+Build Successful.

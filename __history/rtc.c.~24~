@@ -373,7 +373,7 @@ void RTC_alarm(){
       //fprintf(COM_A,"test61\r\n");
       RTC_buffer = spi_read(0x8A);// address - Month
       //fprintf(COM_A,"test62\r\n");
-      //fprintf(COM_A,"test6: %d\r\n",RTC_Mon_Data);
+      fprintf(COM_A,"test6: %d\r\n",RTC_Mon_Data);
       RTC_buffer = spi_read(RTC_Mon_Data);  // data
       output_bit(RTC_CS, DISABLE);
       delay_us(1);

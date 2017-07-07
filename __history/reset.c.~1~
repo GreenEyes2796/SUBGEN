@@ -45,11 +45,6 @@ void reset_event()
          printf("@MRS\r\n");
          sprintf(event_str, ",restart cause,MCLR from sleep\r\n");
          record_event();
-         output_bit(RTC_CS, ENABLE);
-         spi_write(0x89);
-         spi_write(0b11111111);
-         spi_read(0x00);
-         output_bit(RTC_CS, DISABLE);
          recovery();
          break;
       }   
@@ -58,11 +53,6 @@ void reset_event()
          printf("@MRR\r\n");
          sprintf(event_str, ",restart cause,MCLR when running\r\n");
          record_event();
-         output_bit(RTC_CS, ENABLE);
-         spi_write(0x89);
-         spi_write(0b11111111);
-         spi_read(0x00);
-         output_bit(RTC_CS, DISABLE);
          recovery();
          break;
       }        
