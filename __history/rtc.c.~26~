@@ -282,6 +282,7 @@ int8 get_time()
    int8 c, n;
    int8 t_entry[12];
    int8 time_error;
+   char input_string[30];
 
    memset (&t_entry[0], 0x00, 12);  //blank it
 
@@ -289,7 +290,7 @@ int8 get_time()
    
    fputc('[', COM_A);
    
-   while(n<12){
+   for (n=0; n<12; ++n){
       c = fgetc(COM_A);
       
       if(c != 8){
@@ -298,36 +299,36 @@ int8 get_time()
                fputc(c,COM_A);
             }
             
-            t_entry[n] = c;
+            input_string[n] = temp;
             n++;
+            
      }else{
             //backspace code
             if(n != 0){
-               t_entry[n-1] = 0;
+               input_string[n-1] = 0;
                n--;
                //Clear buffer and overwrite with previous minus one character
                fputc('\r',COM_A);
                fprintf(COM_A,"                                       ");
                fputc('\r',COM_A);
                fprintf(COM_A,"[");
-               fprintf(COM_A,t_entry);
+               fprintf(COM_A,input_string);
                
             }
       }
       
-   }
-   n = 0;
-      while(t_entry[n] != 0){
+      while(input_string[i] != 0){
       //fputc(input_string[i],COM_A);
-         if(!isdigit(t_entry[n])){
-            //fputs("\r\n@ARG ", COM_A);
+         if(!isdigit(input_string[i])){
+            fputs("\r\n@ARG ", COM_A);
             time_error = 1;
             break;
          }else{
             time_error = 0;
          }
-         n++;
+         i++;
       }
+   }
    
    if (time_error == 0){
    

@@ -192,12 +192,11 @@ void RTC_read_alarm(){
    RTC_Al_Sec_Reg = Bcd2Dec(RTC_Al_Sec_Reg);
 }
 
-int8 get_time2()
+int8 get_time()
 {
    int8 c, n;
    int8 t_entry[12];
    int8 time_error;
-   char input_string[30];
 
    memset (&t_entry[0], 0x00, 12);  //blank it
 
@@ -219,115 +218,6 @@ int8 get_time2()
          break;
       }
    }
-   
-   if (time_error == 0){
-   
-      fputc(']', COM_A);
-      
-      for (n=0; n<12; ++n){
-         t_entry[n] = (t_entry[n] - 48);
-      }
-      
-      if (RTCfmt == 0)
-      {
-      RTC_Mon_Data = (10 * t_entry[0]) + t_entry[1];
-      if (RTC_Mon_Data < 1 || RTC_Mon_Data > 12) time_error = 2; 
-      
-      RTC_DOM_Data = (10 * t_entry[2]) + t_entry[3];
-      if (RTC_DOM_Data < 1 || RTC_DOM_Data > 31) time_error = 2;
-      }
-      
-      if (RTCfmt == 1)
-      {
-      RTC_DOM_Data = (10 * t_entry[0]) + t_entry[1];
-      if (RTC_DOM_Data < 1 || RTC_DOM_Data > 31) time_error = 2;
-      
-      RTC_Mon_Data = (10 * t_entry[2]) + t_entry[3];
-      if (RTC_Mon_Data < 1 || RTC_Mon_Data > 12) time_error = 2; 
-      }
-      
-      RTC_Yr_Data = (10 * t_entry[4]) + t_entry[5];
-      if (RTC_Yr_Data > 99) time_error = 2; 
-      
-      RTC_Hr_Data =  (10 * t_entry[6]) + t_entry[7];
-      if (RTC_Hr_Data > 24) time_error = 2; 
-      
-      RTC_Min_Data = (10 * t_entry[8]) + t_entry[9];
-      if (RTC_Min_Data > 60) time_error = 2; 
-      
-      RTC_Sec_Data = (10 * t_entry[10]) + t_entry[11];
-      if (RTC_Sec_Data > 60) time_error = 2;
-      
-      if (RTCfmt == 0)
-      {
-      fprintf(COM_A, "\n\r%02u/%02u/%02u %02u:%02u:%02u\n\r", RTC_Mon_Data,
-            RTC_DOM_Data,RTC_Yr_Data,RTC_Hr_Data,RTC_Min_Data,RTC_Sec_Data);
-      }
-      
-      if (RTCfmt == 1)
-      {
-      fprintf(COM_A, "\n\r%02u/%02u/%02u %02u:%02u:%02u\n\r", RTC_DOM_Data,
-            RTC_Mon_Data,RTC_Yr_Data,RTC_Hr_Data,RTC_Min_Data,RTC_Sec_Data);
-      }
-      if (time_error == 2) cmd_inv();            
-
-   }
-   else cmd_arg();
-   
-   return time_error;
-}
-
-int8 get_time()
-{
-   int8 c, n;
-   int8 t_entry[12];
-   int8 time_error;
-
-   memset (&t_entry[0], 0x00, 12);  //blank it
-
-   time_error = 0;
-   
-   fputc('[', COM_A);
-   
-   while(n<12){
-      c = fgetc(COM_A);
-      
-      if(c != 8){
-            if (com_echo == TRUE)
-            {
-               fputc(c,COM_A);
-            }
-            
-            t_entry[n] = c;
-            n++;
-     }else{
-            //backspace code
-            if(n != 0){
-               t_entry[n-1] = 0;
-               n--;
-               //Clear buffer and overwrite with previous minus one character
-               fputc('\r',COM_A);
-               fprintf(COM_A,"                                       ");
-               fputc('\r',COM_A);
-               fprintf(COM_A,"[");
-               fprintf(COM_A,t_entry);
-               
-            }
-      }
-      
-   }
-   n = 0;
-      while(t_entry[n] != 0){
-      //fputc(input_string[i],COM_A);
-         if(!isdigit(t_entry[n])){
-            //fputs("\r\n@ARG ", COM_A);
-            time_error = 1;
-            break;
-         }else{
-            time_error = 0;
-         }
-         n++;
-      }
    
    if (time_error == 0){
    

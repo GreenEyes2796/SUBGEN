@@ -289,7 +289,7 @@ int8 get_time()
    
    fputc('[', COM_A);
    
-   while(n<12){
+   for (n=0; n<12; ++n){
       c = fgetc(COM_A);
       
       if(c != 8){
@@ -300,6 +300,7 @@ int8 get_time()
             
             t_entry[n] = c;
             n++;
+            
      }else{
             //backspace code
             if(n != 0){
@@ -314,13 +315,11 @@ int8 get_time()
                
             }
       }
-      
-   }
-   n = 0;
+      n = 0;
       while(t_entry[n] != 0){
       //fputc(input_string[i],COM_A);
          if(!isdigit(t_entry[n])){
-            //fputs("\r\n@ARG ", COM_A);
+            fputs("\r\n@ARG ", COM_A);
             time_error = 1;
             break;
          }else{
@@ -328,6 +327,7 @@ int8 get_time()
          }
          n++;
       }
+   }
    
    if (time_error == 0){
    

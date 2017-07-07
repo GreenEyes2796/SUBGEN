@@ -289,7 +289,7 @@ int8 get_time()
    
    fputc('[', COM_A);
    
-   while(n<12){
+   for (n=0; n<12; ++n){
       c = fgetc(COM_A);
       
       if(c != 8){
@@ -299,7 +299,7 @@ int8 get_time()
             }
             
             t_entry[n] = c;
-            n++;
+            
      }else{
             //backspace code
             if(n != 0){
