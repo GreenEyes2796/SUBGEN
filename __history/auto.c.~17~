@@ -1,17 +1,7 @@
 int8 auto_sample_eco()
 {
    int8 macro_cmd;
-   
-   //Initialize rtc watchdog to 2 minute interval and start.
-   output_bit(RTC_CS, ENABLE);
-   spi_write(0x89);
-   spi_write(0b11111111);
-   output_bit(RTC_CS, DISABLE);
-   output_bit(RTC_CS, ENABLE);
-   spi_read(0x00);
-   output_bit(RTC_CS, DISABLE);
-   
-   
+
    while(TRUE){
       if ( (nv_elapsed >= nv_interval) && (MaxSamples == FALSE) )
       {
@@ -246,7 +236,7 @@ int8 auto_sample_ready()
    if (alarm_passed == FALSE) {
       sprintf(event_str, ",auto-sample,sleep\r\n");
       record_event();
-      //RTC_reset_HT();
+      RTC_reset_HT();
       go_to_sleep();
    }
    

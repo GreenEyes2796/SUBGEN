@@ -292,7 +292,7 @@ int8 get_time()
    while(n<12){
       c = fgetc(COM_A);
       
-      if(c != 8){   
+      if(c != 8){
             if (com_echo == TRUE)
             {
                fputc(c,COM_A);
@@ -300,9 +300,6 @@ int8 get_time()
             
             t_entry[n] = c;
             n++;
-            if (c == CARRIAGE_RET){
-               break;
-            }
      }else{
             //backspace code
             if(n != 0){

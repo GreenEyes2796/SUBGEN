@@ -1,8 +1,8 @@
 
 // ********** COMMANDS ********** //
-
-#define USERCMDLIST  "%*/&+-ABCDEFGHIJKLMNOPQRSTUVWXYZ^"
-#define FULLCMDLIST  "#%*/&+-ABCDEFGHIJKLMNOPQRSTUVWXYZ^abcdefghijklmnopqrstuwxyz"
+//  C command to calculate data removed 
+#define USERCMDLIST  "%*/&+-ABDEFGHIJKLMNOPQRSTUVWXYZ^"
+#define FULLCMDLIST  "#%*/&+-ABDEFGHIJKLMNOPQRSTUVWXYZ^abcdefghijklmnopqrstuvwxyz"
 #include "command.h"
 
 void command_addr()
@@ -197,14 +197,27 @@ void commandD()
 void commandE()
 {
    switch (arg){
-      case 0 : f_unlink(file_ptr_raw_all);
+      case 0 : 
+      printf("Are you sure you want to erase the raw data file? Y or N!\r\n");
+      char result;
+      result = fgetc(COM_A);
+      if(result == 'Y'){
+      f_unlink(file_ptr_raw_all);
+      printf("File deleted!\n\r");
+      }else{
+         printf("Operation canceled!\r\n");
+      }
          break;
-      case 1 : f_unlink(file_ptr_raw_new);
+      case 2 : 
+         printf("Are you sure you want to erase the calculated data file? Y or N!\r\n");
+         result = fgetc(COM_A);
+         if(result == 'Y'){
+            f_unlink(file_ptr_rel_all);
+            printf("File deleted!\n\r");
+         }else{
+            printf("Operation canceled!\r\n");
+         }
          break;
-      case 2 : f_unlink(file_ptr_rel_all);
-         break;
-      case 3 : f_unlink(file_ptr_rel_new);
-         break; 
       default : cmd_arg();
          break;         
    }
@@ -220,25 +233,39 @@ void commandF()
 
 void commandG()
 {
-   if(nv_product==ECO || nv_product==WMS4 || nv_product==WMS2){
-      
+   if(nv_product==ECO || nv_product==WMS4 || nv_product==WMS2)
+   {
       busy_set();
-      
-      switch(arg){
-         case 1:  motor=0;
-                  align(0);
+
+      switch(arg)
+      {
+         case 1:
+         {
+            motor=0;
+            align(0);
             break;
-         case 2:  if (arg==2 && nv_report_mode==4){
-                     motor=0;
-                     cal_disk(0);
-                  }
+         }
+         case 2:
+         {
+            if (arg==2 && nv_report_mode==4)
+            {
+               motor=0;
+               cal_disk(0);
+            }
             break;
-         case 3:  recovery();
+         }
+         case 3:
+         {
+            recovery();
             break;
-         default: cmd_arg();
+         }
+         default:
+         {
+            cmd_arg();
             break;
+         }
       }
-      
+
       busy_clear();
    }
 }
@@ -257,8 +284,16 @@ void commandHe()
            nv_serial,nv_interval,nv_sample,nv_max_samples,nv_report_mode,motor,v_supply);
       fprintf(COM_A, "@MOT:VAL=%Lu SYR=%Ld\r\n", e_port[0],m_lin_pos[1]);
       RTC_display();
-      fprintf(COM_A, "@PWR:%02u/%02u/%02u %02u:%02u:%02u\r\n", 
+      if (RTCfmt == 0)
+      {
+      fprintf(COM_A, "@PWR:%02u/%02u/%02u %02u:%02u:%02u\r\n",
            rtc_last_month,rtc_last_day,rtc_last_year,rtc_last_hour,rtc_last_min,rtc_last_sec);
+      }
+      if (RTCfmt == 1) 
+      {
+      fprintf(COM_A, "@PWR:%02u/%02u/%02u %02u:%02u:%02u\r\n",
+           rtc_last_day,rtc_last_month,rtc_last_year,rtc_last_hour,rtc_last_min,rtc_last_sec);
+      }    
       RTC_read_alarm();
       RTC_display_alarm();
    }
@@ -391,7 +426,7 @@ void commandL()
    }
 }
 
-void commandM()
+void commandM(int1 LoggingReentry)
 {
    int8 macro;
    
@@ -399,7 +434,8 @@ void commandM()
    
    user_quit = FALSE;
    
-   if(arg > 0 && arg < 17) {
+   if(arg > 0 && arg < 21)
+   {
       macro = arg;
       switch(nv_product){
          case ECO :
@@ -410,9 +446,27 @@ void commandM()
             break;
       }
    }   
-   else if (arg == 0){
-      nv_sample = 0;
-      write16(ADDR_SAMPLE, nv_sample);    
+   else if (arg == 0)
+   {
+      //start watchdog at beginning of logging mode
+      //RTC_reset_HT();
+      output_bit(RTC_CS, ENABLE);
+      spi_write(0x89);
+      spi_write(0b11111111);
+      output_bit(RTC_CS, DISABLE);
+      output_bit(RTC_CS, ENABLE);
+      spi_read(0x00);
+      output_bit(RTC_CS, DISABLE);
+      
+      MaxSamples=FALSE;
+      write8(ADDR_MaxSamples, MaxSamples); 
+      if (LoggingReentry != TRUE)
+      {
+         nv_sample = 0;
+         write16(ADDR_SAMPLE, nv_sample);    
+      }
+
+      LoggingReentry = 0;
       nv_macro_step = 0;
       write16(ADDR_MACRO_STEP, nv_macro_step);      
       user_quit = auto_sample_ready();
@@ -439,7 +493,8 @@ void commandN()
 
 void commandO()
 {
-   if(arg == 1){
+   if(arg == 1)
+   {
       bus_on();
       open_pipe();
       bus_off();
@@ -615,9 +670,18 @@ void commandSe()
    busy_set();
    
    switch(arg){
-   case 1: if(nv_det_type==1) get_det_read(FALSE,TRUE);    // don't store, do display
-           else if(nv_det_type==2 || nv_det_type==3) read_colorimeter(200,FALSE,TRUE,FALSE); 
+   case 1:
+   {
+      if(nv_det_type==1)
+      {
+         get_det_read(FALSE,TRUE);    // don't store, do display
+      }
+      else if(nv_det_type==2 || nv_det_type==3)
+      {
+         read_colorimeter(200,FALSE,TRUE,FALSE);
+      }
       break;                                                        //200 scans,don't store,display
+   }
    case 2: probe_read(FALSE,TRUE);
       break;
    default: cmd_arg();
@@ -661,8 +725,24 @@ void commandS()
 }
 
 void commandT()
-{
-   if(arg == 1){
+{  
+   fprintf(COM_A, "Enter date format 0=MM/DD/YY  1=DD/MM/YY\r\n");
+   fputc('>',COM_A);
+   RTCfmt=fgetc(COM_A);
+   if (com_echo == TRUE)
+      {
+      fputc(RTCfmt,COM_A);
+      }
+   RTCfmt = RTCfmt - 48; // CONVERT ASCII TO INT   
+   if( (RTCfmt >= 0) && (RTCfmt < 2) )
+      {
+       fputs("@OK!\r\n ", COM_A);
+       write16(ADDR_RTCfmt, RTCfmt);
+      } 
+   else cmd_arg();
+   
+   if(arg == 1)
+   {
       RTC_Set();
    }
    else cmd_arg();
@@ -672,7 +752,7 @@ void commandU()
 {
    int8 macro;
    
-   if(arg < 17) {
+   if(arg < 21) {
       macro = arg;
       upload_macro(macro);   
    }   
@@ -686,7 +766,7 @@ void commandV()
 {
    int8 macro;
    
-   if(arg < 17) {
+   if(arg < 21) {
       macro = arg; 
       read_macro(macro);
    }   
@@ -696,9 +776,13 @@ void commandV()
 void commandW()
 {
    if (arg == 1){
+      //fprintf(COM_A,"1\r\n");
       RTC_alarm();
+      //fprintf(COM_A,"2\r\n");
       RTC_late();
+      //fprintf(COM_A,"3\r\n");
       RTC_alarm_status();
+      //fprintf(COM_A,"4\r\n");
    }
    else cmd_arg();
 }
@@ -776,11 +860,6 @@ void commandZ()
       motor_sleep_rdy();
       shutdown();
       go_to_sleep();
-      wakeup();
-      if (wakeup_mode == WAKEON_COM_A) {
-         fprintf(COM_A, "@RST\r\n");
-         reset_cpu();
-      }
    }
    else cmd_arg();
 }
@@ -805,6 +884,25 @@ void command_b() // back-lash
    else cmd_arg();   
 }
 
+//Set watchdog temporarily (arg should be dec equivalent of bcd)
+//c0,c1 services watchdog
+//probably don't use this anyway
+void command_c(){
+   if(arg == 0){
+      output_bit(PIN_J7,0);
+   }else if(arg == 1){
+      output_bit(PIN_J7,1);
+   }else{
+      RTC_reset_HT();
+      output_bit(RTC_CS, ENABLE);
+      spi_write(0x89);
+      spi_write(arg);
+      output_bit(RTC_CS, DISABLE);
+      output_bit(RTC_CS, ENABLE);
+      spi_read(0x00);
+      output_bit(RTC_CS, DISABLE);
+   }
+}
 void command_d() // positive direction
 {
    if(arg < 2) {
@@ -1022,6 +1120,43 @@ void command_t() // encoder type (0=none, 1=quad, 2=disk)
 }
 
 // "u" is used to change unit/motor
+
+//currently used to test dio pins
+void command_v(){
+   if(arg == 00){
+      output_bit(PIN_D0,0);
+   }else if(arg == 01){
+      output_bit(PIN_D0,1);
+   }else if(arg == 10){
+      output_bit(PIN_D1,0);
+   }else if(arg == 11){
+      output_bit(PIN_D1,1);
+   }else if(arg == 20){
+      output_bit(PIN_D2,0);
+   }else if(arg == 21){
+      output_bit(PIN_D2,1);
+   }else if(arg == 30){
+      output_bit(PIN_D3,0);
+   }else if(arg == 31){
+      output_bit(PIN_D3,1);
+   }else if(arg == 40){
+      output_bit(PIN_D4,0);
+   }else if(arg == 41){
+      output_bit(PIN_D4,1);
+   }else if(arg == 50){
+      output_bit(PIN_D5,0);
+   }else if(arg == 51){
+      output_bit(PIN_D5,1);
+   }else if(arg == 60){
+      output_bit(PIN_D6,0);
+   }else if(arg == 61){
+      output_bit(PIN_D6,1);
+   }else if(arg == 70){
+      output_bit(PIN_D7,0);
+   }else if(arg == 71){
+      output_bit(PIN_D7,1);
+   }
+}
 
 void command_w() // drive current
 {
@@ -1269,7 +1404,7 @@ void select_cmd()
          break;   
       case 'L': commandL();
          break;            
-      case 'M': commandM();
+      case 'M': commandM(FALSE);
          break;  
       case 'N': commandN();
          break;         
@@ -1311,7 +1446,9 @@ void select_cmd()
       case 'a': command_a();
          break;    
       case 'b': command_b();
-         break;          
+         break;
+      case 'c': command_c();
+         break;
       case 'd': command_d();
          break;         
       case 'e': command_e();
@@ -1347,7 +1484,9 @@ void select_cmd()
       case 't': command_t();
          break;         
       case 'u': command_u();
-         break;          
+         break;
+      case 'v': command_v();
+         break;
       case 'w': command_w();
          break;
       case 'x': command_x();

@@ -1,5 +1,5 @@
 
-ROM used:   115086/131072 (88%)
+ROM used:   115094/131072 (88%)
             130720/131072 (100%) including unused fragments
 
             6.5 Average locations per line
@@ -31,10 +31,10 @@ Lines Stmts  %   Files
   231    86   1  sd_min.c
  2158   776  12  ff_min.h
   974   392   6  media_io.h
-  685   403   6  rtc.c
+  688   406   6  rtc.c
    52    23   0  max525.c
    25    10   0  adc.c
-  143    50   1  interrupts.c
+  135    50   1  interrupts.c
   202    93   1  serial.c
   107    67   1  init_hw.c
    82    39   1  util.c
@@ -52,10 +52,10 @@ Lines Stmts  %   Files
  1042   606   9  macros.c
   169   112   2  macro_wms.c
    54    26   0  macro_aws.c
-  257   160   2  auto.c
- 1500  1002  15  command.c
+  268   167   2  auto.c
+ 1506   995  15  command.c
 ----- -----
-17690  6688 Total
+17702  6691 Total
 
 Page ROM  %  RAM    Vol Diff  Functions:
 ---- --- --- ---    --- ----  ----------
@@ -64,21 +64,21 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     22   0    0             @GETCH_BIU_1
 1     14   0    0             @PUTCHARI_BIU_2
 1     26   0    0             @GETCH_BIU_2
-1      8   0    0   2539  8.8  @11@PUTCHARI_BIU_3
+1      8   0    0   2539  8.8  @8@PUTCHARI_BIU_3
 1    102   0    5    382  7.5  atoi_b16
 1    144   0    6    348  8.6  ldr_strncmp
 1    918   1  115   3405 12.4  real_load_program
 1      4   0    0   2539  8.8  @const861
-1     42   0    3   2539  8.8  @11@PSTRINGC_19200_31766_31767
+1     42   0    3   2539  8.8  @8@PSTRINGC_19200_31766_31767
 1      4   0    0   2539  8.8  @const866
 1     16   0    0   2539  8.8  @const867
-1     50   0    4   2539  8.8  @11@PSTRINGCN_19200_31766_31767
-1     70   0    2   2539  8.8  @11@PRINTF_X_19200_31766_31767
-1     44   0    3   2539  8.8  @11@DIV88
-1    126   0    2   2539  8.8  @11@PRINTF_U_19200_31766_31767
-1     32   0    0   2539  8.8  @11@FLASHWR
-1     64   0    7   2539  8.8  @11@WRITE_PROGRAM_MEMORY
-1     30   0    7   2539  8.8  @11@READ_PROGRAM_MEMORY
+1     50   0    4   2539  8.8  @8@PSTRINGCN_19200_31766_31767
+1     70   0    2   2539  8.8  @8@PRINTF_X_19200_31766_31767
+1     44   0    3   2539  8.8  @8@DIV88
+1    126   0    2   2539  8.8  @8@PRINTF_U_19200_31766_31767
+1     32   0    0   2539  8.8  @8@FLASHWR
+1     64   0    7   2539  8.8  @8@WRITE_PROGRAM_MEMORY
+1     30   0    7   2539  8.8  @8@READ_PROGRAM_MEMORY
 1      6   0    0   2539  8.8  @const888
 1      6   0    0   2539  8.8  @const889
 1     10   0    0   2539  8.8  @const890
@@ -186,21 +186,21 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     30   0    0             @const1587
 0     62   0    0             @const1588
 0     50   0    0   2539  8.8  @const1589
-0     64   0    0   2539  8.8  @const1590
-0     36   0    0   2539  8.8  @const1591
-0     60   0    0   2539  8.8  @const1592
-0     74   0    0   2539  8.8  @const1593
-0     76   0    0   2539  8.8  @const1594
-0     60   0    0   2539  8.8  @const1595
-0     94   0    0   2539  8.8  @const1596
+0     64   0    0             @const1590
+0     36   0    0             @const1591
+0     60   0    0             @const1592
+0     74   0    0             @const1593
+0     76   0    0             @const1594
+0     60   0    0             @const1595
+0     94   0    0             @const1596
 0     28   0    0             @const1597
-0     64   0    0   2539  8.8  @const1598
-0     32   0    0   2539  8.8  @const1599
-0     22   0    0   2539  8.8  @const1600
-0     22   0    0   2539  8.8  @const1601
-0     22   0    0   2539  8.8  @const1602
-0     22   0    0   2539  8.8  @const1603
-0     46   0    0   2539  8.8  @const1604
+0     64   0    0             @const1598
+0     32   0    0             @const1599
+0     22   0    0             @const1600
+0     22   0    0             @const1601
+0     22   0    0             @const1602
+0     22   0    0             @const1603
+0     46   0    0             @const1604
 0     52   0    0             @const1605
 0     32   0    0             @const1606
 0     58   0    0             @const1607
@@ -219,19 +219,19 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0    842   1   20   1458 10.1  reserve_direntry
 0     98   0    1    225  3.9  check_mounted
 0    430   0    5    932  4.7  f_get_error_mesg
-0     30   0    0   2539  8.8  @const1779
-0     38   0    0   2539  8.8  @const1780
-0     36   0    0   2539  8.8  @const1781
-0     36   0    0   2539  8.8  @const1782
-0     36   0    0   2539  8.8  @const1783
-0     34   0    0   2539  8.8  @const1784
-0     32   0    0   2539  8.8  @const1785
-0     30   0    0   2539  8.8  @const1786
-0     44   0    0   2539  8.8  @const1787
-0     36   0    0   2539  8.8  @const1788
-0     36   0    0   2539  8.8  @const1789
-0     34   0    0   2539  8.8  @const1790
-0     34   0    0   2539  8.8  @const1791
+0     30   0    0             @const1779
+0     38   0    0             @const1780
+0     36   0    0             @const1781
+0     36   0    0             @const1782
+0     36   0    0             @const1783
+0     34   0    0             @const1784
+0     32   0    0             @const1785
+0     30   0    0             @const1786
+0     44   0    0             @const1787
+0     36   0    0             @const1788
+0     36   0    0             @const1789
+0     34   0    0             @const1790
+0     34   0    0             @const1791
 0   1438   1   22   2621  9.8  f_mountdrv
 0     18   0    0             @const1796
 0    148   0   13             @DIV3232
@@ -249,11 +249,11 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     22   0    0             @const1876
 0     10   0    0             @const1877
 0     38   0    2             @PSTRINGR_19200_31766_31767
-0     10   0    0   2539  8.8  @const1880
+0     10   0    0             @const1880
 0    480   0    1    685  2.4  display_file_result
-0     16   0    0   2539  8.8  @const1883
-0     14   0    0   2539  8.8  @const1884
-0     22   0    0   2539  8.8  @const1885
+0     16   0    0             @const1883
+0     14   0    0             @const1884
+0     22   0    0             @const1885
 0     20   0    0             @const1886
 0     18   0    0             @const1887
 0     18   0    0             @const1888
@@ -263,9 +263,9 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     28   0    0             @const1892
 0     22   0    0             @const1893
 0     18   0    0             @const1894
-0     20   0    0   2539  8.8  @const1895
+0     20   0    0             @const1895
 0    482   0  195   1054  8.3  append_data
-0     32   0    0   2539  8.8  @const1901
+0     32   0    0             @const1901
 0     20   0    0             @const1902
 0     20   0    0             @const1903
 0     14   0    0             @const1904
@@ -274,17 +274,17 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     50   0    3    160  4.2  Bcd2Dec
 0     86   0    1    406  3.3  RTC_reset_HT
 0    394   0    0    472  3.3  RTC_display
-0     12   0    0   2539  8.8  @const1946
-0    126   0    2   2539  8.8  @PRINTF_U_19200_31766_31767
+0     12   0    0             @const1946
+0    126   0    2             @PRINTF_U_19200_31766_31767
 0     12   0    0             @const1951
 0    206   0    1    743  2.9  RTC_read
 0     60   0    1    262  2.8  RTC_read_flags
 0    378   0    0    428  2.8  RTC_display_alarm
-0     12   0    0   2539  8.8  @const1962
-0     12   0    0   2539  8.8  @const1964
+0     12   0    0             @const1962
+0     12   0    0             @const1964
 0    214   0    1    835  3.4  RTC_read_alarm
-1   1092   1   18   3645 11.9  get_time
-0     40   0    0   2539  8.8  @const1985
+1   1100   1   18   3714 11.9  get_time
+0     40   0    0             @const1985
 1    330   0    3   1446  4.0  RTC_Set
 1    334   0    3   1427  4.0  RTC_alarm
 1    176   0    1    868  2.9  RTC_minute
@@ -292,14 +292,14 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0    112   0    0    323  2.3  RTC_last_power
 1   1222   1   49   1555  7.1  RTC_late
 1     34   0    1     49  1.9  RTC_alarm_status
-0      8   0    0   1555  7.1  @const2012
+0      8   0    0             @const2012
 0    128   0    7    869  6.1  DAC_set
-0     40   0    0   2539  8.8  @goto42100
+0     40   0    0             @goto48027
 0    522   1   77    821  5.5  ADC_average
 0     36   0    0    172  3.9  rtc_wakeup_isr
 0     96   0    1    497  5.5  RDA_isr
-0      8   0    0    172  3.9  @const2029
-0      8   0    0    497  5.5  @const2030
+0      8   0    0             @const2029
+0      8   0    0             @const2030
 0      8   0    0     50  1.5  busy_clear
 0     10   0    0     50  1.5  busy_set
 0     42   0    0    197  2.3  timer0_isr
@@ -310,27 +310,27 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     34   0    3    123  3.0  multidrop_off
 1     10   0    0     48  1.1  multidrop_shdn
 1    266   0   86    964  7.0  open_pipe
-0      8   0    0     48  1.1  @const2056
-0     16   0    0    964  7.0  @const2057
-0      8   0    0   2539  8.8  @const2058
+0      8   0    0             @const2056
+0     16   0    0             @const2057
+0      8   0    0             @const2058
 0    130   0    7    579  9.7  get_string
 0     70   0   24    140  3.7  get_float
 0     94   0    0    767  1.9  init_hardware
 1    106   0    0    669  2.4  shutdown
-0     10   0    0    767  1.9  @const2069
+0     10   0    0             @const2069
 0     70   0    1    216  5.3  init_sdcard
 0     76   0    1    317  4.7  blink
 0    388   0   15    577  6.2  read_supply
 0     22   0    0     48  2.1  clear_time_stmp_str
 1     24   0    0     48  2.1  clear_proc_time_stmp_str
 0    196   0    2    163  2.2  time_stamp
-0    154   0    2    163  2.2  @PRINTF_U_1462
-0    256   0   13   2539  8.8  @PRINTF_L32U_1462FP
+0    154   0    2             @PRINTF_U_1462
+0    256   0   13             @PRINTF_L32U_1462FP
 0    132   0    2    300  0.7  record_event
-0     22   0    0   2539  8.8  @const2091
+0     22   0    0             @const2091
 0     60   0    0     69  1.6  setup_stepper_pwm
 0    118   0    0     63  1.8  msg_mer
-0     16   0    0     69  1.6  @const2131
+0     16   0    0             @const2131
 0    928   1    2   3555  3.5  get_step_vars
 1    746   1    0   1915  2.0  rst_step_vars_eco
 1    684   1    0   1712  2.0  rst_step_vars_wms4
@@ -338,8 +338,8 @@ Page ROM  %  RAM    Vol Diff  Functions:
 1    688   1    0   1712  2.0  rst_step_vars_wms2
 0     40   0    0    536  1.9  motor_sleep_rdy
 0   1168   1    9   1282  6.8  update_e_pos
-0     24   0    0    536  1.9  @const2139
-0    188   0   12   1282  6.8  @PRINTF_L32U_19200_31766_31767
+0     24   0    0             @const2139
+0    188   0   12             @PRINTF_L32U_19200_31766_31767
 0    306   0    3    505  5.7  poll_index
 0    306   0    3    505  5.7  poll_index_isr
 0    118   0    0    399  5.1  int1_isr
@@ -356,22 +356,22 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0    530   1   28    531  6.4  abs_enc_pos
 0    440   0    6    598  5.4  rel_enc_pos
 0   1172   1    5   2559  7.8  terminate
-0     16   0    0    598  5.4  @const2171
-0    236   0    9   2559  7.8  @PRINTF_LD_19200_31766_31767
+0     16   0    0             @const2171
+0    236   0    9             @PRINTF_LD_19200_31766_31767
 0   1650   2   25   1718  8.6  end_move
-0     30   0    0   2539  8.8  @const2180
-0    300   0   12   1718  8.6  @PRINTF_L32D_19200_31766_31767
+0     30   0    0             @const2180
+0    300   0   12             @PRINTF_L32D_19200_31766_31767
 0    168   0    3    456  4.7  start_and_end_ports
 0   2528   3   20   4058 11.6  move_motor
-0     42   0    0    456  4.7  @goto43431
-0     22   0    0   4058 11.6  @const2195
+0     42   0    0             @goto49405
+0     22   0    0             @const2195
 1    186   0    5    463  8.0  command_move
 1    262   0    2    530  5.5  poll_enc
-0     18   0    0    463  8.0  @const2203
+0     18   0    0             @const2203
 0    420   0    9    718  3.9  align
 0     74   0    5    116  3.0  cal_disk
 0    116   0    0    299  4.0  recovery
-0     54   0    0    116  3.0  @const2212
+0     54   0    0             @const2212
 0     26   0    0    163  1.8  HB_all_OFF
 0     26   0    0    163  1.8  HB_m1_ON
 0     26   0    0    163  1.8  HB_m2_ON
@@ -380,40 +380,40 @@ Page ROM  %  RAM    Vol Diff  Functions:
 1     18   0    0    188  2.3  set_usart_int
 1     32   0    0    132  1.7  initilizeSleepState
 1    234   0    1    795  5.7  wakeup
-0     34   0    0    132  1.7  @const2227
-0     40   0    3    795  5.7  @PSTRINGC_1462
-0      8   0    0   2539  8.8  @const2229
+0     34   0    0             @const2227
+0     40   0    3             @PSTRINGC_1462
+0      8   0    0             @const2229
 1     22   0    0    132  3.3  go_to_sleep
 0    558   1    0   1644  2.7  reset_event
-0      8   0    0    132  3.3  @const2232
-0     30   0    0   1446  2.6  @const2233
-0      8   0    0   2539  8.8  @const2234
-0     32   0    0   2539  8.8  @const2235
-0      8   0    0   2539  8.8  @const2236
-0     42   0    0   2539  8.8  @const2237
-0     50   0    4   2539  8.8  @PSTRINGCN_1462
-0    200   0    9   2539  8.8  @PRINTF_LU_1462
-0      8   0    0   2539  8.8  @const2242
+0      8   0    0             @const2232
+0     30   0    0             @const2233
+0      8   0    0             @const2234
+0     32   0    0             @const2235
+0      8   0    0             @const2236
+0     42   0    0             @const2237
+0     50   0    4             @PSTRINGCN_1462
+0    200   0    9             @PRINTF_LU_1462
+0      8   0    0             @const2242
 0     36   0    0             @const2243
 0      8   0    0             @const2244
-0     28   0    0   1010  1.9  @const2245
-0      8   0    0    991  3.4  @const2246
-0     34   0    0     48  2.1  @const2247
-0      8   0    0     48  2.1  @const2248
-0     36   0    0    393  6.1  @const2249
-0     64   0    0    321  4.1  @goto43913
+0     28   0    0             @const2245
+0      8   0    0             @const2246
+0     34   0    0             @const2247
+0      8   0    0             @const2248
+0     36   0    0             @const2249
+0     64   0    0             @goto49902
 0    540   1    0   1010  1.9  init_nv_vars
 0    488   0    0    991  3.4  reset_nv_vars
 0     22   0    0     48  2.1  clear_slave_reply
 0     24   0    0     48  2.1  clear_flag_str
 1    112   0    4    393  6.1  parse_string
 1    208   0    4    321  4.1  load_parsed_data
-0     22   0    0    393  6.1  @const2260
-0     58   0    1    321  4.1  @STRFINDINLIST
+0     22   0    0             @const2260
+0     58   0    1             @STRFINDINLIST
 1    130   0    6    431  5.3  parse_data
 0     20   0    0     48  2.1  clear_data_buffer
 0   1288   1   15   3870  7.5  decode_flag
-0     24   0    0     48  2.1  @const2272
+0     24   0    0             @const2272
 0     24   0    0             @const2274
 0     24   0    0             @const2275
 0     24   0    0             @const2276
@@ -422,112 +422,112 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0     24   0    0             @const2279
 0     24   0    0             @const2280
 0     24   0    0             @const2281
-0     24   0    0   2539  8.8  @const2283
+0     24   0    0             @const2283
 0     24   0    0             @const2284
-0     24   0    0   2539  8.8  @const2285
+0     24   0    0             @const2285
 0     24   0    0             @const2286
 0     24   0    0             @const2287
-0     24   0    0   2539  8.8  @const2288
-0     24   0    0   2539  8.8  @const2289
-0     24   0    0   2539  8.8  @const2290
-0     24   0    0   2539  8.8  @const2292
+0     24   0    0             @const2288
+0     24   0    0             @const2289
+0     24   0    0             @const2290
+0     24   0    0             @const2292
 0     24   0    0             @const2293
-0     24   0    0   2539  8.8  @const2294
+0     24   0    0             @const2294
 0     24   0    0             @const2295
 0     24   0    0             @const2296
 0     24   0    0             @const2297
-0     24   0    0    282  3.0  @const2298
+0     24   0    0             @const2298
 0     24   0    0             @const2299
 0     24   0    0             @const2300
-0     24   0    0   2539  8.8  @const2301
+0     24   0    0             @const2301
 0    320   0    0    282  3.0  det_cmd
-0     24   0    0   2539  8.8  @const2306
-0    164   0    2   2539  8.8  @PRINTF_U_9600_31793_31794
-0    224   0   12   2539  8.8  @PRINTF_L32U_9600_31793_31794
+0     24   0    0             @const2306
+0    164   0    2             @PRINTF_U_9600_31793_31794
+0    224   0   12             @PRINTF_L32U_9600_31793_31794
 1    240   0   12    908  8.7  get_slave_data
 1    182   0    2    424  4.7  display_rec
 1    970   1   35   2516 12.0  det_read
-0     10   0    0   2539  8.8  @const2336
-0     16   0    0   2539  8.8  @const2337
-0     16   0    0   2539  8.8  @const2338
-1     40   0    0   2539  8.8  @goto44423
+0     10   0    0             @const2336
+0     16   0    0             @const2337
+0     16   0    0             @const2338
+1     40   0    0             @goto50448
 0     22   0    0             @const2340
-0     38   0    2   2539  8.8  @PSTRINGR_1462
+0     38   0    2             @PSTRINGR_1462
 1    310   0    4    770  6.9  get_det_read
-0     10   0    0   1030  6.9  @const2346
+0     10   0    0             @const2346
 1     34   0    2     59  1.9  parse_temp
 1    492   0   11    874  8.8  det_temp
-0     56   0    0     59  1.9  @const2356
-0     54   0    0    874  8.8  @const2357
+0     56   0    0             @const2356
+0     54   0    0             @const2357
 1    394   0   15    663  6.2  temp_probe
 1    414   0   17   1030  6.9  probe_read
 1     76   0    2    383  4.2  set_heaters
-1     40   0    0             @goto44600
+1     40   0    0             @goto50629
 0    156   0   11    626  8.3  LED_SAR
 0     86   0    3    253  5.5  set_LED
 0    206   0    2    373  4.0  load_scanned_data
-0     22   0    0    253  5.5  @const2387
+0     22   0    0             @const2387
 1    606   1    9    684  4.0  read_colorimeter
 1    188   0    5    355  4.7  DAC_set_test
 0     14   0    0             @const2401
 1    140   0    3    276  4.0  set_LED_test
-0     12   0    0   2539  8.8  @const2405
+0     12   0    0             @const2405
 0     34   0    3     99  3.3  init_valve_status
 0     26   0    0     70  2.3  init_aws
 0    650   1    2    947  4.3  display_valve_status
-0      6   0    0     70  2.3  @const2411
+0      6   0    0             @const2411
 0      6   0    0             @const2414
-0      6   0    0    163  2.5  @const2417
-0      6   0    0   2539  8.8  @const2420
+0      6   0    0             @const2417
+0      6   0    0             @const2420
 1    182   0    2    163  2.5  sol_switch_cmd
 0     20   0    0             @const2425
-0      8   0    0    163  2.5  @const2426
+0      8   0    0             @const2426
 0     52   0    4             @PSTRINGCN_9600_31793_31794
-1    186   0    9   3750  6.9  @PRINTF_LU_9600_31793_31794
+1    186   0    9             @PRINTF_LU_9600_31793_31794
 0    206   0    1    255  2.7  sol_chip_cmd
-0     18   0    0    624  4.8  @const2433
-0      8   0    0    255  2.7  @const2434
+0     18   0    0             @const2433
+0      8   0    0             @const2434
 0      8   0    0             @const2435
 0     48   0    3             @PSTRINGC_9600_31793_31794
 1   1062   1    3   3750  6.9  sol_switch
-1     98   0    0             @goto44936
+1     98   0    0             @goto50981
 1    198   0    3    624  4.8  clear_data_arrays
 1   1180   1   15   1731  6.8  calc_abs_NO3
-0    102   0    0    624  4.8  @const2477
-0     66   0    5   1731  6.8  @FTOSD
+0    102   0    0             @const2477
+0     66   0    5             @FTOSD
 1    534   1   13             @PRINTF_L32D_1462FPFPFR
 0     14   0    0             @const2483
 1   1192   1   15   1731  6.8  calc_abs_NO2
 0    102   0    0             @const2489
-0     14   0    0   1731  6.8  @const2490
+0     14   0    0             @const2490
 1   1194   1   15   1731  6.8  calc_abs_PO4
 0    102   0    0             @const2496
-0     14   0    0   1731  6.8  @const2497
+0     14   0    0             @const2497
 1   1194   1   15   1731  6.8  calc_abs_NH4
 0    102   0    0             @const2503
-0     14   0    0   1731  6.8  @const2504
+0     14   0    0             @const2504
 1   1194   1   15   1731  6.8  calc_abs_SiO
 0    102   0    0             @const2510
-0     14   0    0   1731  6.8  @const2511
+0     14   0    0             @const2511
 1    100   0    2    238  3.5  calc_abs_data
-0     28   0    0    264  4.4  @const2512
-0     22   0    0    238  3.5  @const2513
+0     28   0    0             @const2512
+0     22   0    0             @const2513
 0     20   0    0             @const2515
-0     14   0    0    264  4.4  @const2516
+0     14   0    0             @const2516
 0     14   0    0             @const2517
 0     20   0    0             @const2519
-0     14   0    0    264  4.4  @const2520
+0     14   0    0             @const2520
 0     14   0    0             @const2521
 0     20   0    0             @const2523
-0     14   0    0    264  4.4  @const2524
+0     14   0    0             @const2524
 0     14   0    0             @const2525
-0     20   0    0    538  3.3  @const2527
-0     14   0    0    264  4.4  @const2528
-0     14   0    0     12  0.8  @const2529
-0     18   0    0    196  3.4  @const2532
+0     20   0    0             @const2527
+0     14   0    0             @const2528
+0     14   0    0             @const2529
+0     18   0    0             @const2532
 1    272   0    0    538  3.3  store_rel_data
 0    450   0   36    796  3.9  store_wms_data
-0    258   0    9    796  3.9  @PRINTF_LD_1462
+0    258   0    9             @PRINTF_LD_1462
 1    298   0   38    756  3.5  store_aws_data
 0     36   0    1     50  1.5  bus_on
 0     22   0    0     50  1.5  bus_off
@@ -537,15 +537,15 @@ Page ROM  %  RAM    Vol Diff  Functions:
 1     76   0    3    323  5.5  get_cmd
 1    110   0   10    206  4.7  write_macro_line
 1    322   0   12    579  8.2  write_macro_line_string
-0     36   0    0    206  4.7  @const2590
+0     36   0    0             @const2590
 1    380   0    0   1142  2.0  write_blank_macros
 1     66   0    1    228  4.1  macro_comment
 1    174   0    9    648  5.2  get_macro_line
 1    310   0    8    728  5.6  upload_macro
-0      4   0    0    728  5.6  @const2609
-0     40   0    0    294  5.0  @const2610
+0      4   0    0             @const2609
+0     40   0    0             @const2610
 0     28   0    0             @const2611
-0     24   0    0    457  7.2  @const2612
+0     24   0    0             @const2612
 1    180   0   10    294  5.0  read_macro_line
 1    180   0   10    294  5.0  read_macro_line_silent
 1    186   0   12    457  7.2  read_macro_line_string
@@ -556,65 +556,65 @@ Page ROM  %  RAM    Vol Diff  Functions:
 1     58   0    3    187  4.0  set_heat
 1     64   0    3    187  4.0  set_light
 1    856   1   13   3804  9.1  play_macro_line2
-1    184   0    0   3804  9.1  @goto46147
+1    184   0    0             @goto52239
 1   2028   2   28   8676 11.6  play_macro_line
-0     24   0    0   8676 11.6  @const2675
-1    184   0    0             @goto46250
+0     24   0    0             @const2675
+1    184   0    0             @goto52342
 1    824   1    8   1639  8.9  play_macro
 0     20   0    0             @const2682
-0     16   0    0   1639  8.9  @const2683
+0     16   0    0             @const2683
 0      8   0    0             @const2684
 0      8   0    0             @const2685
 0      8   0    0             @const2686
-0      8   0    0   1595 11.9  @const2687
+0      8   0    0             @const2687
 0      8   0    0             @const2688
 0      8   0    0             @const2689
-0      8   0    0   1478  6.4  @const2690
-1     46   0    0   1570  8.7  @goto46382
+0      8   0    0             @const2690
+1     46   0    0             @goto52474
 0     34   0    0             @const2692
 1    662   1    8   1595 11.9  master_macro_eco
 0     18   0    0             @const2700
-0     24   0    0   1595 11.9  @const2701
+0     24   0    0             @const2701
 0    382   0    4   1478  6.4  play_wms_macro_cmd
 0    482   0    3   1570  8.7  play_wms_hard_macro
-0      8   0    0   1478  6.4  @const2710
-0      8   0    0   1570  8.7  @const2711
+0      8   0    0             @const2710
+0      8   0    0             @const2711
 0      8   0    0             @const2712
-0      8   0    0   1130  8.5  @const2713
+0      8   0    0             @const2713
 0      8   0    0             @const2714
-0      8   0    0   1229  5.8  @const2715
-0     44   0    0             @goto46549
+0      8   0    0             @const2715
+0     44   0    0             @goto52640
 1    504   1   14   1449  8.5  master_macro_wms
 1    388   0   11   1130  8.5  master_macro_aws
-1    546   1    1   1229  5.8  auto_sample_eco
+1    580   1    1   1522  5.8  auto_sample_eco
 0     34   0    0             @const2733
-0     36   0    0   1229  5.8  @const2734
-0     34   0    0    974  5.7  @const2735
+0     36   0    0             @const2734
+0     34   0    0             @const2735
 0     40   0    0             @const2736
 1    488   0    1   1235  7.7  auto_sample_wms
-0     34   0    0   1235  7.7  @const2740
-0     36   0    0   1040  5.9  @const2741
+0     34   0    0             @const2740
+0     36   0    0             @const2741
 1    470   0    1    974  5.7  auto_sample_aws
-0     34   0    0    974  5.7  @const2745
+0     34   0    0             @const2745
 0     36   0    0             @const2746
-0     40   0    0     83  3.5  @const2747
+0     40   0    0             @const2747
 1    514   1    1   1040  5.9  auto_sample_ready
 0     26   0    0             @const2749
-0     38   0    0   1040  5.9  @const2750
-0     38   0    0     98  2.6  @const2751
-0     22   0    0    201  4.6  @const2752
+0     38   0    0             @const2750
+0     38   0    0             @const2751
+0     22   0    0             @const2752
 0     48   0    0     83  3.5  command_addr
 0    276   0    0    401  7.2  commandAe
-0     16   0    0     83  3.5  @const2755
+0     16   0    0             @const2755
 0     56   0    0     92  3.2  commandAw
 0     46   0    0     98  2.6  commandA
 0    170   0    0    201  4.6  commandBe
-0     12   0    0     98  2.6  @const2758
+0     12   0    0             @const2758
 0     38   0    1     96  2.9  commandBw
 0     46   0    0     98  2.6  commandB
 0   1352   1    0   1987  4.9  commandCe
-0     18   0    0     98  2.6  @const2762
-0    512   1   13   1987  4.9  @PRINTF_L32D_19200_31766_31767FPFPFR
+0     18   0    0             @const2762
+0    512   1   13             @PRINTF_L32D_19200_31766_31767FPFPFR
 0     18   0    0             @const2766
 0     18   0    0             @const2767
 0     20   0    0             @const2768
@@ -623,36 +623,36 @@ Page ROM  %  RAM    Vol Diff  Functions:
 0      8   0    0             @const2773
 0      8   0    0             @const2775
 0      8   0    0             @const2777
-0      8   0    0    233  5.0  @const2779
-0     10   0    0    135  2.8  @const2781
-0     10   0    0    478  5.5  @const2783
+0      8   0    0             @const2779
+0     10   0    0             @const2781
+0     10   0    0             @const2783
 0    106   0    2    233  5.0  commandCw
 0     54   0    1    120  3.8  commandCa
 0     62   0    0    135  2.8  commandC
 0    158   0    0    274  3.6  commandD
 0    278   0    1    478  5.5  commandE
-0     60   0    0    274  3.6  @const2789
-0     16   0    0    478  5.5  @const2791
-0     22   0    0    670  3.8  @const2792
+0     60   0    0             @const2789
+0     16   0    0             @const2791
+0     22   0    0             @const2792
 0     68   0    0             @const2793
 0     16   0    0             @const2794
 0     22   0    0             @const2795
 0     32   0    0     54  2.0  commandF
 0    144   0    0    434  6.0  commandG
 0   1060   1    2    670  3.8  commandHe
-0     40   0    0    434  6.0  @const2798
-0    252   0   13    670  3.8  @PRINTF_L32U_19200_31766_31767FP
+0     40   0    0             @const2798
+0    252   0   13             @PRINTF_L32U_19200_31766_31767FP
 0     24   0    0             @const2802
-0     38   0    0    428  3.7  @const2803
+0     38   0    0             @const2803
 0     38   0    0             @const2804
 0    734   1    2    450  3.7  commandHw
 0     34   0    0             @const2807
-0     24   0    0    450  3.7  @const2808
-0     38   0    0    116  4.2  @const2809
+0     24   0    0             @const2808
+0     38   0    0             @const2809
 0    620   1    2    428  3.7  commandHa
-0     28   0    0    106  3.6  @const2812
-0     16   0    0    428  3.7  @const2813
-0     38   0    0    116  4.2  @const2814
+0     28   0    0             @const2812
+0     16   0    0             @const2813
+0     38   0    0             @const2814
 0     64   0    0    135  2.8  commandH
 0     76   0    0    116  4.2  commandI
 0     58   0    0     92  3.2  commandJ
@@ -660,7 +660,7 @@ Page ROM  %  RAM    Vol Diff  Functions:
 1    208   0    2    352  6.4  commandLe
 0     60   0    0    116  4.2  commandLw
 1     46   0    0     98  2.6  commandL
-1    290   0    4   1036  8.7  commandM
+1    256   0    4    763  8.7  commandM
 1    142   0    0    272  5.0  commandN
 1     36   0    0     80  2.3  commandO
 1    238   0    2    458  7.5  commandPe
@@ -670,25 +670,25 @@ Page ROM  %  RAM    Vol Diff  Functions:
 1     72   0    0    116  4.2  commandQw
 1     48   0    0     98  2.6  commandQ
 1    226   0    7    481  6.5  commandRe
-0     14   0    0     98  2.6  @const2827
+0     14   0    0             @const2827
 1     96   0    4    269  5.5  commandRw
 1    292   0    7    595  7.0  commandRa
-0     14   0    0    269  5.5  @const2836
+0     14   0    0             @const2836
 1     60   0    0    135  2.8  commandR
 1    128   0    0    362  6.0  commandSe
 1     60   0    0     92  3.2  commandSw
 1     52   0    2     96  2.9  commandSa
 1     60   0    0    135  2.8  commandS
 1    146   0    0    439  5.5  commandT
-0     44   0    0    135  2.8  @const2841
-0      8   0    0    439  5.5  @const2842
+0     44   0    0             @const2841
+0      8   0    0             @const2842
 0     42   0    3             @PSTRINGC_1
 1     62   0    1    147  3.4  commandU
 1     38   0    1     96  2.9  commandV
 1     36   0    0     80  2.3  commandW
 1    104   0    0    200  4.3  commandX
-0      8   0    0    134  3.1  @const2848
-0      8   0    0    240  5.8  @const2849
+0      8   0    0             @const2848
+0      8   0    0             @const2849
 1    264   0    0    980  4.8  commandY
 1     36   0    0     80  2.3  commandZ
 1     28   0    0     50  2.0  command_a
@@ -717,41 +717,41 @@ Page ROM  %  RAM    Vol Diff  Functions:
 1     56   0    0    132  3.6  command_u
 1    118   0    0    281  6.8  command_z
 1   3168   3    8   4569  6.4  step_var_list
-0     12   0    0   4569  6.4  @const2880
+0     12   0    0             @const2880
 0     12   0    0             @const2902
 0     74   0    0     84  2.4  command_star
 0    272   0    0    584  4.2  command_prod
-0     16   0    0    584  4.2  @const2926
+0     16   0    0             @const2926
 0     22   0    0             @const2927
 0     16   0    0             @const2928
 0     22   0    0             @const2929
 0     60   0    0    154  3.2  command_hash
 0    162   0    0    275  3.5  commandFW
-0     10   0    0    275  3.5  @const2932
-0     10   0    0    764  8.2  @const2934
+0     10   0    0             @const2932
+0     10   0    0             @const2934
 0     38   0    0             @const2936
 1     38   0    0     98  3.1  command_set
 1    416   0    0   3754  5.3  select_cmd
-1    208   0    0   3754  5.3  @goto48876
-0      6   0    0    764  8.2  @const2944
+1    208   0    0             @goto55055
+0      6   0    0             @const2944
 0      6   0    0             @const2945
-0      6   0    0    764  8.2  @const2950
+0      6   0    0             @const2950
 0      6   0    0             @const2951
 0    196   0    2    183  4.0  check_cmd
 1     84   0    0    104  2.9  proc_cmd
-0      8   0    0    104  2.9  @const2958
+0      8   0    0             @const2958
 0      8   0    0             @const2959
-0      6   0    0     65  2.3  @const2961
+0      6   0    0             @const2961
 1    548   1   35   2368 10.4  command_prompt
-0      6   0    0   2263 10.4  @const2967
-0     18   0    0    491  4.6  @const2968
+0      6   0    0             @const2967
+0     18   0    0             @const2968
 0     40   0    0             @const2969
-0      8   0    0   2539  8.8  @const2971
+0      8   0    0             @const2971
 0      8   0    0             @const2973
-0      6   0    0    491  4.6  @const2976
+0      6   0    0             @const2976
 0     18   0    0             @const2977
 1   1208   1    3   2539  8.8  main
-0     10   0    0   2539  8.8  @const2983
+0     10   0    0             @const2983
 0     16   0    0             @const2984
 0     16   0    0             @const2985
 0     56   0    0             @const2986
@@ -759,23 +759,23 @@ Page ROM  %  RAM    Vol Diff  Functions:
  Inline         0             @cinit1
 
 Program metrics:
-    Functions               548
-    Statements              6688
-    Comments                4338
-    Volume (V)              1328962
-    Difficulty (D)          3235.6
-    Effort to implement (E) 4299931951
-    Time to implement (T)   66356 hours, 58 minutes
-    Est Delivered Bugs (B)  881
-    Cyclomatic Complexity   2812
-    Maintainability (MI)    42
+    Functions               360
+    Statements              6691
+    Comments                4344
+    Volume (V)              682203
+    Difficulty (D)          1975.1
+    Effort to implement (E) 1347396863
+    Time to implement (T)   20793 hours, 10 minutes
+    Est Delivered Bugs (B)  407
+    Cyclomatic Complexity   1616
+    Maintainability (MI)    44
 
  Segment     Used  Free
 -----------  ----  ----
 00000-00006     4  4  
 00008-00104   254  0  
 00106-0FFFE  65270  4  
-10000-1F7FE  47868  15620  
+10000-1F7FE  47876  15612  
 1F800-1F808     4  6  
 1F80A-1FFFE  1686  352  
 

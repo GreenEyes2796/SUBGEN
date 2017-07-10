@@ -448,15 +448,16 @@ void commandM(int1 LoggingReentry)
    }   
    else if (arg == 0)
    {
-      //start watchdog at beginning of logging mode
+      //start watchdog at beginning of logging mode 
+      //addendum: code has been moved to auto.c
       //RTC_reset_HT();
-      output_bit(RTC_CS, ENABLE);
+      /*output_bit(RTC_CS, ENABLE);
       spi_write(0x89);
       spi_write(0b11111111);
       output_bit(RTC_CS, DISABLE);
       output_bit(RTC_CS, ENABLE);
       spi_read(0x00);
-      output_bit(RTC_CS, DISABLE);
+      output_bit(RTC_CS, DISABLE);*/
       
       MaxSamples=FALSE;
       write8(ADDR_MaxSamples, MaxSamples); 
@@ -478,7 +479,7 @@ void commandM(int1 LoggingReentry)
 
 void commandN()
 {
-   if(arg > 0 && arg < 3501) {
+   if(arg > 0 && arg < 30001) {
       nv_max_samples = arg;
       write16(ADDR_MAX_SAMPLES, nv_max_samples);
    }
@@ -738,14 +739,19 @@ void commandT()
       {
        fputs("@OK!\r\n ", COM_A);
        write16(ADDR_RTCfmt, RTCfmt);
+       
+       if(arg == 1){
+         RTC_Set();
+       }else cmd_arg();
+       
       } 
    else cmd_arg();
    
-   if(arg == 1)
+   /*if(arg == 1)
    {
       RTC_Set();
    }
-   else cmd_arg();
+   else cmd_arg();*/
 }
 
 void commandU()

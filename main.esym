@@ -1,9 +1,10 @@
-D G "__PCH__" 0 453 ""5.071d""
-D G "__DEVICE__" 0 453 "8722"
-D G "__DATE__" 0 453 ""07-Jul-17""
-D G "__TIME__" 0 453 ""15:23:03""
-D G "_UNICODE" 0 453 ""?""
-D G "__EVAL" 0 453 ""?"" "TITLE BLOCK"
+D G "AM_ARC" 16 161 "0x20" "Archive"
+D G "__PCH__" 0 455 ""5.071d""
+D G "__DEVICE__" 0 455 "8722"
+D G "__DATE__" 0 455 ""10-Jul-17""
+D G "__TIME__" 0 455 ""15:47:05""
+D G "_UNICODE" 0 455 ""?""
+D G "__EVAL" 0 455 ""?"" "TITLE BLOCK"
 c L "set_tris_a" 1 1 6 "FUNCTION"
 f N "set_tris_a" 1 48 ""
 v L "value" 1 48 "int8" `55 
@@ -2020,14 +2021,14 @@ V G "bus_pwr_status" 5 120 "int8" `1002
 V G "valve_status" 5 121 "int8[33]" `1003  "Stops timer isr from servicing WD. If heartbeat(TRUE) is not called"
 C L "suspend_heartbeat" 6 1 1 "FUNCTION"
 F N "suspend_heartbeat" 6 5 ""
-F G "suspend_heartbeat" 6 6 "void()" `1004 
+F G "suspend_heartbeat" 6 6 "void(int8 abs_str)" `1004 
 C L "setup_led_pulse" 6 1 1 "FUNCTION"
 F N "setup_led_pulse" 6 12 ""
 F G "setup_led_pulse" 6 13 "void()" `1005 
 C L "setup_led_pulse" 6 1 1 "FUNCTION"
 C L "restart_heartbeat" 6 1 1 "FUNCTION"
 F N "restart_heartbeat" 6 24 ""
-F G "restart_heartbeat" 6 25 "void()" `1006  "pre-sets timer0, resets WDT, LED ON, clear t0 int"
+F G "restart_heartbeat" 6 25 "void(*int8 NO3_abs_array,*int8 NO2_abs_array)" `1006  "pre-sets timer0, resets WDT, LED ON, clear t0 int"
 F N "heartbeat" 6 34 ""
 V L "beating" 6 34 "int8" `1008 
 F G "heartbeat" 6 35 "void(int8 beating)" `1007 
@@ -2067,7 +2068,7 @@ F N "strncpy" 7 61 ""
 V L "s1" 7 61 "*int8" `1018 
 V L "s2" 7 61 "*int8" `1019 
 V L "n" 7 61 "int16" `1020 
-F G "strncpy" 7 62 "*int8(*int8 s1,*int8 s2,int16 n)" `1017 
+F G "strncpy" 7 62 "*int8(*int8 s1,*int8 s2,int16 n,*int8 NO3_abs_array,*int8 NO2_abs_array)" `1017 
 V L "s" 7 63 "*int8" `1021 
 F N "strcat" 7 78 ""
 V L "s1" 7 78 "*int8" `1023 
@@ -2085,14 +2086,14 @@ F N "memcmp" 7 120 ""
 V L "s1" 7 120 "*void" `1032 
 V L "s2" 7 120 "*void" `1033 
 V L "n" 7 120 "int16" `1034 
-F G "memcmp" 7 121 "sint8(*void s1,*void s2,int16 n)" `1031 
+F G "memcmp" 7 121 "sint8(*void s1,*void s2,int16 n,*int8 NO2_abs_array)" `1031 
 V L "su1" 7 122 "*int8" `1035 
 V L "su2" 7 122 "*int8" `1036 
 C L "strcmp" 7 19 2 "FUNCTION"
 F N "strcmp" 7 134 ""
 V L "s1" 7 134 "*int8" `1038 
 V L "s2" 7 134 "*int8" `1039 
-F G "strcmp" 7 135 "sint8(*int8 s1,*int8 s2)" `1037 
+F G "strcmp" 7 135 "sint8(*int8 s1,*int8 s2,*int8 NO3_abs_array,*int8 NO2_abs_array)" `1037 
 C L "strcoll" 7 19 2 "FUNCTION"
 F N "strcoll" 7 144 ""
 V L "s1" 7 144 "*int8" `1041 
@@ -2128,19 +2129,19 @@ C L "strcspn" 7 19 4 "FUNCTION"
 F N "strcspn" 7 227 ""
 V L "s1" 7 227 "*int8" `1063 
 V L "s2" 7 227 "*int8" `1064 
-F G "strcspn" 7 228 "int8(*int8 s1,*int8 s2)" `1062 
+F G "strcspn" 7 228 "int8(*int8 s1,*int8 s2,*int8 PO4_slope)" `1062 
 V L "sc1" 7 229 "*int8" `1065 
 V L "sc2" 7 229 "*int8" `1066 
 F N "strpbrk" 7 242 ""
 V L "s1" 7 242 "*int8" `1068 
 V L "s2" 7 242 "*int8" `1069 
-F G "strpbrk" 7 243 "*int8(*int8 s1,*int8 s2)" `1067 
+F G "strpbrk" 7 243 "*int8(*int8 s1,*int8 s2,*int8 strncpy,sint8 sc1)" `1067 
 V L "sc1" 7 244 "*int8" `1070 
 V L "sc2" 7 244 "*int8" `1071 
 F N "strrchr" 7 257 ""
 V L "s" 7 257 "*int8" `1073 
 V L "c" 7 257 "int8" `1074 
-F G "strrchr" 7 258 "*int8(*int8 s,int8 c)" `1072 
+F G "strrchr" 7 258 "*int8(*int8 s,int8 c,sint8 sc1)" `1072 
 V L "p" 7 259 "*int8" `1075 
 C L "strspn" 7 19 2 "FUNCTION"
 F N "strspn" 7 272 ""
@@ -2152,18 +2153,18 @@ V L "sc2" 7 274 "*int8" `1080
 F N "strstr" 7 291 ""
 V L "s1" 7 291 "*int8" `1082 
 V L "s2" 7 291 "*int8" `1083 
-F G "strstr" 7 292 "*int8(*int8 s1,*int8 s2)" `1081 
+F G "strstr" 7 292 "*int8(*int8 s1,*int8 s2,int32 strxfrm)" `1081 
 V L "s" 7 293 "*int8" `1084 
 V L "t" 7 293 "*int8" `1085 
 C L "strlen" 7 19 2 "FUNCTION"
 F N "strlen" 7 318 ""
 V L "s" 7 318 "*int8" `1087 
-F G "strlen" 7 319 "int16(*int8 s)" `1086 
+F G "strlen" 7 319 "int16(*int8 s,sint8 uc,sint8 su)" `1086 
 V L "sc" 7 320 "*int8" `1088 
 F N "strtok" 7 341 ""
 V L "s1" 7 341 "*int8" `1090 
 V L "s2" 7 341 "*int8" `1091 
-F G "strtok" 7 342 "*int8(*int8 s1,*int8 s2)" `1089 
+F G "strtok" 7 342 "*int8(*int8 s1,*int8 s2,sint16 su)" `1089 
 V L "beg" 7 343 "*int8" `1092 
 V L "end" 7 343 "*int8" `1093 
 V L "save" 7 344 "*int8" `1094 
@@ -2171,14 +2172,14 @@ C L "stricmp" 7 19 6 "FUNCTION"
 F N "stricmp" 7 392 ""
 V L "s1" 7 392 "*int8" `1096 
 V L "s2" 7 392 "*int8" `1097 
-F G "stricmp" 7 393 "sint8(*int8 s1,*int8 s2)" `1095 
+F G "stricmp" 7 393 "sint8(*int8 s1,*int8 s2,int8 ,int8 )" `1095 
 F N "strlwr" 7 406 ""
 V L "s" 7 406 "*int8" `1101 
-F G "strlwr" 7 407 "*int8(*int8 s)" `1100 
+F G "strlwr" 7 407 "*int8(*int8 s,sint16 ,sint16 )" `1100 
 V L "p" 7 408 "*int8" `1102 
 F N "strupr" 7 420 ""
 V L "s" 7 420 "*int8" `1104 
-F G "strupr" 7 421 "*int8(*int8 s)" `1103 
+F G "strupr" 7 421 "*int8(*int8 s,sint16 ,sint16 )" `1103 
 V L "p" 7 422 "*int8" `1105 
 D G "_STDLIB" 10 13 ""
 D G "RAND_MAX" 10 20 "32767" "The value of which is the maximum value"
@@ -2194,13 +2195,13 @@ V L "s" 10 51 "*int8" `1115
 f G "atoi" 10 51 "sint8(*int8 s)" `1114  "Syntax: signed int32  atoi32(char * s)"
 F N "atoi32" 10 59 ""
 V L "s" 10 59 "*int8" `1117 
-f G "atoi32" 10 59 "sint32(*int8 s)" `1116  "Syntax: char *  itoa(signed int32 num, int8 base, char * s)"
+f G "atoi32" 10 59 "sint32(*int8 s,float )" `1116  "Syntax: char *  itoa(signed int32 num, int8 base, char * s)"
 C L "atoi32" 10 47 2 "FUNCTION"
 F N "itoa" 10 80 ""
 V L "num" 10 80 "sint32" `1119 
 V L "base" 10 80 "int8" `1120 
 V L "s" 10 80 "*int8" `1121 
-f G "itoa" 10 80 "*int8(sint32 num,int8 base,*int8 s)" `1118  "Standard template: signed int16  atol(char * s)"
+f G "itoa" 10 80 "*int8(sint32 num,int8 base,*int8 s,float ,float )" `1118  "Standard template: signed int16  atol(char * s)"
 C L "itoa" 10 82 1 "*"
 C L "itoa" 10 82 1 "*"
 F N "atol" 10 86 ""
@@ -2243,7 +2244,7 @@ C L "strtof" 10 144 1 "*"
 C L "strtof" 10 144 1 "*"
 F N "atoe" 10 150 ""
 V L "s" 10 150 "*int8" `1137 
-f G "atoe" 10 150 "float(*int8 s)" `1136  "Pseudo-random sequence generation functions"
+f G "atoe" 10 150 "float(*int8 s,int32 num)" `1136  "Pseudo-random sequence generation functions"
 C L "atoe" 10 144 1 "FUNCTION"
 C L "atoe" 10 161 1 "*"
 C L "atoe" 10 161 1 "*"
@@ -2437,7 +2438,7 @@ F N "mbtowc" 10 1239 ""
 V L "pwc" 10 1239 "*int8" `1237 
 V L "s" 10 1239 "*int8" `1238 
 V L "n" 10 1239 "int16" `1239 
-F G "mbtowc" 10 1240 "int8(*int8 pwc,*int8 s,int16 n)" `1236 
+F G "mbtowc" 10 1240 "int8(*int8 pwc,*int8 s,int16 n,float )" `1236 
 F N "wctomb" 10 1245 ""
 V L "s" 10 1245 "*int8" `1241 
 V L "wchar" 10 1245 "int8" `1242 
@@ -2446,7 +2447,7 @@ F N "mbstowcs" 10 1251 ""
 V L "pwcs" 10 1251 "*int8" `1244 
 V L "s" 10 1251 "*int8" `1245 
 V L "n" 10 1251 "int16" `1246 
-F G "mbstowcs" 10 1252 "int16(*int8 pwcs,*int8 s,int16 n)" `1243 
+F G "mbstowcs" 10 1252 "int16(*int8 pwcs,*int8 s,int16 n,float temp)" `1243 
 F N "wcstombs" 10 1257 ""
 V L "s" 10 1257 "*int8" `1248 
 V L "pwcs" 10 1257 "*int8" `1249 
@@ -2506,7 +2507,7 @@ F G "floor" 11 208 "float(float x)" `1297
 C L "ceil" 11 2 5 "FUNCTION"
 F N "ceil" 11 233 ""
 V L "x" 11 233 "float" `1300 
-F G "ceil" 11 234 "float(float x)" `1299 
+F G "ceil" 11 234 "float(float x,float x)" `1299 
 D G "fabs" 11 259 "abs"
 C L "fmod" 11 2 6 "FUNCTION"
 F N "fmod" 11 271 ""
@@ -2573,7 +2574,7 @@ D G "TWOBYPI" 11 1163 "0.6366197723675813"
 C L "cos" 11 2 3 "FUNCTION"
 F N "cos" 11 1171 ""
 V L "x" 11 1171 "float" `1348 
-F G "cos" 11 1172 "float(float x)" `1347 
+F G "cos" 11 1172 "float(float x,float x)" `1347 
 V L "y" 11 1173 "float" `1349 
 V L "t" 11 1173 "float" `1350 
 V L "t2" 11 1173 "float" `1351 
@@ -2592,7 +2593,7 @@ C L "cos" 11 2 1 "FUNCTION"
 C L "sin" 11 2 5 "FUNCTION"
 F N "sin" 11 1310 ""
 V L "x" 11 1310 "float" `1357 
-F G "sin" 11 1311 "float(float x)" `1356 
+F G "sin" 11 1311 "float(float x,float value,sint8 beg)" `1356 
 C L "tan" 11 2 5 "FUNCTION"
 F N "tan" 11 1336 ""
 V L "x" 11 1336 "float" `1359 
@@ -2604,7 +2605,7 @@ V G "qas" 11 1377 "[3]" `1366
 F N "ASIN_COS" 11 1379 ""
 V L "x" 11 1379 "float" `1369 
 V L "n" 11 1379 "int8" `1370 
-F G "ASIN_COS" 11 1380 "float(float x,int8 n)" `1368 
+F G "ASIN_COS" 11 1380 "float(float x,int8 n,int8 data)" `1368 
 V L "y" 11 1381 "float" `1371 
 V L "res" 11 1381 "float" `1372 
 V L "r" 11 1381 "float" `1373 
@@ -2668,13 +2669,13 @@ C L "ldexp" 11 2 6 "FUNCTION"
 F N "ldexp" 11 2207 ""
 V L "value" 11 2207 "float" `1414 
 V L "exp" 11 2207 "sint8" `1415 
-F G "ldexp" 11 2208 "float(float value,sint8 exp)" `1413 
+F G "ldexp" 11 2208 "float(float value,sint8 exp,int8 )" `1413 
 D G "EEPROM_ADDRESS" 12 3 "int16"
 D G "EEPROM_SIZE" 12 4 "65536"
 F N "init_ext_eeprom" 12 6 ""
 F G "init_ext_eeprom" 12 7 "void()" `1416 
 F N "ext_eeprom_ready" 12 15 ""
-F G "ext_eeprom_ready" 12 16 "int8()" `1417 
+F G "ext_eeprom_ready" 12 16 "int8(int8 )" `1417 
 V L "data" 12 17 "int8" `1418 
 F N "write_ext_eeprom" 12 28 ""
 V L "address" 12 28 "int16" `1420 
@@ -2741,15 +2742,15 @@ F G "blip" 14 2 "void()" `1475
 F N "signon" 14 11 ""
 F G "signon" 14 12 "void()" `1476 
 F N "cmd_inv" 14 27 ""
-F G "cmd_inv" 14 28 "void()" `1487 
+F G "cmd_inv" 14 28 "void(*int8 Buffer,int32 SectorNumber,int8 SectorCount)" `1487 
 F N "cmd_arg" 14 32 ""
-F G "cmd_arg" 14 33 "void()" `1489 
+F G "cmd_arg" 14 33 "void(int8 SectorCount)" `1489 
 F N "cmd_err" 14 37 ""
-F G "cmd_err" 14 38 "void()" `1491 
+F G "cmd_err" 14 38 "void(int8 ctrl,*void buff)" `1491 
 F N "cmd_ok" 14 42 ""
 F G "cmd_ok" 14 43 "void()" `1493 
 F N "cmd_res" 14 47 ""
-F G "cmd_res" 14 48 "void()" `1495 
+F G "cmd_res" 14 48 "void(int8 token)" `1495 
 F N "msg_card_ok" 14 52 ""
 F G "msg_card_ok" 14 53 "void()" `1497 
 F N "msg_card_fail" 14 57 ""
@@ -2786,7 +2787,7 @@ f G "get_fattime" 17 36 "int32()" `1530  "Prototypes for disk control functions"
 D G "SD_spi_read" 17 42 "spi_read"
 D G "SD_spi_write" 17 43 "spi_write"
 F N "disk_initialize" 17 46 ""
-f G "disk_initialize" 17 46 "DSTATUS()" `1531 
+f G "disk_initialize" 17 46 "DSTATUS(int16 )" `1531 
 F N "disk_shutdown" 17 49 ""
 f G "disk_shutdown" 17 49 "DSTATUS()" `1532 
 F N "disk_status" 17 52 ""
@@ -3751,10 +3752,10 @@ C L "get_time" 18 1 1 "FUNCTION"
 C L "get_time" 18 1 1 "FUNCTION"
 C L "get_time" 18 1 1 "FUNCTION"
 C L "get_time" 18 1 1 "FUNCTION"
-F N "RTC_Set" 18 389 ""
-F G "RTC_Set" 18 389 "void()" `1990 
-V L "time_error" 18 391 "int8" `1991 
-V L "RTC_buffer" 18 392 "int8" `1992 
+F N "RTC_Set" 18 392 ""
+F G "RTC_Set" 18 392 "void()" `1990 
+V L "time_error" 18 394 "int8" `1991 
+V L "RTC_buffer" 18 395 "int8" `1992 
 C L "RTC_Set" 18 1 1 "FUNCTION"
 C L "RTC_Set" 18 1 1 "FUNCTION"
 C L "RTC_Set" 18 1 1 "FUNCTION"
@@ -3770,10 +3771,10 @@ C L "RTC_Set" 18 1 1 "FUNCTION"
 C L "RTC_Set" 18 1 1 "FUNCTION"
 C L "RTC_Set" 18 1 1 "FUNCTION"
 C L "RTC_alarm" 18 1 1 "FUNCTION"
-F N "RTC_alarm" 18 432 ""
-F G "RTC_alarm" 18 432 "void()" `1993 
-V L "time_error" 18 434 "int8" `1994 
-V L "RTC_buffer" 18 435 "int8" `1995 
+F N "RTC_alarm" 18 435 ""
+F G "RTC_alarm" 18 435 "void()" `1993 
+V L "time_error" 18 437 "int8" `1994 
+V L "RTC_buffer" 18 438 "int8" `1995 
 C L "RTC_alarm" 18 1 1 "FUNCTION"
 C L "RTC_alarm" 18 1 1 "FUNCTION"
 C L "RTC_alarm" 18 1 1 "FUNCTION"
@@ -3792,9 +3793,9 @@ C L "RTC_alarm" 18 1 3 "FUNCTION"
 C L "RTC_alarm" 18 1 1 "FUNCTION"
 C L "RTC_alarm" 18 1 1 "FUNCTION"
 C L "RTC_alarm_reset" 18 1 1 "FUNCTION"
-F N "RTC_alarm_reset" 18 497 ""
-F G "RTC_alarm_reset" 18 497 "void()" `1996 
-V L "RTC_buffer" 18 499 "int8" `1997 
+F N "RTC_alarm_reset" 18 500 ""
+F G "RTC_alarm_reset" 18 500 "void()" `1996 
+V L "RTC_buffer" 18 502 "int8" `1997 
 C L "RTC_alarm_reset" 18 1 1 "FUNCTION"
 C L "RTC_alarm_reset" 18 1 2 "FUNCTION"
 C L "RTC_alarm_reset" 18 1 1 "FUNCTION"
@@ -3812,9 +3813,9 @@ C L "RTC_alarm_reset" 18 1 1 "FUNCTION"
 C L "RTC_alarm_reset" 18 1 1 "FUNCTION"
 C L "RTC_alarm_reset" 18 1 1 "FUNCTION"
 C L "RTC_minute" 18 1 1 "FUNCTION"
-F N "RTC_minute" 18 552 ""
-F G "RTC_minute" 18 553 "void()" `1998 
-V L "RTC_buffer" 18 554 "int8" `1999 
+F N "RTC_minute" 18 555 ""
+F G "RTC_minute" 18 556 "void()" `1998 
+V L "RTC_buffer" 18 557 "int8" `1999 
 C L "RTC_minute" 18 1 1 "FUNCTION"
 C L "RTC_minute" 18 1 1 "FUNCTION"
 C L "RTC_minute" 18 1 1 "FUNCTION"
@@ -3827,31 +3828,31 @@ C L "RTC_minute" 18 1 1 "FUNCTION"
 C L "RTC_minute" 18 1 1 "FUNCTION"
 C L "RTC_minute" 18 1 1 "FUNCTION"
 C L "RTC_set_AFE" 18 1 1 "FUNCTION"
-F N "RTC_set_AFE" 18 584 ""
-F G "RTC_set_AFE" 18 585 "void()" `2000 
-V L "RTC_buffer" 18 586 "int8" `2001 
+F N "RTC_set_AFE" 18 587 ""
+F G "RTC_set_AFE" 18 588 "void()" `2000 
+V L "RTC_buffer" 18 589 "int8" `2001 
 C L "RTC_set_AFE" 18 1 1 "FUNCTION"
 C L "RTC_set_AFE" 18 1 1 "FUNCTION"
-C L "RTC_last_power" 18 605 1 "*"
-F N "RTC_last_power" 18 607 ""
-F G "RTC_last_power" 18 608 "void()" `2002 
-F N "RTC_late" 18 624 ""
-F G "RTC_late" 18 625 "void()" `2003 
-V L "time_now" 18 626 "float" `2004 
-V L "time_alarm" 18 627 "float" `2005 
-V L "fraction_of_day" 18 628 "float" `2006 
-V L "hour" 18 629 "float" `2007 
-V L "minute" 18 629 "float" `2008 
-V L "second" 18 629 "float" `2009  "J F  M  A  M   J   J   A   S   O   N   D"
-V L "end_of_month" 18 632 "int16[12]" `2010 
-C L "RTC_late" 18 605 1 "FUNCTION"
-C L "RTC_late" 18 605 1 "FUNCTION"
-C L "RTC_late" 18 605 1 "FUNCTION"
-C L "RTC_late" 18 605 1 "FUNCTION"
-C L "RTC_late" 18 605 1 "FUNCTION"
-C L "RTC_late" 18 605 1 "FUNCTION"
-F N "RTC_alarm_status" 18 680 ""
-F G "RTC_alarm_status" 18 681 "void()" `2011 
+C L "RTC_last_power" 18 608 1 "*"
+F N "RTC_last_power" 18 610 ""
+F G "RTC_last_power" 18 611 "void()" `2002 
+F N "RTC_late" 18 627 ""
+F G "RTC_late" 18 628 "void()" `2003 
+V L "time_now" 18 629 "float" `2004 
+V L "time_alarm" 18 630 "float" `2005 
+V L "fraction_of_day" 18 631 "float" `2006 
+V L "hour" 18 632 "float" `2007 
+V L "minute" 18 632 "float" `2008 
+V L "second" 18 632 "float" `2009  "J F  M  A  M   J   J   A   S   O   N   D"
+V L "end_of_month" 18 635 "int16[12]" `2010 
+C L "RTC_late" 18 608 1 "FUNCTION"
+C L "RTC_late" 18 608 1 "FUNCTION"
+C L "RTC_late" 18 608 1 "FUNCTION"
+C L "RTC_late" 18 608 1 "FUNCTION"
+C L "RTC_late" 18 608 1 "FUNCTION"
+C L "RTC_late" 18 608 1 "FUNCTION"
+F N "RTC_alarm_status" 18 683 ""
+F G "RTC_alarm_status" 18 684 "void()" `2011 
 F N "DAC_set" 19 2 ""
 V L "channel" 19 2 "int8" `2014 
 V L "setting" 19 2 "int16" `2015 
@@ -3872,27 +3873,27 @@ V L "ADC_mean" 20 5 "int32[8]" `2024
 V L "ADC_last_sample" 20 6 "int32[8]" `2025 
 F N "rtc_wakeup_isr" 21 2 ""
 F G "rtc_wakeup_isr" 21 3 "void()" `2026  "delay_cycles(10);       // mo ???"
-C L "rtc_wakeup_isr" 21 5 9 "FUNCTION"
-F N "RDA_isr" 21 30 ""
-F G "RDA_isr" 21 31 "void()" `2027 
-V L "c" 21 32 "int8" `2028 
-C L "RDA_isr" 21 5 1 "FUNCTION"
-C L "RDA_isr" 21 5 1 "FUNCTION"
-C L "RDA_isr" 21 5 1 "FUNCTION"
-C L "RDA_isr" 21 5 1 "FUNCTION"
-F N "busy_clear" 21 71 ""
-F G "busy_clear" 21 72 "void()" `2031 
-F N "busy_set" 21 78 ""
-F G "busy_set" 21 79 "void()" `2032 
-C L "timer0_isr" 21 5 10 "FUNCTION"
-F N "timer0_isr" 21 105 ""
-F G "timer0_isr" 21 106 "void()" `2033  "heartbeat(TRUE);"
-C L "timer0_isr" 21 5 1 "FUNCTION"
-C L "timer0_isr" 21 5 1 "FUNCTION"
-F N "timer1_isr" 21 125 ""
-F G "timer1_isr" 21 126 "void()" `2034  "disables timer1 ints, LED OFF (to end "blink")"
-C L "timer1_isr" 21 5 1 "FUNCTION"
-C L "timed_getc_A" 21 5 8 "FUNCTION"
+C L "rtc_wakeup_isr" 21 6 1 "FUNCTION"
+F N "RDA_isr" 21 22 ""
+F G "RDA_isr" 21 23 "void()" `2027 
+V L "c" 21 24 "int8" `2028 
+C L "RDA_isr" 21 6 1 "FUNCTION"
+C L "RDA_isr" 21 6 1 "FUNCTION"
+C L "RDA_isr" 21 6 1 "FUNCTION"
+C L "RDA_isr" 21 6 1 "FUNCTION"
+F N "busy_clear" 21 63 ""
+F G "busy_clear" 21 64 "void()" `2031 
+F N "busy_set" 21 70 ""
+F G "busy_set" 21 71 "void()" `2032 
+C L "timer0_isr" 21 6 10 "FUNCTION"
+F N "timer0_isr" 21 97 ""
+F G "timer0_isr" 21 98 "void()" `2033  "heartbeat(TRUE);"
+C L "timer0_isr" 21 6 1 "FUNCTION"
+C L "timer0_isr" 21 6 1 "FUNCTION"
+F N "timer1_isr" 21 117 ""
+F G "timer1_isr" 21 118 "void()" `2034  "disables timer1 ints, LED OFF (to end "blink")"
+C L "timer1_isr" 21 6 1 "FUNCTION"
+C L "timed_getc_A" 21 6 8 "FUNCTION"
 C L "timed_getc_A" 22 1 1 "*"
 F N "timed_getc_A" 22 3 ""
 F G "timed_getc_A" 22 4 "int8()" `2035 
@@ -5006,31 +5007,32 @@ C L "master_macro_aws" 38 14 1 "FUNCTION"
 C L "master_macro_aws" 38 14 1 "FUNCTION"
 F N "auto_sample_eco" 39 1 ""
 F G "auto_sample_eco" 39 2 "int8()" `2731 
-V L "macro_cmd" 39 3 "int8" `2732 
-C L "auto_sample_eco" 39 14 2 "FUNCTION"
-C L "auto_sample_eco" 39 14 1 "FUNCTION"
-C L "auto_sample_eco" 39 14 1 "FUNCTION"
-C L "auto_sample_eco" 39 14 1 "FUNCTION"
-C L "auto_sample_eco" 39 14 1 "FUNCTION"
-C L "auto_sample_eco" 39 14 1 "FUNCTION"
-F N "auto_sample_wms" 39 66 ""
-F G "auto_sample_wms" 39 67 "int8()" `2737 
-V L "macro_end" 39 68 "int8" `2738 
-C L "auto_sample_wms" 39 14 1 "FUNCTION"
-F N "auto_sample_aws" 39 130 ""
-F G "auto_sample_aws" 39 131 "int8()" `2742 
-V L "macro_end" 39 132 "int8" `2743 
-C L "auto_sample_aws" 39 14 1 "FUNCTION"
-F N "auto_sample_ready" 39 187 ""
-F G "auto_sample_ready" 39 188 "int8()" `2748 
-C L "auto_sample_ready" 39 14 1 "FUNCTION"
-C L "auto_sample_ready" 39 14 1 "FUNCTION"
-C L "auto_sample_ready" 39 14 1 "FUNCTION"
-C L "auto_sample_ready" 39 14 1 "FUNCTION"
-C L "auto_sample_ready" 39 14 4 "FUNCTION"
-C L "auto_sample_ready" 39 14 1 "FUNCTION"
-C L "auto_sample_ready" 39 14 2 "FUNCTION"
-C L "auto_sample_ready" 39 14 1 "FUNCTION"
+V L "macro_cmd" 39 3 "int8" `2732  "Initialize rtc watchdog to 2 minute interval and start."
+C L "auto_sample_eco" 39 24 2 "FUNCTION"
+C L "auto_sample_eco" 39 24 1 "FUNCTION"
+C L "auto_sample_eco" 39 24 1 "FUNCTION"
+C L "auto_sample_eco" 39 24 1 "FUNCTION"
+C L "auto_sample_eco" 39 24 1 "FUNCTION"
+C L "auto_sample_eco" 39 24 1 "FUNCTION"
+F N "auto_sample_wms" 39 76 ""
+F G "auto_sample_wms" 39 77 "int8()" `2737 
+V L "macro_end" 39 78 "int8" `2738 
+C L "auto_sample_wms" 39 24 1 "FUNCTION"
+F N "auto_sample_aws" 39 140 ""
+F G "auto_sample_aws" 39 141 "int8()" `2742 
+V L "macro_end" 39 142 "int8" `2743 
+C L "auto_sample_aws" 39 24 1 "FUNCTION"
+F N "auto_sample_ready" 39 197 ""
+F G "auto_sample_ready" 39 198 "int8()" `2748 
+C L "auto_sample_ready" 39 24 1 "FUNCTION"
+C L "auto_sample_ready" 39 24 1 "FUNCTION"
+C L "auto_sample_ready" 39 24 1 "FUNCTION"
+C L "auto_sample_ready" 39 24 1 "FUNCTION"
+C L "auto_sample_ready" 39 24 4 "FUNCTION"
+C L "auto_sample_ready" 39 24 1 "FUNCTION"
+C L "auto_sample_ready" 39 24 2 "FUNCTION"
+C L "auto_sample_ready" 39 24 1 "FUNCTION"
+C L "auto_sample_ready" 39 24 1 "FUNCTION"
 D G "USERCMDLIST" 40 4 ""%*/&+-ABDEFGHIJKLMNOPQRSTUVWXYZ^""
 D G "FULLCMDLIST" 40 5 ""#%*/&+-ABDEFGHIJKLMNOPQRSTUVWXYZ^abcdefghijklmnopqrstuvwxyz""
 F N "command_addr" 40 8 ""
@@ -5094,183 +5096,184 @@ F N "commandM" 40 429 ""
 V L "LoggingReentry" 40 429 "int8" `2818 
 F G "commandM" 40 430 "void(int8 LoggingReentry)" `2452 
 V L "macro" 40 431 "int8" `2817 
-C L "commandM" 40 2 2 "FUNCTION"
-F N "commandN" 40 479 ""
-F G "commandN" 40 480 "void()" `2454 
-F N "commandO" 40 494 ""
-F G "commandO" 40 495 "void()" `2455 
-F N "commandPe" 40 505 ""
-F G "commandPe" 40 506 "void()" `2818 
+C L "commandM" 40 2 10 "FUNCTION"
+F N "commandN" 40 480 ""
+F G "commandN" 40 481 "void()" `2454 
+F N "commandO" 40 495 ""
+F G "commandO" 40 496 "void()" `2455 
+F N "commandPe" 40 506 ""
+F G "commandPe" 40 507 "void()" `2818 
 C L "commandPe" 40 2 1 "FUNCTION"
 C L "commandPe" 40 2 1 "FUNCTION"
 C L "commandPe" 40 2 1 "FUNCTION"
 C L "commandPe" 40 2 1 "FUNCTION"
 C L "commandPe" 40 2 1 "FUNCTION"
-F N "commandPa" 40 526 ""
-F G "commandPa" 40 527 "void()" `2819 
-F N "commandP" 40 535 ""
-F G "commandP" 40 536 "void()" `2456 
-F N "commandQa" 40 548 ""
-F G "commandQa" 40 549 "void()" `2820 
-V L "valve" 40 550 "int8" `2821 
-F N "commandQw" 40 563 ""
-F G "commandQw" 40 564 "void()" `2822 
-F N "commandQ" 40 572 ""
-F G "commandQ" 40 573 "void()" `2457 
-F N "commandRe" 40 583 ""
-F G "commandRe" 40 584 "void()" `2823 
-V L "macro_cmd" 40 585 "int8" `2824 
-V L "samples" 40 586 "int16" `2825 
-V L "count" 40 586 "int16" `2826 
+F N "commandPa" 40 527 ""
+F G "commandPa" 40 528 "void()" `2819 
+F N "commandP" 40 536 ""
+F G "commandP" 40 537 "void()" `2456 
+F N "commandQa" 40 549 ""
+F G "commandQa" 40 550 "void()" `2820 
+V L "valve" 40 551 "int8" `2821 
+F N "commandQw" 40 564 ""
+F G "commandQw" 40 565 "void()" `2822 
+F N "commandQ" 40 573 ""
+F G "commandQ" 40 574 "void()" `2457 
+F N "commandRe" 40 584 ""
+F G "commandRe" 40 585 "void()" `2823 
+V L "macro_cmd" 40 586 "int8" `2824 
+V L "samples" 40 587 "int16" `2825 
+V L "count" 40 587 "int16" `2826 
 C L "commandRe" 40 2 2 "FUNCTION"
-F N "commandRw" 40 610 ""
-F G "commandRw" 40 611 "void()" `2828 
-V L "port" 40 612 "int16" `2829 
-V L "i" 40 613 "int8" `2830 
-V L "n" 40 613 "int8" `2831 
-F N "commandRa" 40 626 ""
-F G "commandRa" 40 627 "void()" `2832 
-V L "macro_cmd" 40 628 "int8" `2833 
-V L "samples" 40 629 "int16" `2834 
-V L "count" 40 629 "int16" `2835 
+F N "commandRw" 40 611 ""
+F G "commandRw" 40 612 "void()" `2828 
+V L "port" 40 613 "int16" `2829 
+V L "i" 40 614 "int8" `2830 
+V L "n" 40 614 "int8" `2831 
+F N "commandRa" 40 627 ""
+F G "commandRa" 40 628 "void()" `2832 
+V L "macro_cmd" 40 629 "int8" `2833 
+V L "samples" 40 630 "int16" `2834 
+V L "count" 40 630 "int16" `2835 
 C L "commandRa" 40 2 2 "FUNCTION"
 C L "commandRa" 40 2 1 "FUNCTION"
 C L "commandRa" 40 2 1 "FUNCTION"
-F N "commandR" 40 655 ""
-F G "commandR" 40 656 "void()" `2458 
-F N "commandSe" 40 668 ""
-F G "commandSe" 40 669 "void()" `2837 
+F N "commandR" 40 656 ""
+F G "commandR" 40 657 "void()" `2458 
+F N "commandSe" 40 669 ""
+F G "commandSe" 40 670 "void()" `2837 
 C L "commandSe" 40 2 1 "FUNCTION"
 C L "commandSe" 40 2 1 "FUNCTION"
-F N "commandSw" 40 694 ""
-F G "commandSw" 40 695 "void()" `2838 
-F N "commandSa" 40 703 ""
-F G "commandSa" 40 704 "void()" `2839 
-V L "setting" 40 705 "int16" `2840 
-F N "commandS" 40 714 ""
-F G "commandS" 40 715 "void()" `2459 
-F N "commandT" 40 727 ""
-F G "commandT" 40 728 "void()" `2460 
+F N "commandSw" 40 695 ""
+F G "commandSw" 40 696 "void()" `2838 
+F N "commandSa" 40 704 ""
+F G "commandSa" 40 705 "void()" `2839 
+V L "setting" 40 706 "int16" `2840 
+F N "commandS" 40 715 ""
+F G "commandS" 40 716 "void()" `2459 
+F N "commandT" 40 728 ""
+F G "commandT" 40 729 "void()" `2460 
 C L "commandT" 40 2 1 "FUNCTION"
-F N "commandU" 40 751 ""
-F G "commandU" 40 752 "void()" `2461 
-V L "macro" 40 753 "int8" `2844 
-F N "commandV" 40 765 ""
-F G "commandV" 40 766 "void()" `2462 
-V L "macro" 40 767 "int8" `2845 
-F N "commandW" 40 776 ""
-F G "commandW" 40 777 "void()" `2463 
+C L "commandT" 40 2 3 "FUNCTION"
+F N "commandU" 40 757 ""
+F G "commandU" 40 758 "void()" `2461 
+V L "macro" 40 759 "int8" `2844 
+F N "commandV" 40 771 ""
+F G "commandV" 40 772 "void()" `2462 
+V L "macro" 40 773 "int8" `2845 
+F N "commandW" 40 782 ""
+F G "commandW" 40 783 "void()" `2463 
 C L "commandW" 40 2 1 "FUNCTION"
 C L "commandW" 40 2 1 "FUNCTION"
 C L "commandW" 40 2 1 "FUNCTION"
 C L "commandW" 40 2 1 "FUNCTION"
-F N "commandX" 40 790 ""
-F G "commandX" 40 791 "void()" `2464 
-F N "display_status" 40 807 ""
-V L "status" 40 807 "int8" `2847 
-F G "display_status" 40 808 "void(int8 status)" `2846 
-F N "commandY" 40 817 ""
-F G "commandY" 40 818 "void()" `2465 
+F N "commandX" 40 796 ""
+F G "commandX" 40 797 "void()" `2464 
+F N "display_status" 40 813 ""
+V L "status" 40 813 "int8" `2847 
+F G "display_status" 40 814 "void(int8 status)" `2846 
+F N "commandY" 40 823 ""
+F G "commandY" 40 824 "void()" `2465 
 C L "commandY" 40 2 1 "FUNCTION"
 C L "commandY" 40 2 1 "FUNCTION"
-F N "commandZ" 40 857 ""
-F G "commandZ" 40 858 "void()" `2466 
-F N "command_a" 40 867 ""
-F G "command_a" 40 868 "void()" `2850 
-F N "command_b" 40 873 ""
+F N "commandZ" 40 863 ""
+F G "commandZ" 40 864 "void()" `2466 
+F N "command_a" 40 873 ""
+F G "command_a" 40 874 "void()" `2850 
+F N "command_b" 40 879 ""
 C L "command_b" 40 2 1 "FUNCTION"
-F G "command_b" 40 874 "void()" `2851 
+F G "command_b" 40 880 "void()" `2851 
 C L "command_c" 40 2 3 "FUNCTION"
-F N "command_c" 40 890 ""
-F G "command_c" 40 890 "void()" `2852 
-F N "command_d" 40 906 ""
+F N "command_c" 40 896 ""
+F G "command_c" 40 896 "void()" `2852 
+F N "command_d" 40 912 ""
 C L "command_d" 40 2 1 "FUNCTION"
-F G "command_d" 40 907 "void()" `2853 
-F N "command_e" 40 920 ""
+F G "command_d" 40 913 "void()" `2853 
+F N "command_e" 40 926 ""
 C L "command_e" 40 2 1 "FUNCTION"
-F G "command_e" 40 921 "void()" `2854 
-F N "command_f" 40 934 ""
-F G "command_f" 40 935 "void()" `2855 
-F N "command_g" 40 940 ""
+F G "command_e" 40 927 "void()" `2854 
+F N "command_f" 40 940 ""
+F G "command_f" 40 941 "void()" `2855 
+F N "command_g" 40 946 ""
 C L "command_g" 40 2 1 "FUNCTION"
-F G "command_g" 40 941 "void()" `2856 
-F N "command_h" 40 954 ""
+F G "command_g" 40 947 "void()" `2856 
+F N "command_h" 40 960 ""
 C L "command_h" 40 2 1 "FUNCTION"
-F G "command_h" 40 955 "void()" `2857 
-V L "hold_pc" 40 956 "int16" `2858 
-F N "command_i" 40 970 ""
+F G "command_h" 40 961 "void()" `2857 
+V L "hold_pc" 40 962 "int16" `2858 
+F N "command_i" 40 976 ""
 C L "command_i" 40 2 1 "FUNCTION"
-F G "command_i" 40 971 "void()" `2859 
-F N "command_j" 40 984 ""
+F G "command_i" 40 977 "void()" `2859 
+F N "command_j" 40 990 ""
 C L "command_j" 40 2 1 "FUNCTION"
-F G "command_j" 40 985 "void()" `2860 
-F N "command_k" 40 998 ""
+F G "command_j" 40 991 "void()" `2860 
+F N "command_k" 40 1004 ""
 C L "command_k" 40 2 1 "FUNCTION"
-F G "command_k" 40 999 "void()" `2861 
+F G "command_k" 40 1005 "void()" `2861 
 C L "command_m" 40 2 1 "FUNCTION"
-F N "command_m" 40 1014 ""
+F N "command_m" 40 1020 ""
 C L "command_m" 40 2 1 "FUNCTION"
-F G "command_m" 40 1015 "void()" `2862 
-F N "command_n" 40 1028 ""
+F G "command_m" 40 1021 "void()" `2862 
+F N "command_n" 40 1034 ""
 C L "command_n" 40 2 1 "FUNCTION"
-F G "command_n" 40 1029 "void()" `2863 
-F N "command_o" 40 1042 ""
+F G "command_n" 40 1035 "void()" `2863 
+F N "command_o" 40 1048 ""
 C L "command_o" 40 2 1 "FUNCTION"
-F G "command_o" 40 1043 "void()" `2864 
+F G "command_o" 40 1049 "void()" `2864 
 C L "command_o" 40 2 1 "FUNCTION"
-F N "command_p" 40 1056 ""
+F N "command_p" 40 1062 ""
 C L "command_p" 40 2 1 "FUNCTION"
-F G "command_p" 40 1057 "void()" `2865 
-F N "command_q" 40 1070 ""
+F G "command_p" 40 1063 "void()" `2865 
+F N "command_q" 40 1076 ""
 C L "command_q" 40 2 1 "FUNCTION"
-F G "command_q" 40 1071 "void()" `2866 
-F N "command_r" 40 1076 ""
+F G "command_q" 40 1077 "void()" `2866 
+F N "command_r" 40 1082 ""
 C L "command_r" 40 2 1 "FUNCTION"
-F G "command_r" 40 1077 "void()" `2867 
-F N "command_s" 40 1093 ""
+F G "command_r" 40 1083 "void()" `2867 
+F N "command_s" 40 1099 ""
 C L "command_s" 40 2 1 "FUNCTION"
-F G "command_s" 40 1094 "void()" `2868 
-F N "command_t" 40 1108 ""
+F G "command_s" 40 1100 "void()" `2868 
+F N "command_t" 40 1114 ""
 C L "command_t" 40 2 1 "FUNCTION"
-F G "command_t" 40 1109 "void()" `2869 
+F G "command_t" 40 1115 "void()" `2869 
 C L "command_v" 40 2 2 "FUNCTION"
-F N "command_v" 40 1125 ""
-F G "command_v" 40 1125 "void()" `2467 
-F N "command_w" 40 1161 ""
+F N "command_v" 40 1131 ""
+F G "command_v" 40 1131 "void()" `2467 
+F N "command_w" 40 1167 ""
 C L "command_w" 40 2 1 "FUNCTION"
-F G "command_w" 40 1162 "void()" `2870 
-V L "drive_pc" 40 1163 "int16" `2871 
-F N "command_x" 40 1177 ""
+F G "command_w" 40 1168 "void()" `2870 
+V L "drive_pc" 40 1169 "int16" `2871 
+F N "command_x" 40 1183 ""
 C L "command_x" 40 2 1 "FUNCTION"
-F G "command_x" 40 1178 "void()" `2872 
+F G "command_x" 40 1184 "void()" `2872 
 C L "command_x" 40 2 1 "FUNCTION"
-F N "command_y" 40 1191 ""
+F N "command_y" 40 1197 ""
 C L "command_y" 40 2 1 "FUNCTION"
-F G "command_y" 40 1192 "void()" `2873 
-F N "command_u" 40 1205 ""
-F G "command_u" 40 1206 "void()" `2874 
-F N "command_z" 40 1217 ""
+F G "command_y" 40 1198 "void()" `2873 
+F N "command_u" 40 1211 ""
+F G "command_u" 40 1212 "void()" `2874 
+F N "command_z" 40 1223 ""
 C L "command_z" 40 2 1 "FUNCTION"
-F G "command_z" 40 1218 "void()" `2875 
-F N "step_var_list" 40 1232 ""
-F G "step_var_list" 40 1233 "void()" `2876 
-V L "hold_pc" 40 1234 "int16" `2877 
-V L "drive_pc" 40 1234 "int16" `2878 
-V L "step_us" 40 1234 "int16" `2879 
-F N "command_star" 40 1294 ""
-F G "command_star" 40 1295 "void()" `2924 
-F N "command_prod" 40 1300 ""
-F G "command_prod" 40 1301 "void()" `2925 
-F N "command_hash" 40 1326 ""
-F G "command_hash" 40 1327 "void()" `2930 
-F N "commandFW" 40 1340 ""
-F G "commandFW" 40 1341 "void()" `2931 
-F N "command_set" 40 1356 ""
-F G "command_set" 40 1357 "void()" `2937 
+F G "command_z" 40 1224 "void()" `2875 
+F N "step_var_list" 40 1238 ""
+F G "step_var_list" 40 1239 "void()" `2876 
+V L "hold_pc" 40 1240 "int16" `2877 
+V L "drive_pc" 40 1240 "int16" `2878 
+V L "step_us" 40 1240 "int16" `2879 
+F N "command_star" 40 1300 ""
+F G "command_star" 40 1301 "void()" `2924 
+F N "command_prod" 40 1306 ""
+F G "command_prod" 40 1307 "void()" `2925 
+F N "command_hash" 40 1332 ""
+F G "command_hash" 40 1333 "void()" `2930 
+F N "commandFW" 40 1346 ""
+F G "commandFW" 40 1347 "void()" `2931 
+F N "command_set" 40 1362 ""
+F G "command_set" 40 1363 "void()" `2937 
 C L "command_set" 40 2 1 "FUNCTION"
 C L "command_set" 40 2 1 "FUNCTION"
-F N "select_cmd" 40 1366 ""
-F G "select_cmd" 40 1367 "void()" `2938 
+F N "select_cmd" 40 1372 ""
+F G "select_cmd" 40 1373 "void()" `2938 
 C L "select_cmd" 40 2 1 "FUNCTION"
 C L "select_cmd" 40 2 1 "FUNCTION"
 C L "select_cmd" 40 2 2 "FUNCTION"
